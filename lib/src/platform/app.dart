@@ -13,7 +13,11 @@ class PlatformApp extends StatelessWidget {
     switch (defaultTargetPlatform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        return CupertinoApp(title: title, home: home);
+        return CupertinoApp(
+          title: title,
+          home: home,
+          localizationsDelegates: [DefaultMaterialLocalizations.delegate],
+        );
       default:
         return MaterialApp(title: title, home: home);
     }

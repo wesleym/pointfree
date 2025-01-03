@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PlatformScaffold extends StatelessWidget {
-  final Widget? body;
+  final Widget Function(BuildContext context, int index) _builder;
 
-  const PlatformScaffold({super.key, this.body});
+  const PlatformScaffold({
+    super.key,
+    required Widget Function(BuildContext context, int index) builder,
+  }) : _builder = builder;
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +20,41 @@ class PlatformScaffold extends StatelessWidget {
             BottomNavigationBarItem(icon: Icon(CupertinoIcons.desktopcomputer)),
             BottomNavigationBarItem(icon: Icon(CupertinoIcons.folder)),
           ]),
-          tabBuilder: (context, index) => body ?? Text('hi'),
+          tabBuilder: _builder,
         );
       default:
-        return Scaffold(
-          bottomNavigationBar: BottomNavigationBar(items: [
-            BottomNavigationBarItem(icon: Icon(Icons.computer)),
-            BottomNavigationBarItem(icon: Icon(Icons.folder)),
-          ]),
-          body: body ?? Text('hi'),
-        );
+        return _MaterialTabScaffold(builder: _builder);
     }
+  }
+}
+
+class _MaterialTabScaffold extends StatefulWidget {
+  final Widget Function(BuildContext context, int index) _builder;
+
+  const _MaterialTabScaffold({
+    required Widget Function(BuildContext context, int index) builder,
+  }) : _builder = builder;
+
+  @override
+  State<StatefulWidget> createState() => _MaterialTabScaffoldState();
+}
+
+class _MaterialTabScaffoldState extends State<_MaterialTabScaffold> {
+  int _selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (value) => _selectedIndex = value,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.computer)),
+          BottomNavigationBarItem(icon: Icon(Icons.folder)),
+        ],
+      ),
+      body: Builder(
+        builder: (context) => widget._builder(context, _selectedIndex),
+      ),
+    );
   }
 }
