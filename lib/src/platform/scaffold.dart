@@ -17,8 +17,8 @@ class PlatformScaffold extends StatelessWidget {
       case TargetPlatform.macOS:
         return CupertinoTabScaffold(
           tabBar: CupertinoTabBar(items: [
-            BottomNavigationBarItem(icon: Icon(CupertinoIcons.desktopcomputer)),
-            BottomNavigationBarItem(icon: Icon(CupertinoIcons.folder)),
+            BottomNavigationBarItem(icon: Icon(CupertinoIcons.desktopcomputer), label: 'Instances'),
+            BottomNavigationBarItem(icon: Icon(CupertinoIcons.folder), label: 'Filesystems'),
           ]),
           tabBuilder: _builder,
         );
@@ -48,8 +48,8 @@ class _MaterialTabScaffoldState extends State<_MaterialTabScaffold> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) => _selectedIndex = value,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.computer)),
-          BottomNavigationBarItem(icon: Icon(Icons.folder)),
+          BottomNavigationBarItem(icon: Icon(Icons.computer), label: 'Instances'),
+          BottomNavigationBarItem(icon: Icon(Icons.folder), label: 'Filesystems'),
         ],
       ),
       body: Builder(
