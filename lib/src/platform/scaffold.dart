@@ -19,6 +19,7 @@ class PlatformScaffold extends StatelessWidget {
           tabBar: CupertinoTabBar(items: [
             BottomNavigationBarItem(icon: Icon(CupertinoIcons.desktopcomputer), label: 'Instances'),
             BottomNavigationBarItem(icon: Icon(CupertinoIcons.folder), label: 'Filesystems'),
+            BottomNavigationBarItem(icon: Icon(CupertinoIcons.lock), label: 'SSH'),
           ]),
           tabBuilder: _builder,
         );
@@ -50,6 +51,7 @@ class _MaterialTabScaffoldState extends State<_MaterialTabScaffold> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.computer), label: 'Instances'),
           BottomNavigationBarItem(icon: Icon(Icons.folder), label: 'Filesystems'),
+          BottomNavigationBarItem(icon: Icon(Icons.key), label: 'SSH'),
         ],
       ),
       body: Builder(

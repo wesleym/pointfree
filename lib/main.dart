@@ -3,6 +3,7 @@ import 'package:lambda_gui/src/filesystems/list.dart';
 import 'package:lambda_gui/src/platform/app.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/secrets.dart';
+import 'package:lambda_gui/src/ssh/list.dart';
 import 'package:openapi/api.dart';
 
 void main() {
@@ -38,6 +39,9 @@ class MyHomePage extends StatelessWidget {
           case 0:
             return Text('Instances go here');
           case 1:
+            return FilesystemsList();
+          case 2:
+            return SshKeysList();
           default:
             return FilesystemsList();
         }
