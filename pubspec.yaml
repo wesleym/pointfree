@@ -14,7 +14,6 @@ dependencies:
   openapi:
     path: api
 
-  args: ^2.6.0
   cupertino_icons: ^1.0.8
   openapi_generator_annotations: ^6.1.0
 
