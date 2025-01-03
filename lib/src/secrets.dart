@@ -1,1 +1,1 @@
-String get apiKey => String.fromEnvironment('LAMBDA_API_KEY');
+String get apiKey => const String.fromEnvironment('LAMBDA_API_KEY');

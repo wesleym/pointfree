@@ -19,7 +19,7 @@ class FilesystemsMemoryStore implements FilesystemsStore {
   FileSystem? get(String filesystemId) => _filesystems[filesystemId];
 
   @override
-  Iterable<FileSystem> list() => _filesystems.values;
+  List<FileSystem> list() => _filesystems.values.toList(growable: false);
 
   @override
   void put(FileSystem filesystem) => _filesystems[filesystem.id] = filesystem;

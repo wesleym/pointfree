@@ -7,11 +7,13 @@ import 'package:openapi/api.dart';
 const _ttl = Duration(minutes: 5);
 
 class FilesystemsRepository {
+  static final instance = FilesystemsRepository();
+
   final _store = FilesystemsMemoryStore.instance;
-  final _lastFetchTime = DateTime.fromMillisecondsSinceEpoch(0);
-  Iterable<FileSystem> get filesystems => _store.list();
-  final _controller = StreamController<Iterable<FileSystem>>.broadcast();
-  Stream<Iterable<FileSystem>> get stream => _controller.stream;
+  var _lastFetchTime = DateTime.fromMillisecondsSinceEpoch(0);
+  List<FileSystem> get filesystems => _store.list();
+  final _controller = StreamController<List<FileSystem>>.broadcast();
+  Stream<List<FileSystem>> get stream => _controller.stream;
 
   Future<void> update({bool force = false}) async {
     var now = DateTime.now();
@@ -31,5 +33,6 @@ class FilesystemsRepository {
 
     _store.putAll(filesystems.data);
     _controller.add(_store.list());
+    _lastFetchTime = now;
   }
 }
