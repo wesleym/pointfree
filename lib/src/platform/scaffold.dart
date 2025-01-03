@@ -71,8 +71,16 @@ class _MaterialTabScaffoldState extends State<_MaterialTabScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    Widget? fab;
+    if (widget._primaryActionIcon != null) {
+      fab = FloatingActionButton(
+        onPressed: widget._onPrimaryActionSelected,
+        child: widget._primaryActionIcon,
+      );
+    }
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
         onTap: (value) {
           _selectedIndex = value;
           widget._onTabTapped?.call(value);
@@ -85,10 +93,7 @@ class _MaterialTabScaffoldState extends State<_MaterialTabScaffold> {
           BottomNavigationBarItem(icon: Icon(Icons.key), label: 'SSH'),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: widget._onPrimaryActionSelected,
-        child: widget._primaryActionIcon,
-      ),
+      floatingActionButton: fab,
       body: Builder(
         builder: (context) => widget._builder(context, _selectedIndex),
       ),
