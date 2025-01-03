@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
+import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
 
 class FilesystemsList extends StatelessWidget {
   final _repository = FilesystemsRepository.instance;
@@ -25,10 +26,15 @@ class FilesystemsList extends StatelessWidget {
         final data = snapshot.data!;
         return RefreshIndicator.adaptive(
           onRefresh: () => _repository.update(force: true),
-          child: ListView.builder(
-            itemCount: data.length,
-            itemBuilder: (BuildContext context, int index) =>
-                PlatformListTile(title: Text(data[index].name)),
+          child: CustomScrollView(
+            slivers: [
+              TopBarSliver(title: Text('Filesystems')),
+              SliverList.builder(
+                itemCount: data.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    PlatformListTile(title: Text(data[index].name)),
+              ),
+            ],
           ),
         );
       },
