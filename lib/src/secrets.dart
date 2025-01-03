@@ -1,3 +1,1 @@
-import 'dart:io';
-
-String get apiKey => Platform.environment['LAMBDA_API_KEY']!;
+String get apiKey => String.fromEnvironment('LAMBDA_API_KEY');
