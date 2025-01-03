@@ -1,6 +1,6 @@
-name: lambda_cli
-description: A sample command-line application.
-repository: https://github.com/lambdal/lambda-cloud-dart-cli
+name: lambda_gui
+description: A GUI interface to Lambda Cloud.
+repository: https://github.com/lambdal/lambda-cloud-dart-gui
 publish_to: none
 
 version: 1.0.0+1
