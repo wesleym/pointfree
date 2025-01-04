@@ -1,13 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
 
 class CreatePage extends StatelessWidget {
-  const CreatePage({super.key});
+  CreatePage({super.key});
+
+  final _instanceTypesRepository = InstanceTypesRepository.instance;
 
   @override
   Widget build(BuildContext context) {
+    unawaited(_instanceTypesRepository.update());
+
     final Widget body;
 
     final platform = Theme.of(context).platform;
@@ -16,26 +23,36 @@ class CreatePage extends StatelessWidget {
       case TargetPlatform.macOS:
         body = SliverList.list(
           children: [
-            CupertinoListTile(
-              onTap: () => showCupertinoModalPopup(
-                semanticsDismissible: true,
-                context: context,
-                builder: (context) => Container(
-                  height: 216,
-                  color: CupertinoColors.systemBackground.resolveFrom(context),
-                  child: CupertinoPicker(
-                    itemExtent: 32,
-                    onSelectedItemChanged: (value) {},
-                    children: [
-                      Text('hi'),
-                      Text('ho'),
-                    ],
-                  ),
-                ),
-              ),
-              title: Text('Instance type'),
-              trailing: Text('sup'),
-            ),
+            StreamBuilder(
+                initialData: _instanceTypesRepository.instances,
+                stream: _instanceTypesRepository.stream,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    // TODO: Error handling
+                    return CupertinoListTile.notched(title: Text('Hi'));
+                  }
+                  final data = snapshot.data!;
+                  return CupertinoListTile(
+                    onTap: () => showCupertinoModalPopup(
+                      semanticsDismissible: true,
+                      context: context,
+                      builder: (context) => Container(
+                        height: 216,
+                        color: CupertinoColors.systemBackground
+                            .resolveFrom(context),
+                        child: CupertinoPicker.builder(
+                          itemExtent: 32,
+                          childCount: data.length,
+                          onSelectedItemChanged: (value) {},
+                          itemBuilder: (context, index) =>
+                              Text(data[index].instanceType.name),
+                        ),
+                      ),
+                    ),
+                    title: Text('Instance type'),
+                    trailing: Text('sup'),
+                  );
+                }),
             CupertinoFormSection(
               header: Text('INSTANCE TYPE'),
               children: [
