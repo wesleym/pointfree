@@ -33,6 +33,7 @@ class _CreatePageState extends State<CreatePage> {
         body = SliverList.list(
           children: [
             CupertinoListSection.insetGrouped(
+              hasLeading: false,
               children: [
                 StreamBuilder(
                   initialData: _instanceTypesRepository.instances,
