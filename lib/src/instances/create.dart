@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
+import 'package:openapi/api.dart';
 
 class CreatePage extends StatefulWidget {
   const CreatePage({super.key});
@@ -22,6 +23,18 @@ class _CreatePageState extends State<CreatePage> {
   Widget build(BuildContext context) {
     unawaited(_instanceTypesRepository.update());
 
+    InstanceType? instanceType;
+    final thisInstanceType = _instanceType;
+
+    if (thisInstanceType != null) {
+      instanceType = _instanceTypesRepository.getByName(thisInstanceType)?.instanceType;
+    }
+
+    String? instanceDisplayName;
+    if (instanceType != null) {
+      instanceDisplayName = '${instanceType.specs.gpus}×${instanceType.gpuDescription}';
+    }
+
     final Widget body;
     Color? backgroundColor;
 
@@ -36,7 +49,7 @@ class _CreatePageState extends State<CreatePage> {
               hasLeading: false,
               children: [
                 StreamBuilder(
-                  initialData: _instanceTypesRepository.instances,
+                  initialData: _instanceTypesRepository.instanceTypes,
                   stream: _instanceTypesRepository.stream,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
@@ -46,7 +59,7 @@ class _CreatePageState extends State<CreatePage> {
                     return CupertinoListTile(
                       onTap: () => _onInstanceTypeTap(context),
                       title: Text('Instance type'),
-                      additionalInfo: Text(_instanceType ?? 'Not selected'),
+                      additionalInfo: Text(instanceDisplayName ?? 'None selected'),
                       trailing: CupertinoListTileChevron(),
                     );
                   },

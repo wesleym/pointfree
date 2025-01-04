@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
@@ -17,7 +18,7 @@ class InstanceTypesList extends StatelessWidget {
     return PlatformScaffold(
       topBar: PlatformTopBar(title: Text('Instance Type')),
       body: StreamBuilder(
-        initialData: _instanceTypesRepository.instances,
+        initialData: _instanceTypesRepository.instanceTypes,
         stream: _instanceTypesRepository.stream,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -32,7 +33,9 @@ class InstanceTypesList extends StatelessWidget {
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
                 return PlatformListTile(
-                    title: Text(data[index].instanceType.name));
+                  onTap: () => _onSelectInstanceType(context, data[index].instanceType.name),
+                  title: Text(data[index].instanceType.name),
+                );
               },
             ),
           );
@@ -40,4 +43,6 @@ class InstanceTypesList extends StatelessWidget {
       ),
     );
   }
+
+  void _onSelectInstanceType(BuildContext context, String instanceTypeName) => context.pop(instanceTypeName);
 }

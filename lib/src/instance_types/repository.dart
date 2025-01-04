@@ -11,10 +11,12 @@ class InstanceTypesRepository {
 
   final _store = InstanceTypesMemoryStore.instance;
   var _lastFetchTime = DateTime.fromMillisecondsSinceEpoch(0);
-  List<InstanceTypeEntry> get instances =>
+  List<InstanceTypeEntry> get instanceTypes =>
       _store.list().toList(growable: false);
   final _controller = StreamController<List<InstanceTypeEntry>>.broadcast();
   Stream<List<InstanceTypeEntry>> get stream => _controller.stream;
+
+  InstanceTypeEntry? getByName(String name) => _store.getByName(name);
 
   Future<void> update({bool force = false}) async {
     var now = DateTime.now();
