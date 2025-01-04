@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/filesystems/list.dart';
 import 'package:lambda_gui/src/instances/list.dart';
 import 'package:lambda_gui/src/platform/app.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:lambda_gui/src/platform/tab_scaffold.dart';
+import 'package:lambda_gui/src/router.dart';
 import 'package:lambda_gui/src/secrets.dart';
 import 'package:lambda_gui/src/ssh/list.dart';
 import 'package:openapi/api.dart';
@@ -22,9 +24,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return PlatformApp(
+    return PlatformApp.router(
       title: 'Lambda Cloud',
-      home: const MyHomePage(),
+      routerConfig: router,
     );
   }
 }
@@ -49,9 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
       // TODO: Platform icons. This one is always Material because it's for the FAB.
       primaryActionIcon = Icon(Icons.add);
     }
-    return PlatformScaffold(
+    return PlatformTabScaffold(
       primaryActionIcon: primaryActionIcon,
-      onPrimaryActionSelected: () {},
+      onPrimaryActionSelected: () => context.go('/instances/launch'),
       onTabTapped: (index) => setState(() => _selectedIndex = index),
       builder: (context, index) {
         switch (index) {

@@ -1,25 +1,30 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class PlatformApp extends StatelessWidget {
   final String? title;
-  final Widget? home;
+  final RouterConfig<Object>? _routerConfig;
 
-  const PlatformApp({super.key, this.home, this.title});
+  const PlatformApp.router({super.key, this.title, RouterConfig<Object>? routerConfig})
+      : _routerConfig = routerConfig;
 
   @override
   Widget build(BuildContext context) {
-    switch (defaultTargetPlatform) {
+    final platform = Theme.of(context).platform;
+    switch (platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        return CupertinoApp(
+        return CupertinoApp.router(
           title: title,
-          home: home,
           localizationsDelegates: [DefaultMaterialLocalizations.delegate],
+          routerConfig: _routerConfig,
         );
       default:
-        return MaterialApp(title: title, home: home);
+        return MaterialApp.router(
+          title: title,
+          routerConfig: _routerConfig,
+          // theme: ThemeData(platform: TargetPlatform.android),
+        );
     }
   }
 }
