@@ -1,7 +1,7 @@
 Lambda Cloud GUI in Flutter
 ===========================
 
-A prototype.
+A graphical interface to Lambda Cloud that interacts with the ll external API. This program is intended to generate usage of the ll external API typical of a raster display UI.
 
 Running in development
 ----------------------
