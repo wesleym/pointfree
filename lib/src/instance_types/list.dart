@@ -1,60 +1,43 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/instances/repository.dart';
-import 'package:lambda_gui/src/platform/icon_button.dart';
+import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
-import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
+import 'package:lambda_gui/src/platform/scaffold.dart';
 
-class InstancesList extends StatelessWidget {
-  final _repository = InstancesRepository.instance;
+class InstanceTypesList extends StatelessWidget {
+  final _instanceTypesRepository = InstanceTypesRepository.instance;
 
-  InstancesList({super.key});
+  InstanceTypesList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    unawaited(_repository.update());
+    unawaited(_instanceTypesRepository.update());
 
-    return StreamBuilder(
-      initialData: _repository.instances,
-      stream: _repository.stream,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          // TODO: Error handling.
-          return Center(child: CircularProgressIndicator.adaptive());
-        }
+    return PlatformScaffold(
+      topBar: PlatformTopBar(title: Text('Instance Type')),
+      body: StreamBuilder(
+        initialData: _instanceTypesRepository.instances,
+        stream: _instanceTypesRepository.stream,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            // TODO: Error handling.
+            return Center(child: CircularProgressIndicator.adaptive());
+          }
 
-        final data = snapshot.data!;
-        return RefreshIndicator.adaptive(
-          onRefresh: () => _repository.update(force: true),
-          child: CustomScrollView(
-            slivers: [
-              // TODO: Make platform icons.
-              TopBarSliver(
-                title: Text('Instances'),
-                action: PlatformIconButton(
-                  onPressed: () => context.go('/instances/launch'),
-                  icon: Icon(CupertinoIcons.add_circled),
-                ),
-              ),
-              SliverList.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Dismissible(
-                    onDismissed: (direction) =>
-                        _repository.terminate(data[index].id),
-                    key: ValueKey(data[index].id),
-                    child: PlatformListTile(
-                        title: Text(data[index].name ?? data[index].id)),
-                  );
-                },
-              ),
-            ],
-          ),
-        );
-      },
+          final data = snapshot.data!;
+          return RefreshIndicator.adaptive(
+            onRefresh: () => _instanceTypesRepository.update(force: true),
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return PlatformListTile(
+                    title: Text(data[index].instanceType.name));
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -28,7 +28,7 @@ class SshKeysList extends StatelessWidget {
           onRefresh: () => _repository.update(force: true),
           child: CustomScrollView(
             slivers: [
-              TopBarSliver(title: Text('SSH')),
+              PlatformTopBarSliver(title: Text('SSH')),
               SliverList.builder(
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {

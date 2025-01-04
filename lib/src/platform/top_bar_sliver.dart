@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TopBarSliver extends StatelessWidget {
+class PlatformTopBarSliver extends StatelessWidget {
   final Widget? _title;
   final Widget? _action;
 
-  const TopBarSliver({super.key, Widget? title, Widget? action})
+  const PlatformTopBarSliver({super.key, Widget? title, Widget? action})
       : _title = title,
         _action = action;
 

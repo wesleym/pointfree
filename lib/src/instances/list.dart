@@ -32,7 +32,7 @@ class InstancesList extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               // TODO: Make platform icons.
-              TopBarSliver(
+              PlatformTopBarSliver(
                 title: Text('Instances'),
                 action: PlatformIconButton(
                   onPressed: () => context.go('/instances/launch'),

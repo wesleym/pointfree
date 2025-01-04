@@ -2,104 +2,71 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
 
-class CreatePage extends StatelessWidget {
-  CreatePage({super.key});
+class CreatePage extends StatefulWidget {
+  const CreatePage({super.key});
 
+  @override
+  State<CreatePage> createState() => _CreatePageState();
+}
+
+class _CreatePageState extends State<CreatePage> {
   final _instanceTypesRepository = InstanceTypesRepository.instance;
+  String? _instanceType;
 
   @override
   Widget build(BuildContext context) {
     unawaited(_instanceTypesRepository.update());
 
     final Widget body;
+    Color? backgroundColor;
 
     final platform = Theme.of(context).platform;
     switch (platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
+        backgroundColor = CupertinoColors.systemGroupedBackground;
         body = SliverList.list(
           children: [
-            StreamBuilder(
-                initialData: _instanceTypesRepository.instances,
-                stream: _instanceTypesRepository.stream,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    // TODO: Error handling
-                    return CupertinoListTile.notched(title: Text('Hi'));
-                  }
-                  final data = snapshot.data!;
-                  return CupertinoListTile(
-                    onTap: () => showCupertinoModalPopup(
-                      semanticsDismissible: true,
-                      context: context,
-                      builder: (context) => Container(
-                        height: 216,
-                        color: CupertinoColors.systemBackground
-                            .resolveFrom(context),
-                        child: CupertinoPicker.builder(
-                          itemExtent: 32,
-                          childCount: data.length,
-                          onSelectedItemChanged: (value) {},
-                          itemBuilder: (context, index) =>
-                              Text(data[index].instanceType.name),
-                        ),
-                      ),
-                    ),
-                    title: Text('Instance type'),
-                    trailing: Text('sup'),
-                  );
-                }),
-            CupertinoFormSection(
-              header: Text('INSTANCE TYPE'),
+            CupertinoListSection.insetGrouped(
               children: [
-                CupertinoFormRow(
-                    prefix: Text('1×A10'),
-                    child: Icon(CupertinoIcons.checkmark)),
-                CupertinoFormRow(
-                    prefix: Text('1×A100'),
-                    child: Icon(CupertinoIcons.checkmark)),
-              ],
-            ),
-            CupertinoFormSection.insetGrouped(
-              header: Text('REGION'),
-              children: [
-                CupertinoFormRow(
-                  prefix: Text('California, USA'),
-                  child: Icon(CupertinoIcons.checkmark),
+                StreamBuilder(
+                  initialData: _instanceTypesRepository.instances,
+                  stream: _instanceTypesRepository.stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      // TODO: Error handling
+                      return CircularProgressIndicator.adaptive();
+                    }
+                    return CupertinoListTile(
+                      onTap: () => _onInstanceTypeTap(context),
+                      title: Text('Instance type'),
+                      additionalInfo: Text(_instanceType ?? 'Not selected'),
+                      trailing: CupertinoListTileChevron(),
+                    );
+                  },
                 ),
-                CupertinoFormRow(
-                  prefix: Text('Virginia, USA'),
-                  child: Icon(CupertinoIcons.checkmark),
+                CupertinoListTile(
+                  onTap: () => _onInstanceTypeTap(context),
+                  title: Text('Region'),
+                  additionalInfo: Text(_instanceType ?? 'Not selected'),
+                  trailing: CupertinoListTileChevron(),
                 ),
-              ],
-            ),
-            CupertinoFormSection.insetGrouped(
-              header: Text('FILESYSTEM'),
-              children: [
-                CupertinoFormRow(
-                  prefix: Text('California, USA'),
-                  child: Icon(CupertinoIcons.checkmark),
+                CupertinoListTile(
+                  onTap: () => _onInstanceTypeTap(context),
+                  title: Text('Filesystem'),
+                  additionalInfo: Text(_instanceType ?? 'Not selected'),
+                  trailing: CupertinoListTileChevron(),
                 ),
-                CupertinoFormRow(
-                  prefix: Text('Virginia, USA'),
-                  child: Icon(CupertinoIcons.checkmark),
-                ),
-              ],
-            ),
-            CupertinoFormSection.insetGrouped(
-              header: Text('SSH'),
-              children: [
-                CupertinoFormRow(
-                  prefix: Text('California, USA'),
-                  child: Icon(CupertinoIcons.checkmark),
-                ),
-                CupertinoFormRow(
-                  prefix: Text('Virginia, USA'),
-                  child: Icon(CupertinoIcons.checkmark),
+                CupertinoListTile(
+                  onTap: () => _onInstanceTypeTap(context),
+                  title: Text('SSH'),
+                  additionalInfo: Text(_instanceType ?? 'Not selected'),
+                  trailing: CupertinoListTileChevron(),
                 ),
               ],
             ),
@@ -146,11 +113,18 @@ class CreatePage extends StatelessWidget {
     }
 
     return PlatformScaffold(
+        backgroundColor: backgroundColor,
         body: Form(
-      child: CustomScrollView(slivers: [
-        TopBarSliver(title: Text('Launch GPU instance')),
-        body,
-      ]),
-    ));
+          child: CustomScrollView(slivers: [
+            PlatformTopBarSliver(title: Text('Launch GPU instance')),
+            body,
+          ]),
+        ));
+  }
+
+  void _onInstanceTypeTap(BuildContext context) async {
+    final instanceType =
+        await context.push<String>('/instances/launch/instance-types');
+    setState(() => _instanceType = instanceType);
   }
 }

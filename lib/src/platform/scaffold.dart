@@ -4,15 +4,21 @@ import 'package:flutter/material.dart';
 class PlatformScaffold extends StatelessWidget {
   final Widget? _primaryActionIcon;
   final void Function()? _onPrimaryActionSelected;
+  final Color? _backgroundColor;
+  final PlatformTopBar? _topBar;
   final Widget _body;
 
   const PlatformScaffold({
     super.key,
     Widget? primaryActionIcon,
     void Function()? onPrimaryActionSelected,
+    Color? backgroundColor,
+    PlatformTopBar? topBar,
     required Widget body,
   })  : _primaryActionIcon = primaryActionIcon,
         _onPrimaryActionSelected = onPrimaryActionSelected,
+        _backgroundColor = backgroundColor,
+        _topBar = topBar,
         _body = body;
 
   @override
@@ -21,10 +27,20 @@ class PlatformScaffold extends StatelessWidget {
     switch (platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
+        CupertinoNavigationBar? navigationBar;
+        if (_topBar != null) {
+          navigationBar = CupertinoNavigationBar(middle: _topBar.title);
+        }
         return CupertinoPageScaffold(
+          backgroundColor: _backgroundColor,
+          navigationBar: navigationBar,
           child: _body,
         );
       default:
+        AppBar? appBar;
+        if (_topBar != null) {
+          appBar = AppBar(title: _topBar.title);
+        }
         Widget? fab;
         if (_primaryActionIcon != null) {
           fab = FloatingActionButton(
@@ -32,7 +48,18 @@ class PlatformScaffold extends StatelessWidget {
             child: _primaryActionIcon,
           );
         }
-        return Scaffold(floatingActionButton: fab, body: _body);
+        return Scaffold(
+          backgroundColor: _backgroundColor,
+          appBar: appBar,
+          floatingActionButton: fab,
+          body: _body,
+        );
     }
   }
+}
+
+class PlatformTopBar {
+  final Widget? title;
+
+  const PlatformTopBar({this.title});
 }

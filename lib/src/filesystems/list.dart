@@ -28,7 +28,7 @@ class FilesystemsList extends StatelessWidget {
           onRefresh: () => _repository.update(force: true),
           child: CustomScrollView(
             slivers: [
-              TopBarSliver(title: Text('Filesystems')),
+              PlatformTopBarSliver(title: Text('Filesystems')),
               SliverList.builder(
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) =>
