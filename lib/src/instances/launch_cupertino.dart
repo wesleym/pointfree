@@ -161,7 +161,10 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
         ),
         CupertinoButton(
           onPressed: _onLaunchPressed,
-          child: Text('Launch'),
+          child: Text(
+            'Launch',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
       ],
     );
