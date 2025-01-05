@@ -22,19 +22,14 @@ class SshKeyPickerDialog extends StatelessWidget {
             return CircularProgressIndicator.adaptive();
           }
 
-          final data = snapshot.data!;
-
-          var options = data
+          final options = snapshot.data!
               .map((e) => SimpleDialogOption(
                     child: Text(e.name),
                     onPressed: () => _onSshKeyPressed(context, e.id),
                   ))
               .toList(growable: false);
 
-          return SimpleDialog(
-            title: Text('SSH Keys'),
-            children: options,
-          );
+          return SimpleDialog(title: Text('SSH Keys'), children: options);
         });
   }
 

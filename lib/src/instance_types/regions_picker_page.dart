@@ -7,8 +7,8 @@ import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:openapi/api.dart';
 
-class RegionsList extends StatelessWidget {
-  RegionsList({super.key, this.instanceType});
+class RegionsPickerPage extends StatelessWidget {
+  RegionsPickerPage({super.key, this.instanceType});
 
   final _instanceTypesRepository = InstanceTypesRepository.instance;
   final String? instanceType;

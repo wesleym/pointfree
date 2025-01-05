@@ -1,10 +1,12 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lambda_gui/src/filesystems/picker_dialog.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
+import 'package:lambda_gui/src/instance_types/picker_dialog.dart';
+import 'package:lambda_gui/src/instance_types/regions_picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/text_button.dart';
@@ -202,10 +204,10 @@ class _CreatePageState extends State<CreatePage> {
       return null;
     }
     return () async {
-      // TODO: URL escaping.
-      final regionCode = await context.push<String>(
-          '/instances/launch/regions?instance_type=$thisInstanceType');
-      log('Got region code $regionCode');
+      final url = Uri(
+          path: '/instances/launch/regions',
+          queryParameters: {'instance_type': thisInstanceType});
+      final regionCode = await context.push<String>(url.toString());
       setState(() => _regionCode = regionCode);
     };
   }
@@ -230,8 +232,8 @@ class _CreatePageState extends State<CreatePage> {
   }
 
   void _onMaterialInstanceTypeTap(BuildContext context) async {
-    final instanceType =
-        await context.push<String>('/instances/launch/instance-types');
+    final instanceType = await showDialog(
+        context: context, builder: (context) => InstanceTypesPickerDialog());
     setState(() => _instanceType = instanceType);
   }
 
@@ -241,17 +243,17 @@ class _CreatePageState extends State<CreatePage> {
       return null;
     }
     return () async {
-      // TODO: URL escaping.
-      final regionCode = await context.push<String>(
-          '/instances/launch/regions?instance_type=$thisInstanceType');
-      log('Got region code $regionCode');
+      final regionCode = await showDialog(
+          context: context,
+          builder: (context) =>
+              RegionsPickerDialog(instanceType: thisInstanceType));
       setState(() => _regionCode = regionCode);
     };
   }
 
   void _onMaterialFilesystemTap(BuildContext context) async {
-    final filesystemId =
-        await context.push<String>('/instances/launch/filesystems');
+    final filesystemId = await showDialog(
+        context: context, builder: (context) => FilesystemsPickerDialog());
     setState(() => _filesystemId = filesystemId);
   }
 

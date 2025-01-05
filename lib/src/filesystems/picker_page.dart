@@ -2,24 +2,24 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/instance_types/repository.dart';
+import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 
-class InstanceTypesList extends StatelessWidget {
-  final _instanceTypesRepository = InstanceTypesRepository.instance;
+class FilesystemsPickerPage extends StatelessWidget {
+  final _filesystemsRepository = FilesystemsRepository();
 
-  InstanceTypesList({super.key});
+  FilesystemsPickerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    unawaited(_instanceTypesRepository.update());
+    unawaited(_filesystemsRepository.update());
 
     return PlatformScaffold(
-      topBar: PlatformTopBar(title: Text('Instance Type')),
+      topBar: PlatformTopBar(title: Text('Filesystem')),
       body: StreamBuilder(
-        initialData: _instanceTypesRepository.instanceTypes,
-        stream: _instanceTypesRepository.stream,
+        initialData: _filesystemsRepository.filesystems,
+        stream: _filesystemsRepository.stream,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // TODO: Error handling.
@@ -28,14 +28,13 @@ class InstanceTypesList extends StatelessWidget {
 
           final data = snapshot.data!;
           return RefreshIndicator.adaptive(
-            onRefresh: () => _instanceTypesRepository.update(force: true),
+            onRefresh: () => _filesystemsRepository.update(force: true),
             child: ListView.builder(
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
                 return PlatformListTile(
-                  onTap: () => _onSelectInstanceType(
-                      context, data[index].instanceType.name),
-                  title: Text(data[index].instanceType.name),
+                  onTap: () => _onSelectFilesystem(context, data[index].id),
+                  title: Text(data[index].name),
                 );
               },
             ),
@@ -45,6 +44,6 @@ class InstanceTypesList extends StatelessWidget {
     );
   }
 
-  void _onSelectInstanceType(BuildContext context, String instanceTypeName) =>
-      context.pop(instanceTypeName);
+  void _onSelectFilesystem(BuildContext context, String filesystemId) =>
+      context.pop(filesystemId);
 }
