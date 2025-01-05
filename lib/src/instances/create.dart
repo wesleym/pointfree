@@ -8,7 +8,6 @@ import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/text_button.dart';
-import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
 import 'package:openapi/api.dart';
 
@@ -77,7 +76,7 @@ class _CreatePageState extends State<CreatePage> {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
         backgroundColor = CupertinoColors.systemGroupedBackground;
-        body = SliverList.list(
+        body = ListView(
           children: [
             CupertinoListSection.insetGrouped(
               hasLeading: false,
@@ -132,7 +131,7 @@ class _CreatePageState extends State<CreatePage> {
           ],
         );
       default:
-        body = SliverList.list(children: [
+        body = ListView(children: [
           ListTile(title: Text('1×A10'), trailing: Icon(Icons.check)),
           ListTile(title: Text('1×A100'), trailing: Icon(Icons.check)),
           Divider(),
@@ -172,19 +171,17 @@ class _CreatePageState extends State<CreatePage> {
     }
 
     return PlatformScaffold(
-        backgroundColor: backgroundColor,
-        body: Form(
-          child: CustomScrollView(slivers: [
-            PlatformTopBarSliver(
-              action: PlatformTextButton(
-                onPressed: () {},
-                child: Text('Launch'),
-              ),
-              title: Text('Launch GPU instance'),
-            ),
-            body,
-          ]),
-        ));
+      backgroundColor: backgroundColor,
+      topBar: PlatformTopBar(
+        title: Text('New GPU instance'),
+        action: PlatformTextButton(
+          cupertinoPadding: EdgeInsets.zero,
+          onPressed: _launchHandler(),
+          child: Text('Launch'),
+        ),
+      ),
+      body: Form(child: body),
+    );
   }
 
   void _onInstanceTypeTap(BuildContext context) async {
@@ -216,5 +213,13 @@ class _CreatePageState extends State<CreatePage> {
   void _onSshKeyTap(BuildContext context) async {
     final sshKeyId = await context.push<String>('/instances/launch/ssh-keys');
     setState(() => _sshKeyId = sshKeyId);
+  }
+
+  void Function()? _launchHandler() {
+    if ([_instanceType, _regionCode, _filesystemId, _sshKeyId].contains(null)) {
+      return null;
+    }
+
+    return () {};
   }
 }

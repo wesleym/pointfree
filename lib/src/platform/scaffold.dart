@@ -29,7 +29,10 @@ class PlatformScaffold extends StatelessWidget {
       case TargetPlatform.macOS:
         CupertinoNavigationBar? navigationBar;
         if (_topBar != null) {
-          navigationBar = CupertinoNavigationBar(middle: _topBar.title);
+          navigationBar = CupertinoNavigationBar(
+            middle: _topBar.title,
+            trailing: _topBar.action,
+          );
         }
         return CupertinoPageScaffold(
           backgroundColor: _backgroundColor,
@@ -39,7 +42,15 @@ class PlatformScaffold extends StatelessWidget {
       default:
         AppBar? appBar;
         if (_topBar != null) {
-          appBar = AppBar(title: _topBar.title);
+          final actions = <Widget>[];
+          final thisAction = _topBar.action;
+          if (thisAction != null) {
+            actions.add(thisAction);
+          }
+          appBar = AppBar(
+            title: _topBar.title,
+            actions: actions,
+          );
         }
         Widget? fab;
         if (_primaryActionIcon != null) {
@@ -60,6 +71,7 @@ class PlatformScaffold extends StatelessWidget {
 
 class PlatformTopBar {
   final Widget? title;
+  final Widget? action;
 
-  const PlatformTopBar({this.title});
+  const PlatformTopBar({this.title, this.action});
 }
