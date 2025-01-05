@@ -1,22 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/filesystems/picker_dialog.dart';
-import 'package:lambda_gui/src/filesystems/picker_page.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
-import 'package:lambda_gui/src/instance_types/picker_dialog.dart';
-import 'package:lambda_gui/src/instance_types/picker_page.dart';
-import 'package:lambda_gui/src/instance_types/regions_picker_dialog.dart';
-import 'package:lambda_gui/src/instance_types/regions_picker_page.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
+import 'package:lambda_gui/src/instances/launch_cupertino.dart';
+import 'package:lambda_gui/src/instances/launch_material.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
-import 'package:lambda_gui/src/ssh/picker_dialog.dart';
-import 'package:lambda_gui/src/ssh/picker_page.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
-import 'package:openapi/api.dart';
 
 class LaunchInstancePage extends StatefulWidget {
   const LaunchInstancePage({super.key});
@@ -39,223 +30,36 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
   Widget build(BuildContext context) {
     unawaited(_instanceTypesRepository.update());
 
-    InstanceType? instanceType;
-    final instanceTypeName = _instanceTypeName;
-    if (instanceTypeName != null) {
-      instanceType =
-          _instanceTypesRepository.getByName(instanceTypeName)?.instanceType;
-    }
-
-    Widget? instanceDisplayName;
-    if (instanceType != null) {
-      instanceDisplayName =
-          Text('${instanceType.specs.gpus}×${instanceType.gpuDescription}');
-    }
-
-    final thisRegionCode = _regionCode;
-    String? regionDisplayName;
-    if (instanceTypeName != null && thisRegionCode != null) {
-      regionDisplayName = _instanceTypesRepository
-          .getByName(instanceTypeName)
-          ?.regionsWithCapacityAvailable
-          .where((region) => region.name == thisRegionCode)
-          .singleOrNull
-          ?.description;
-    }
-
-    final thisFilesystemId = _filesystemId;
-    String? filesystemDisplayName;
-    if (thisFilesystemId != null) {
-      filesystemDisplayName =
-          _filesystemRepository.getById(thisFilesystemId)?.name;
-    }
-
-    final thisSshKeyIds = _sshKeyId;
-    String? sshKeyDisplayName;
-    if (thisSshKeyIds != null) {
-      sshKeyDisplayName = _sshKeyRepository.getById(thisSshKeyIds)?.name;
-    }
-
-    final Widget body;
-    Color? backgroundColor;
-
     final platform = Theme.of(context).platform;
     switch (platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        backgroundColor = CupertinoColors.systemGroupedBackground;
-        const inactiveColor = CupertinoColors.inactiveGray;
-        body = ListView(
-          children: [
-            CupertinoListSection.insetGrouped(
-              hasLeading: false,
-              children: [
-                StreamBuilder(
-                  initialData: _instanceTypesRepository.instanceTypes,
-                  stream: _instanceTypesRepository.stream,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      // TODO: Error handling
-                      return CircularProgressIndicator.adaptive();
-                    }
-                    return CupertinoListTile(
-                      onTap: () => _onCupertinoInstanceTypeTap(context),
-                      title: Text('Instance type'),
-                      additionalInfo: instanceDisplayName,
-                      trailing: CupertinoListTileChevron(),
-                    );
-                  },
-                ),
-                StreamBuilder(
-                  initialData: _instanceTypesRepository.instanceTypes,
-                  stream: _instanceTypesRepository.stream,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      // TODO: Error handling
-                      return CircularProgressIndicator.adaptive();
-                    }
-                    return CupertinoListTile(
-                      onTap: _cupertinoRegionTapHandler(context),
-                      title: Text('Region',
-                          style: TextStyle(
-                              color: _instanceTypeName == null
-                                  ? inactiveColor
-                                  : null)),
-                      additionalInfo: regionDisplayName == null
-                          ? null
-                          : Text(regionDisplayName),
-                      trailing: _instanceTypeName == null
-                          ? null
-                          : CupertinoListTileChevron(),
-                    );
-                  },
-                ),
-                CupertinoListTile(
-                  onTap: _handleCupertinoFilesystemTap(context),
-                  title: Text(
-                    'Filesystem',
-                    style: TextStyle(
-                        color: _regionCode == null ? inactiveColor : null),
-                  ),
-                  additionalInfo: filesystemDisplayName == null
-                      ? null
-                      : Text(filesystemDisplayName),
-                  trailing:
-                      _regionCode == null ? null : CupertinoListTileChevron(),
-                ),
-                CupertinoListTile(
-                  onTap: () => _onCupertinoSshKeyTap(context),
-                  title: Text('SSH'),
-                  additionalInfo: sshKeyDisplayName == null
-                      ? null
-                      : Text(sshKeyDisplayName),
-                  trailing: CupertinoListTileChevron(),
-                ),
-              ],
-            ),
-            CupertinoButton(
-              onPressed: _launchHandler(),
-              child: Text('Launch'),
-            ),
-          ],
+        return CupertinoLaunchInstancePage(
+          instanceTypeName: _instanceTypeName,
+          onInstanceTypeNameChange: (v) =>
+              setState(() => _instanceTypeName = v),
+          regionCode: _regionCode,
+          onRegionCodeChange: (v) => setState(() => _regionCode = v),
+          filesystemId: _filesystemId,
+          onFilesystemIdChange: (v) => setState(() => _filesystemId = v),
+          sshKeyId: _sshKeyId,
+          onSshKeyIdChange: (v) => setState(() => _sshKeyId = v),
+          onLaunchPressed: _launchHandler(),
         );
       default:
-        body = ListView(children: [
-          StreamBuilder(
-            initialData: _instanceTypesRepository.instanceTypes,
-            stream: _instanceTypesRepository.stream,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                // TODO: Error handling
-                return CircularProgressIndicator.adaptive();
-              }
-              return ListTile(
-                onTap: () => _onMaterialInstanceTypeTap(context),
-                title: Text('Instance type'),
-                subtitle: instanceDisplayName ?? Text(''),
-              );
-            },
-          ),
-          StreamBuilder(
-            initialData: _instanceTypesRepository.instanceTypes,
-            stream: _instanceTypesRepository.stream,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                // TODO: Error handling
-                return CircularProgressIndicator.adaptive();
-              }
-              return ListTile(
-                enabled: _instanceTypeName != null,
-                onTap: _materialRegionTapHandler(context),
-                title: Text('Region'),
-                subtitle: Text(regionDisplayName ?? ''),
-              );
-            },
-          ),
-          ListTile(
-            enabled: _regionCode != null,
-            onTap: _handleMaterialFilesystemTap(context),
-            title: Text('Filesystem'),
-            subtitle: Text(filesystemDisplayName ?? ''),
-          ),
-          ListTile(
-            onTap: () => _onMaterialSshKeyTap(context),
-            title: Text('SSH key'),
-            subtitle: Text(sshKeyDisplayName ?? ''),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: _launchHandler(),
-              child: Text('Launch'),
-            ),
-          ),
-        ]);
+        return MaterialLaunchInstancePage(
+          instanceTypeName: _instanceTypeName,
+          onInstanceTypeNameChange: (v) =>
+              setState(() => _instanceTypeName = v),
+          regionCode: _regionCode,
+          onRegionCodeChange: (v) => setState(() => _regionCode = v),
+          filesystemId: _filesystemId,
+          onFilesystemIdChange: (v) => setState(() => _filesystemId = v),
+          sshKeyId: _sshKeyId,
+          onSshKeyIdChange: (v) => setState(() => _sshKeyId = v),
+          onLaunchPressed: _launchHandler(),
+        );
     }
-
-    return PlatformScaffold(
-      backgroundColor: backgroundColor,
-      topBar: PlatformTopBar(title: Text('New GPU instance')),
-      body: Form(child: body),
-    );
-  }
-
-  void _onCupertinoInstanceTypeTap(BuildContext context) async {
-    final instanceType = await Navigator.of(context).push<String>(
-        CupertinoPageRoute(builder: (context) => InstanceTypesPickerPage()));
-    setState(() => _instanceTypeName = instanceType);
-  }
-
-  void Function()? _cupertinoRegionTapHandler(BuildContext context) {
-    final instanceType = _instanceTypeName;
-    if (instanceType == null) return null;
-
-    return () async {
-      final regionCode = await Navigator.of(context).push<String>(
-          CupertinoPageRoute(
-              builder: (context) =>
-                  RegionsPickerPage(instanceType: instanceType)));
-      setState(() => _regionCode = regionCode ?? _regionCode);
-    };
-  }
-
-  void Function()? _handleCupertinoFilesystemTap(BuildContext context) {
-    var regionCode = _regionCode;
-    if (regionCode == null) return null;
-
-    return () async {
-      final filesystemId = await Navigator.of(context).push<String>(
-          CupertinoPageRoute(
-              builder: (context) =>
-                  FilesystemsPickerPage(regionCode: regionCode)));
-      setState(() => _filesystemId = filesystemId ?? _filesystemId);
-    };
-  }
-
-  void _onCupertinoSshKeyTap(BuildContext context) async {
-    final sshKeyId = await Navigator.of(context).push<String>(
-        CupertinoPageRoute(builder: (context) => SshKeyPickerPage()));
-    setState(() => _sshKeyId = sshKeyId ?? _sshKeyId);
   }
 
   void Function()? _launchHandler() {
@@ -282,43 +86,5 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
         context.pop();
       }
     };
-  }
-
-  void _onMaterialInstanceTypeTap(BuildContext context) async {
-    final instanceType = await showDialog(
-        context: context, builder: (context) => InstanceTypesPickerDialog());
-    setState(() => _instanceTypeName = instanceType);
-  }
-
-  void Function()? _materialRegionTapHandler(BuildContext context) {
-    final thisInstanceType = _instanceTypeName;
-    if (thisInstanceType == null) {
-      return null;
-    }
-    return () async {
-      final regionCode = await showDialog(
-          context: context,
-          builder: (context) =>
-              RegionsPickerDialog(instanceType: thisInstanceType));
-      setState(() => _regionCode = regionCode);
-    };
-  }
-
-  void Function()? _handleMaterialFilesystemTap(BuildContext context) {
-    if (_regionCode == null) return null;
-
-    return () async {
-      final filesystemId = await showDialog(
-          context: context,
-          builder: (context) =>
-              FilesystemsPickerDialog(regionCode: _regionCode!));
-      setState(() => _filesystemId = filesystemId);
-    };
-  }
-
-  void _onMaterialSshKeyTap(BuildContext context) async {
-    final sshKeyId = await showDialog<String>(
-        context: context, builder: (context) => SshKeyPickerDialog());
-    setState(() => _sshKeyId = sshKeyId);
   }
 }
