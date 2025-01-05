@@ -8,9 +8,9 @@ import 'package:lambda_gui/src/platform/scaffold.dart';
 
 class FilesystemsPickerPage extends StatelessWidget {
   final _filesystemsRepository = FilesystemsRepository();
-  final String? regionCode;
+  final String regionCode;
 
-  FilesystemsPickerPage({super.key, this.regionCode});
+  FilesystemsPickerPage({super.key, required this.regionCode});
 
   @override
   Widget build(BuildContext context) {

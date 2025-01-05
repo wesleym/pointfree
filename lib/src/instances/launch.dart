@@ -7,11 +7,14 @@ import 'package:lambda_gui/src/filesystems/picker_dialog.dart';
 import 'package:lambda_gui/src/filesystems/picker_page.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/instance_types/picker_dialog.dart';
+import 'package:lambda_gui/src/instance_types/picker_page.dart';
 import 'package:lambda_gui/src/instance_types/regions_picker_dialog.dart';
+import 'package:lambda_gui/src/instance_types/regions_picker_page.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/ssh/picker_dialog.dart';
+import 'package:lambda_gui/src/ssh/picker_page.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
 import 'package:openapi/api.dart';
 
@@ -27,7 +30,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
   final _instanceTypesRepository = InstanceTypesRepository.instance;
   final _filesystemRepository = FilesystemsRepository.instance;
   final _sshKeyRepository = SshKeysRepository.instance;
-  String? _instanceType;
+  String? _instanceTypeName;
   String? _regionCode;
   String? _filesystemId;
   String? _sshKeyId;
@@ -37,23 +40,23 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
     unawaited(_instanceTypesRepository.update());
 
     InstanceType? instanceType;
-    final thisInstanceType = _instanceType;
-    if (thisInstanceType != null) {
+    final instanceTypeName = _instanceTypeName;
+    if (instanceTypeName != null) {
       instanceType =
-          _instanceTypesRepository.getByName(thisInstanceType)?.instanceType;
+          _instanceTypesRepository.getByName(instanceTypeName)?.instanceType;
     }
 
-    String? instanceDisplayName;
+    Widget? instanceDisplayName;
     if (instanceType != null) {
       instanceDisplayName =
-          '${instanceType.specs.gpus}×${instanceType.gpuDescription}';
+          Text('${instanceType.specs.gpus}×${instanceType.gpuDescription}');
     }
 
     final thisRegionCode = _regionCode;
     String? regionDisplayName;
-    if (thisInstanceType != null && thisRegionCode != null) {
+    if (instanceTypeName != null && thisRegionCode != null) {
       regionDisplayName = _instanceTypesRepository
-          .getByName(thisInstanceType)
+          .getByName(instanceTypeName)
           ?.regionsWithCapacityAvailable
           .where((region) => region.name == thisRegionCode)
           .singleOrNull
@@ -80,7 +83,8 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
     switch (platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        // backgroundColor = CupertinoColors.systemGroupedBackground;
+        backgroundColor = CupertinoColors.systemGroupedBackground;
+        const inactiveColor = CupertinoColors.inactiveGray;
         body = ListView(
           children: [
             CupertinoListSection.insetGrouped(
@@ -97,8 +101,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
                     return CupertinoListTile(
                       onTap: () => _onCupertinoInstanceTypeTap(context),
                       title: Text('Instance type'),
-                      additionalInfo:
-                          Text(instanceDisplayName ?? 'None selected'),
+                      additionalInfo: instanceDisplayName,
                       trailing: CupertinoListTileChevron(),
                     );
                   },
@@ -113,22 +116,39 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
                     }
                     return CupertinoListTile(
                       onTap: _cupertinoRegionTapHandler(context),
-                      title: Text('Region'),
-                      additionalInfo: Text(regionDisplayName ?? 'Not selected'),
-                      trailing: CupertinoListTileChevron(),
+                      title: Text('Region',
+                          style: TextStyle(
+                              color: _instanceTypeName == null
+                                  ? inactiveColor
+                                  : null)),
+                      additionalInfo: regionDisplayName == null
+                          ? null
+                          : Text(regionDisplayName),
+                      trailing: _instanceTypeName == null
+                          ? null
+                          : CupertinoListTileChevron(),
                     );
                   },
                 ),
                 CupertinoListTile(
                   onTap: _handleCupertinoFilesystemTap(context),
-                  title: Text('Filesystem'),
-                  additionalInfo: Text(filesystemDisplayName ?? 'Not selected'),
-                  trailing: CupertinoListTileChevron(),
+                  title: Text(
+                    'Filesystem',
+                    style: TextStyle(
+                        color: _regionCode == null ? inactiveColor : null),
+                  ),
+                  additionalInfo: filesystemDisplayName == null
+                      ? null
+                      : Text(filesystemDisplayName),
+                  trailing:
+                      _regionCode == null ? null : CupertinoListTileChevron(),
                 ),
                 CupertinoListTile(
                   onTap: () => _onCupertinoSshKeyTap(context),
                   title: Text('SSH'),
-                  additionalInfo: Text(sshKeyDisplayName ?? 'Not selected'),
+                  additionalInfo: sshKeyDisplayName == null
+                      ? null
+                      : Text(sshKeyDisplayName),
                   trailing: CupertinoListTileChevron(),
                 ),
               ],
@@ -152,7 +172,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
               return ListTile(
                 onTap: () => _onMaterialInstanceTypeTap(context),
                 title: Text('Instance type'),
-                subtitle: Text(instanceDisplayName ?? 'None selected'),
+                subtitle: instanceDisplayName,
               );
             },
           ),
@@ -167,19 +187,23 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
               return ListTile(
                 onTap: _materialRegionTapHandler(context),
                 title: Text('Region'),
-                subtitle: Text(regionDisplayName ?? 'Not selected'),
+                subtitle:
+                    regionDisplayName == null ? null : Text(regionDisplayName),
               );
             },
           ),
           ListTile(
             onTap: _handleMaterialFilesystemTap(context),
             title: Text('Filesystem'),
-            subtitle: Text(filesystemDisplayName ?? 'Not selected'),
+            subtitle: filesystemDisplayName == null
+                ? null
+                : Text(filesystemDisplayName),
           ),
           ListTile(
             onTap: () => _onMaterialSshKeyTap(context),
             title: Text('SSH key'),
-            subtitle: Text(sshKeyDisplayName ?? 'Not selected'),
+            subtitle:
+                sshKeyDisplayName == null ? null : Text(sshKeyDisplayName),
           ),
           ElevatedButton(
             onPressed: _launchHandler(),
@@ -190,58 +214,52 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
 
     return PlatformScaffold(
       backgroundColor: backgroundColor,
-      topBar: PlatformTopBar(
-        title: Text('New GPU instance'),
-        // action: PlatformTextButton(
-        //   cupertinoPadding: EdgeInsets.zero,
-        //   onPressed: _launchHandler(),
-        //   child: Text('Launch'),
-        // ),
-      ),
+      topBar: PlatformTopBar(title: Text('New GPU instance')),
       body: Form(child: body),
     );
   }
 
   void _onCupertinoInstanceTypeTap(BuildContext context) async {
-    final instanceType =
-        await context.push<String>('/instances/launch/instance-types');
-    setState(() => _instanceType = instanceType);
+    final instanceType = await Navigator.of(context).push<String>(
+        CupertinoPageRoute(builder: (context) => InstanceTypesPickerPage()));
+    setState(() => _instanceTypeName = instanceType);
   }
 
   void Function()? _cupertinoRegionTapHandler(BuildContext context) {
-    final thisInstanceType = _instanceType;
-    if (thisInstanceType == null) {
-      return null;
-    }
+    final instanceType = _instanceTypeName;
+    if (instanceType == null) return null;
+
     return () async {
-      final url = Uri(
-          path: '/instances/launch/regions',
-          queryParameters: {'instance_type': thisInstanceType});
-      final regionCode = await context.push<String>(url.toString());
-      setState(() => _regionCode = regionCode);
+      final regionCode = await Navigator.of(context).push<String>(
+          CupertinoPageRoute(
+              builder: (context) =>
+                  RegionsPickerPage(instanceType: instanceType)));
+      setState(() => _regionCode = regionCode ?? _regionCode);
     };
   }
 
   void Function()? _handleCupertinoFilesystemTap(BuildContext context) {
-    if (_regionCode == null) return null;
+    var regionCode = _regionCode;
+    if (regionCode == null) return null;
 
     return () async {
       final filesystemId = await Navigator.of(context).push<String>(
-              CupertinoPageRoute(
-                  builder: (context) =>
-                      FilesystemsPickerPage(regionCode: _regionCode))) ??
-          _filesystemId;
-      setState(() => _filesystemId = filesystemId);
+          CupertinoPageRoute(
+              builder: (context) =>
+                  FilesystemsPickerPage(regionCode: regionCode)));
+      setState(() => _filesystemId = filesystemId ?? _filesystemId);
     };
   }
 
   void _onCupertinoSshKeyTap(BuildContext context) async {
-    final sshKeyId = await context.push<String>('/instances/launch/ssh-keys');
-    setState(() => _sshKeyId = sshKeyId);
+    final sshKeyId = await Navigator.of(context).push<String>(
+        CupertinoPageRoute(builder: (context) => SshKeyPickerPage()));
+    setState(() => _sshKeyId = sshKeyId ?? _sshKeyId);
   }
 
   void Function()? _launchHandler() {
-    if ([_instanceType, _regionCode, _filesystemId, _sshKeyId].contains(null)) {
+    if ([_instanceTypeName, _regionCode, _filesystemId, _sshKeyId]
+        .contains(null)) {
       return null;
     }
 
@@ -253,22 +271,26 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
 
     return () async {
       await _instancesRepository.launch(
-        instanceTypeName: _instanceType!,
+        instanceTypeName: _instanceTypeName!,
         regionCode: _regionCode!,
         filesystemName: filesystemName,
         sshKeyName: sshKeyName,
       );
+
+      if (mounted) {
+        context.pop();
+      }
     };
   }
 
   void _onMaterialInstanceTypeTap(BuildContext context) async {
     final instanceType = await showDialog(
         context: context, builder: (context) => InstanceTypesPickerDialog());
-    setState(() => _instanceType = instanceType);
+    setState(() => _instanceTypeName = instanceType);
   }
 
   void Function()? _materialRegionTapHandler(BuildContext context) {
-    final thisInstanceType = _instanceType;
+    final thisInstanceType = _instanceTypeName;
     if (thisInstanceType == null) {
       return null;
     }

@@ -8,10 +8,10 @@ import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:openapi/api.dart';
 
 class RegionsPickerPage extends StatelessWidget {
-  RegionsPickerPage({super.key, this.instanceType});
+  RegionsPickerPage({super.key, required this.instanceType});
 
   final _instanceTypesRepository = InstanceTypesRepository.instance;
-  final String? instanceType;
+  final String instanceType;
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +25,11 @@ class RegionsPickerPage extends StatelessWidget {
         builder: (context, snapshot) {
           final thisInstanceType = instanceType;
           final List<Region>? regions;
-          if (thisInstanceType == null) {
-            regions = [];
-          } else {
-            regions = snapshot.data
-                ?.where(
-                    (element) => element.instanceType.name == thisInstanceType)
-                .singleOrNull
-                ?.regionsWithCapacityAvailable;
-          }
+          regions = snapshot.data
+              ?.where(
+                  (element) => element.instanceType.name == thisInstanceType)
+              .singleOrNull
+              ?.regionsWithCapacityAvailable;
 
           if (regions == null) {
             // TODO: Error handling.
