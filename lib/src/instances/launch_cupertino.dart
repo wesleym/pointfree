@@ -61,8 +61,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
 
     Widget? instanceDisplayName;
     if (instanceType != null) {
-      instanceDisplayName =
-          Text('${instanceType.specs.gpus}×${instanceType.gpuDescription}');
+      instanceDisplayName = Text(instanceType.description);
     }
 
     final thisRegionCode = _regionCode;

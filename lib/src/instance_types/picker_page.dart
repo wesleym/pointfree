@@ -32,8 +32,7 @@ class InstanceTypesPickerPage extends StatelessWidget {
             child: ListView.builder(
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
-                var description =
-                    '${data[index].instanceType.specs.gpus}×${data[index].instanceType.gpuDescription}';
+                var description = data[index].instanceType.description;
                 return PlatformListTile(
                   onTap: () => _onSelectInstanceType(
                       context, data[index].instanceType.name),
