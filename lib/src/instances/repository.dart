@@ -37,10 +37,36 @@ class InstancesRepository {
 
   Future<void> terminate(String id, {bool force = false}) async {
     try {
-      await DefaultApi(defaultApiClient).terminateInstance(TerminateInstanceRequest(instanceIds: [id]));
+      await DefaultApi(defaultApiClient)
+          .terminateInstance(TerminateInstanceRequest(instanceIds: [id]));
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to terminate instance with ID $id: ${e.message}');
+      return;
+    }
+
+    await update(force: true);
+  }
+
+  Future<void> launch({
+    String? name,
+    required String instanceTypeName,
+    required String regionCode,
+    required String sshKeyName,
+    String? filesystemName,
+  }) async {
+    final filesystemNames = [if (filesystemName != null) filesystemName];
+    try {
+      await DefaultApi(defaultApiClient).launchInstance(LaunchInstanceRequest(
+        name: name,
+        regionName: regionCode,
+        instanceTypeName: instanceTypeName,
+        sshKeyNames: [sshKeyName],
+        fileSystemNames: filesystemNames,
+      ));
+    } on ApiException catch (e) {
+      // TODO: Error handling.
+      log('Failed to launch instance: ${e.message}');
       return;
     }
 

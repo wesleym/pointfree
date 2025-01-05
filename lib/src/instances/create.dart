@@ -8,6 +8,7 @@ import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/instance_types/picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/regions_picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
+import 'package:lambda_gui/src/instances/repository.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/text_button.dart';
 import 'package:lambda_gui/src/ssh/picker_dialog.dart';
@@ -22,6 +23,7 @@ class CreatePage extends StatefulWidget {
 }
 
 class _CreatePageState extends State<CreatePage> {
+  final _instancesRepository = InstancesRepository.instance;
   final _instanceTypesRepository = InstanceTypesRepository.instance;
   final _filesystemRepository = FilesystemsRepository.instance;
   final _sshKeyRepository = SshKeysRepository.instance;
@@ -228,7 +230,20 @@ class _CreatePageState extends State<CreatePage> {
       return null;
     }
 
-    return () {};
+    final filesystemName = _filesystemRepository.getById(_filesystemId!)?.name;
+    final sshKeyName = _sshKeyRepository.getById(_sshKeyId!)?.name;
+    if (filesystemName == null || sshKeyName == null) {
+      return null;
+    }
+
+    return () async {
+      await _instancesRepository.launch(
+        instanceTypeName: _instanceType!,
+        regionCode: _regionCode!,
+        filesystemName: filesystemName,
+        sshKeyName: sshKeyName,
+      );
+    };
   }
 
   void _onMaterialInstanceTypeTap(BuildContext context) async {
