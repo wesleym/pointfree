@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class CreatePage extends StatefulWidget {
 class _CreatePageState extends State<CreatePage> {
   final _instanceTypesRepository = InstanceTypesRepository.instance;
   String? _instanceType;
+  String? _regionCode;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,6 @@ class _CreatePageState extends State<CreatePage> {
 
     InstanceType? instanceType;
     final thisInstanceType = _instanceType;
-
     if (thisInstanceType != null) {
       instanceType =
           _instanceTypesRepository.getByName(thisInstanceType)?.instanceType;
@@ -36,6 +37,23 @@ class _CreatePageState extends State<CreatePage> {
     if (instanceType != null) {
       instanceDisplayName =
           '${instanceType.specs.gpus}×${instanceType.gpuDescription}';
+    }
+
+    final thisRegionCode = _regionCode;
+    String? regionDisplayName;
+    if (thisInstanceType != null && thisRegionCode != null) {
+      log('_instanceTypesRepository: $_instanceTypesRepository');
+      log('.getByName(thisRegionCode): ${_instanceTypesRepository.getByName(thisRegionCode)}');
+      log('?.regionsWithCapacityAvailable: ${_instanceTypesRepository.getByName(thisRegionCode)?.regionsWithCapacityAvailable}');
+      log('.where((region) => region.name == thisRegionCode): ${_instanceTypesRepository.getByName(thisRegionCode)?.regionsWithCapacityAvailable.where((region) => region.name == thisRegionCode)}');
+      log('.singleOrNull: ${_instanceTypesRepository.getByName(thisRegionCode)?.regionsWithCapacityAvailable.where((region) => region.name == thisRegionCode).singleOrNull}');
+      log('?.description: ${_instanceTypesRepository.getByName(thisRegionCode)?.regionsWithCapacityAvailable.where((region) => region.name == thisRegionCode).singleOrNull?.description}');
+      regionDisplayName = _instanceTypesRepository
+          .getByName(thisInstanceType)
+          ?.regionsWithCapacityAvailable
+          .where((region) => region.name == thisRegionCode)
+          .singleOrNull
+          ?.description;
     }
 
     final Widget body;
@@ -68,11 +86,21 @@ class _CreatePageState extends State<CreatePage> {
                     );
                   },
                 ),
-                CupertinoListTile(
-                  onTap: () => _onInstanceTypeTap(context),
-                  title: Text('Region'),
-                  additionalInfo: Text(_instanceType ?? 'Not selected'),
-                  trailing: CupertinoListTileChevron(),
+                StreamBuilder(
+                  initialData: _instanceTypesRepository.instanceTypes,
+                  stream: _instanceTypesRepository.stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      // TODO: Error handling
+                      return CircularProgressIndicator.adaptive();
+                    }
+                    return CupertinoListTile(
+                      onTap: _onRegionTapHandler(context),
+                      title: Text('Region'),
+                      additionalInfo: Text(regionDisplayName ?? 'Not selected'),
+                      trailing: CupertinoListTileChevron(),
+                    );
+                  },
                 ),
                 CupertinoListTile(
                   onTap: () => _onInstanceTypeTap(context),
@@ -150,5 +178,19 @@ class _CreatePageState extends State<CreatePage> {
     final instanceType =
         await context.push<String>('/instances/launch/instance-types');
     setState(() => _instanceType = instanceType);
+  }
+
+  void Function()? _onRegionTapHandler(BuildContext context) {
+    final thisInstanceType = _instanceType;
+    if (thisInstanceType == null) {
+      return null;
+    }
+    return () async {
+      // TODO: URL escaping.
+      final regionCode = await context.push<String>(
+          '/instances/launch/regions?instance_type=$thisInstanceType');
+      log('Got region code $regionCode');
+      setState(() => _regionCode = regionCode);
+    };
   }
 }

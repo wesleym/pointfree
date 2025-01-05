@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/main.dart';
 import 'package:lambda_gui/src/instance_types/list.dart';
+import 'package:lambda_gui/src/instance_types/regions_list.dart';
 import 'package:lambda_gui/src/instances/create.dart';
 
 // GoRouter configuration
@@ -17,6 +18,11 @@ final router = GoRouter(
             GoRoute(
               path: '/instance-types',
               builder: (context, state) => InstanceTypesList(),
+            ),
+            GoRoute(
+              path: '/regions',
+              builder: (context, state) => RegionsList(
+                  instanceType: state.uri.queryParameters['instance_type']),
             ),
           ],
         ),
