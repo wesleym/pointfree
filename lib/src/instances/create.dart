@@ -8,6 +8,7 @@ import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/text_button.dart';
+import 'package:lambda_gui/src/ssh/picker_dialog.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
 import 'package:openapi/api.dart';
 
@@ -90,7 +91,7 @@ class _CreatePageState extends State<CreatePage> {
                       return CircularProgressIndicator.adaptive();
                     }
                     return CupertinoListTile(
-                      onTap: () => _onInstanceTypeTap(context),
+                      onTap: () => _onCupertinoInstanceTypeTap(context),
                       title: Text('Instance type'),
                       additionalInfo:
                           Text(instanceDisplayName ?? 'None selected'),
@@ -107,7 +108,7 @@ class _CreatePageState extends State<CreatePage> {
                       return CircularProgressIndicator.adaptive();
                     }
                     return CupertinoListTile(
-                      onTap: _onRegionTapHandler(context),
+                      onTap: _cupertinoRegionTapHandler(context),
                       title: Text('Region'),
                       additionalInfo: Text(regionDisplayName ?? 'Not selected'),
                       trailing: CupertinoListTileChevron(),
@@ -115,13 +116,13 @@ class _CreatePageState extends State<CreatePage> {
                   },
                 ),
                 CupertinoListTile(
-                  onTap: () => _onFilesystemTap(context),
+                  onTap: () => _onCupertinoFilesystemTap(context),
                   title: Text('Filesystem'),
                   additionalInfo: Text(filesystemDisplayName ?? 'Not selected'),
                   trailing: CupertinoListTileChevron(),
                 ),
                 CupertinoListTile(
-                  onTap: () => _onSshKeyTap(context),
+                  onTap: () => _onCupertinoSshKeyTap(context),
                   title: Text('SSH'),
                   additionalInfo: Text(sshKeyDisplayName ?? 'Not selected'),
                   trailing: CupertinoListTileChevron(),
@@ -132,40 +133,45 @@ class _CreatePageState extends State<CreatePage> {
         );
       default:
         body = ListView(children: [
-          ListTile(title: Text('1×A10'), trailing: Icon(Icons.check)),
-          ListTile(title: Text('1×A100'), trailing: Icon(Icons.check)),
-          Divider(),
-          ListTile(
-            title: Text('California, USA'),
-            subtitle: Text('us-west-1'),
-            trailing: Icon(CupertinoIcons.checkmark),
+          StreamBuilder(
+            initialData: _instanceTypesRepository.instanceTypes,
+            stream: _instanceTypesRepository.stream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                // TODO: Error handling
+                return CircularProgressIndicator.adaptive();
+              }
+              return ListTile(
+                onTap: () => _onMaterialInstanceTypeTap(context),
+                title: Text('Instance type'),
+                subtitle: Text(instanceDisplayName ?? 'None selected'),
+              );
+            },
+          ),
+          StreamBuilder(
+            initialData: _instanceTypesRepository.instanceTypes,
+            stream: _instanceTypesRepository.stream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                // TODO: Error handling
+                return CircularProgressIndicator.adaptive();
+              }
+              return ListTile(
+                onTap: _materialRegionTapHandler(context),
+                title: Text('Region'),
+                subtitle: Text(regionDisplayName ?? 'Not selected'),
+              );
+            },
           ),
           ListTile(
-            title: Text('Virginia, USA'),
-            subtitle: Text('us-east-1'),
-            trailing: Icon(CupertinoIcons.checkmark),
-          ),
-          Divider(),
-          ListTile(
-            title: Text('California, USA'),
-            subtitle: Text('us-west-1'),
-            trailing: Icon(CupertinoIcons.checkmark),
+            onTap: () => _onMaterialFilesystemTap(context),
+            title: Text('Filesystem'),
+            subtitle: Text(filesystemDisplayName ?? 'Not selected'),
           ),
           ListTile(
-            title: Text('Virginia, USA'),
-            subtitle: Text('us-east-1'),
-            trailing: Icon(CupertinoIcons.checkmark),
-          ),
-          Divider(),
-          ListTile(
-            title: Text('California, USA'),
-            subtitle: Text('us-west-1'),
-            trailing: Icon(CupertinoIcons.checkmark),
-          ),
-          ListTile(
-            title: Text('Virginia, USA'),
-            subtitle: Text('us-east-1'),
-            trailing: Icon(CupertinoIcons.checkmark),
+            onTap: () => _onMaterialSshKeyTap(context),
+            title: Text('SSH key'),
+            subtitle: Text(sshKeyDisplayName ?? 'Not selected'),
           ),
         ]);
     }
@@ -184,13 +190,13 @@ class _CreatePageState extends State<CreatePage> {
     );
   }
 
-  void _onInstanceTypeTap(BuildContext context) async {
+  void _onCupertinoInstanceTypeTap(BuildContext context) async {
     final instanceType =
         await context.push<String>('/instances/launch/instance-types');
     setState(() => _instanceType = instanceType);
   }
 
-  void Function()? _onRegionTapHandler(BuildContext context) {
+  void Function()? _cupertinoRegionTapHandler(BuildContext context) {
     final thisInstanceType = _instanceType;
     if (thisInstanceType == null) {
       return null;
@@ -204,13 +210,13 @@ class _CreatePageState extends State<CreatePage> {
     };
   }
 
-  void _onFilesystemTap(BuildContext context) async {
+  void _onCupertinoFilesystemTap(BuildContext context) async {
     final filesystemId =
         await context.push<String>('/instances/launch/filesystems');
     setState(() => _filesystemId = filesystemId);
   }
 
-  void _onSshKeyTap(BuildContext context) async {
+  void _onCupertinoSshKeyTap(BuildContext context) async {
     final sshKeyId = await context.push<String>('/instances/launch/ssh-keys');
     setState(() => _sshKeyId = sshKeyId);
   }
@@ -221,5 +227,37 @@ class _CreatePageState extends State<CreatePage> {
     }
 
     return () {};
+  }
+
+  void _onMaterialInstanceTypeTap(BuildContext context) async {
+    final instanceType =
+        await context.push<String>('/instances/launch/instance-types');
+    setState(() => _instanceType = instanceType);
+  }
+
+  void Function()? _materialRegionTapHandler(BuildContext context) {
+    final thisInstanceType = _instanceType;
+    if (thisInstanceType == null) {
+      return null;
+    }
+    return () async {
+      // TODO: URL escaping.
+      final regionCode = await context.push<String>(
+          '/instances/launch/regions?instance_type=$thisInstanceType');
+      log('Got region code $regionCode');
+      setState(() => _regionCode = regionCode);
+    };
+  }
+
+  void _onMaterialFilesystemTap(BuildContext context) async {
+    final filesystemId =
+        await context.push<String>('/instances/launch/filesystems');
+    setState(() => _filesystemId = filesystemId);
+  }
+
+  void _onMaterialSshKeyTap(BuildContext context) async {
+    final sshKeyId = await showDialog<String>(
+        context: context, builder: (context) => SshKeyPickerDialog());
+    setState(() => _sshKeyId = sshKeyId);
   }
 }

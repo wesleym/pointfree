@@ -6,10 +6,10 @@ import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
 
-class SshKeyPicker extends StatelessWidget {
+class SshKeyPickerPage extends StatelessWidget {
   final _sshKeysRepository = SshKeysRepository();
 
-  SshKeyPicker({super.key});
+  SshKeyPickerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class SshKeyPicker extends StatelessWidget {
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
                 return PlatformListTile(
-                  onTap: () => _onSelectInstanceType(context, data[index].id),
+                  onTap: () => _onSelectSshKey(context, data[index].id),
                   title: Text(data[index].name),
                 );
               },
@@ -44,6 +44,6 @@ class SshKeyPicker extends StatelessWidget {
     );
   }
 
-  void _onSelectInstanceType(BuildContext context, String sshKeyId) =>
+  void _onSelectSshKey(BuildContext context, String sshKeyId) =>
       context.pop(sshKeyId);
 }

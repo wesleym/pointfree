@@ -4,7 +4,7 @@ import 'package:lambda_gui/src/filesystems/picker.dart';
 import 'package:lambda_gui/src/instance_types/list.dart';
 import 'package:lambda_gui/src/instance_types/regions_list.dart';
 import 'package:lambda_gui/src/instances/create.dart';
-import 'package:lambda_gui/src/ssh/picker.dart';
+import 'package:lambda_gui/src/ssh/picker_page.dart';
 
 // GoRouter configuration
 final router = GoRouter(
@@ -32,7 +32,7 @@ final router = GoRouter(
             ),
             GoRoute(
               path: '/ssh-keys',
-              builder: (context, state) => SshKeyPicker(),
+              builder: (context, state) => SshKeyPickerPage(),
             ),
           ],
         ),
