@@ -17,6 +17,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   openapi_generator_annotations: ^6.1.0
   go_router: ^14.6.2
+  dynamic_color: ^1.7.0
 
 dev_dependencies:
   flutter_test:

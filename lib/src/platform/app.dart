@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -5,7 +6,8 @@ class PlatformApp extends StatelessWidget {
   final String? title;
   final RouterConfig<Object>? _routerConfig;
 
-  const PlatformApp.router({super.key, this.title, RouterConfig<Object>? routerConfig})
+  const PlatformApp.router(
+      {super.key, this.title, RouterConfig<Object>? routerConfig})
       : _routerConfig = routerConfig;
 
   @override
@@ -20,10 +22,13 @@ class PlatformApp extends StatelessWidget {
           routerConfig: _routerConfig,
         );
       default:
-        return MaterialApp.router(
-          title: title,
-          routerConfig: _routerConfig,
-          // theme: ThemeData(platform: TargetPlatform.android),
+        return DynamicColorBuilder(
+          builder: (lightDynamic, darkDynamic) => MaterialApp.router(
+            title: title,
+            routerConfig: _routerConfig,
+            theme: ThemeData(colorScheme: lightDynamic),
+            darkTheme: ThemeData(colorScheme: darkDynamic),
+          ),
         );
     }
   }
