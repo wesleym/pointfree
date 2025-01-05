@@ -15,14 +15,14 @@ import 'package:lambda_gui/src/ssh/picker_dialog.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
 import 'package:openapi/api.dart';
 
-class CreatePage extends StatefulWidget {
-  const CreatePage({super.key});
+class LaunchInstancePage extends StatefulWidget {
+  const LaunchInstancePage({super.key});
 
   @override
-  State<CreatePage> createState() => _CreatePageState();
+  State<LaunchInstancePage> createState() => _LaunchInstancePageState();
 }
 
-class _CreatePageState extends State<CreatePage> {
+class _LaunchInstancePageState extends State<LaunchInstancePage> {
   final _instancesRepository = InstancesRepository.instance;
   final _instanceTypesRepository = InstanceTypesRepository.instance;
   final _filesystemRepository = FilesystemsRepository.instance;

@@ -3,7 +3,7 @@ import 'package:lambda_gui/main.dart';
 import 'package:lambda_gui/src/filesystems/picker_page.dart';
 import 'package:lambda_gui/src/instance_types/picker_page.dart';
 import 'package:lambda_gui/src/instance_types/regions_picker_page.dart';
-import 'package:lambda_gui/src/instances/create.dart';
+import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/ssh/picker_page.dart';
 
 // GoRouter configuration
@@ -15,7 +15,7 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: '/instances/launch',
-          builder: (context, state) => CreatePage(),
+          builder: (context, state) => LaunchInstancePage(),
           routes: [
             GoRoute(
               path: '/instance-types',
