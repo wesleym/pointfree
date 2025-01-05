@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:lambda_gui/src/platform/text_button.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
 import 'package:openapi/api.dart';
 
@@ -27,12 +28,14 @@ class _CreatePageState extends State<CreatePage> {
     final thisInstanceType = _instanceType;
 
     if (thisInstanceType != null) {
-      instanceType = _instanceTypesRepository.getByName(thisInstanceType)?.instanceType;
+      instanceType =
+          _instanceTypesRepository.getByName(thisInstanceType)?.instanceType;
     }
 
     String? instanceDisplayName;
     if (instanceType != null) {
-      instanceDisplayName = '${instanceType.specs.gpus}×${instanceType.gpuDescription}';
+      instanceDisplayName =
+          '${instanceType.specs.gpus}×${instanceType.gpuDescription}';
     }
 
     final Widget body;
@@ -59,7 +62,8 @@ class _CreatePageState extends State<CreatePage> {
                     return CupertinoListTile(
                       onTap: () => _onInstanceTypeTap(context),
                       title: Text('Instance type'),
-                      additionalInfo: Text(instanceDisplayName ?? 'None selected'),
+                      additionalInfo:
+                          Text(instanceDisplayName ?? 'None selected'),
                       trailing: CupertinoListTileChevron(),
                     );
                   },
@@ -130,7 +134,13 @@ class _CreatePageState extends State<CreatePage> {
         backgroundColor: backgroundColor,
         body: Form(
           child: CustomScrollView(slivers: [
-            PlatformTopBarSliver(title: Text('Launch GPU instance')),
+            PlatformTopBarSliver(
+              action: PlatformTextButton(
+                onPressed: () {},
+                child: Text('Launch'),
+              ),
+              title: Text('Launch GPU instance'),
+            ),
             body,
           ]),
         ));
