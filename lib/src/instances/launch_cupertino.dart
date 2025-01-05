@@ -210,7 +210,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                   FilesystemsPickerPage(regionCode: regionCode)));
 
       if (filesystemId != null && filesystemId != _filesystemId) {
-        _onFilesystemIdChange(_filesystemId);
+        _onFilesystemIdChange(filesystemId);
       }
     };
   }
