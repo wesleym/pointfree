@@ -49,4 +49,6 @@ class SshKeysRepository {
     await update(force: true);
     _controller.add(_store.list());
   }
+
+  SshKey? getById(String sshKeyId) => _store.get(sshKeyId);
 }

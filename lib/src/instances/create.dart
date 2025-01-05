@@ -4,10 +4,12 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/text_button.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
+import 'package:lambda_gui/src/ssh/repository.dart';
 import 'package:openapi/api.dart';
 
 class CreatePage extends StatefulWidget {
@@ -19,8 +21,12 @@ class CreatePage extends StatefulWidget {
 
 class _CreatePageState extends State<CreatePage> {
   final _instanceTypesRepository = InstanceTypesRepository.instance;
+  final _filesystemRepository = FilesystemsRepository.instance;
+  final _sshKeyRepository = SshKeysRepository.instance;
   String? _instanceType;
   String? _regionCode;
+  String? _filesystemId;
+  String? _sshKeyId;
 
   @override
   Widget build(BuildContext context) {
@@ -42,18 +48,25 @@ class _CreatePageState extends State<CreatePage> {
     final thisRegionCode = _regionCode;
     String? regionDisplayName;
     if (thisInstanceType != null && thisRegionCode != null) {
-      log('_instanceTypesRepository: $_instanceTypesRepository');
-      log('.getByName(thisRegionCode): ${_instanceTypesRepository.getByName(thisRegionCode)}');
-      log('?.regionsWithCapacityAvailable: ${_instanceTypesRepository.getByName(thisRegionCode)?.regionsWithCapacityAvailable}');
-      log('.where((region) => region.name == thisRegionCode): ${_instanceTypesRepository.getByName(thisRegionCode)?.regionsWithCapacityAvailable.where((region) => region.name == thisRegionCode)}');
-      log('.singleOrNull: ${_instanceTypesRepository.getByName(thisRegionCode)?.regionsWithCapacityAvailable.where((region) => region.name == thisRegionCode).singleOrNull}');
-      log('?.description: ${_instanceTypesRepository.getByName(thisRegionCode)?.regionsWithCapacityAvailable.where((region) => region.name == thisRegionCode).singleOrNull?.description}');
       regionDisplayName = _instanceTypesRepository
           .getByName(thisInstanceType)
           ?.regionsWithCapacityAvailable
           .where((region) => region.name == thisRegionCode)
           .singleOrNull
           ?.description;
+    }
+
+    final thisFilesystemId = _filesystemId;
+    String? filesystemDisplayName;
+    if (thisFilesystemId != null) {
+      filesystemDisplayName =
+          _filesystemRepository.getById(thisFilesystemId)?.name;
+    }
+
+    final thisSshKeyIds = _sshKeyId;
+    String? sshKeyDisplayName;
+    if (thisSshKeyIds != null) {
+      sshKeyDisplayName = _sshKeyRepository.getById(thisSshKeyIds)?.name;
     }
 
     final Widget body;
@@ -103,15 +116,15 @@ class _CreatePageState extends State<CreatePage> {
                   },
                 ),
                 CupertinoListTile(
-                  onTap: () => _onInstanceTypeTap(context),
+                  onTap: () => _onFilesystemTap(context),
                   title: Text('Filesystem'),
-                  additionalInfo: Text(_instanceType ?? 'Not selected'),
+                  additionalInfo: Text(filesystemDisplayName ?? 'Not selected'),
                   trailing: CupertinoListTileChevron(),
                 ),
                 CupertinoListTile(
-                  onTap: () => _onInstanceTypeTap(context),
+                  onTap: () => _onSshKeyTap(context),
                   title: Text('SSH'),
-                  additionalInfo: Text(_instanceType ?? 'Not selected'),
+                  additionalInfo: Text(sshKeyDisplayName ?? 'Not selected'),
                   trailing: CupertinoListTileChevron(),
                 ),
               ],
@@ -192,5 +205,16 @@ class _CreatePageState extends State<CreatePage> {
       log('Got region code $regionCode');
       setState(() => _regionCode = regionCode);
     };
+  }
+
+  void _onFilesystemTap(BuildContext context) async {
+    final filesystemId =
+        await context.push<String>('/instances/launch/filesystems');
+    setState(() => _filesystemId = filesystemId);
+  }
+
+  void _onSshKeyTap(BuildContext context) async {
+    final sshKeyId = await context.push<String>('/instances/launch/ssh-keys');
+    setState(() => _sshKeyId = sshKeyId);
   }
 }

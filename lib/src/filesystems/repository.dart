@@ -35,4 +35,6 @@ class FilesystemsRepository {
     _controller.add(_store.list());
     _lastFetchTime = now;
   }
+
+  FileSystem? getById(String filesystemId) => _store.get(filesystemId);
 }
