@@ -172,7 +172,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
               return ListTile(
                 onTap: () => _onMaterialInstanceTypeTap(context),
                 title: Text('Instance type'),
-                subtitle: instanceDisplayName,
+                subtitle: instanceDisplayName ?? Text(''),
               );
             },
           ),
@@ -187,27 +187,26 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
               return ListTile(
                 onTap: _materialRegionTapHandler(context),
                 title: Text('Region'),
-                subtitle:
-                    regionDisplayName == null ? null : Text(regionDisplayName),
+                subtitle: Text(regionDisplayName ?? ''),
               );
             },
           ),
           ListTile(
             onTap: _handleMaterialFilesystemTap(context),
             title: Text('Filesystem'),
-            subtitle: filesystemDisplayName == null
-                ? null
-                : Text(filesystemDisplayName),
+            subtitle: Text(filesystemDisplayName ?? ''),
           ),
           ListTile(
             onTap: () => _onMaterialSshKeyTap(context),
             title: Text('SSH key'),
-            subtitle:
-                sshKeyDisplayName == null ? null : Text(sshKeyDisplayName),
+            subtitle: Text(sshKeyDisplayName ?? ''),
           ),
-          ElevatedButton(
-            onPressed: _launchHandler(),
-            child: Text('Launch'),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: ElevatedButton(
+              onPressed: _launchHandler(),
+              child: Text('Launch'),
+            ),
           ),
         ]);
     }
