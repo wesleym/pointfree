@@ -27,7 +27,7 @@ class InstanceTypesPickerDialog extends StatelessWidget {
               (e) => SimpleDialogOption(
                 onPressed: () =>
                     _onSelectInstanceType(context, e.instanceType.name),
-                child: Text(e.instanceType.name),
+                child: Text(e.instanceType.description),
               ),
             )
             .toList(growable: false);
