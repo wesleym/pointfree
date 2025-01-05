@@ -53,11 +53,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     return PlatformTabScaffold(
       primaryActionIcon: primaryActionIcon,
-      onPrimaryActionSelected: () => Navigator.of(context).push(
-          PageRouteBuilder(
-              fullscreenDialog: true,
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  LaunchInstancePage())),
+      onPrimaryActionSelected: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (context) => LaunchInstancePage()));
+      },
       onTabTapped: (index) => setState(() => _selectedIndex = index),
       builder: (context, index) {
         switch (index) {
