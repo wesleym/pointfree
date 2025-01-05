@@ -6,8 +6,9 @@ import 'package:lambda_gui/src/filesystems/repository.dart';
 
 class FilesystemsPickerDialog extends StatelessWidget {
   final _filesystemsRepository = FilesystemsRepository();
+  final String regionCode;
 
-  FilesystemsPickerDialog({super.key});
+  FilesystemsPickerDialog({super.key, required this.regionCode});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,7 @@ class FilesystemsPickerDialog extends StatelessWidget {
         }
 
         final options = snapshot.data!
+            .where((element) => element.region.name == regionCode)
             .map((e) => SimpleDialogOption(
                   child: Text(e.name),
                   onPressed: () => _onFilesystemPressed(context, e.id),

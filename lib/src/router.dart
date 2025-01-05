@@ -28,7 +28,8 @@ final router = GoRouter(
             ),
             GoRoute(
               path: '/filesystems',
-              builder: (context, state) => FilesystemsPickerPage(),
+              builder: (context, state) => FilesystemsPickerPage(
+                  regionCode: state.uri.queryParameters['region_code']),
             ),
             GoRoute(
               path: '/ssh-keys',

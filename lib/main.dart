@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/filesystems/list.dart';
+import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/instances/list.dart';
 import 'package:lambda_gui/src/platform/app.dart';
 import 'package:lambda_gui/src/platform/tab_scaffold.dart';
@@ -53,7 +53,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     return PlatformTabScaffold(
       primaryActionIcon: primaryActionIcon,
-      onPrimaryActionSelected: () => context.go('/instances/launch'),
+      onPrimaryActionSelected: () => Navigator.of(context).push(
+          PageRouteBuilder(
+              fullscreenDialog: true,
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  LaunchInstancePage())),
       onTabTapped: (index) => setState(() => _selectedIndex = index),
       builder: (context, index) {
         switch (index) {

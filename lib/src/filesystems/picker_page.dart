@@ -8,8 +8,9 @@ import 'package:lambda_gui/src/platform/scaffold.dart';
 
 class FilesystemsPickerPage extends StatelessWidget {
   final _filesystemsRepository = FilesystemsRepository();
+  final String? regionCode;
 
-  FilesystemsPickerPage({super.key});
+  FilesystemsPickerPage({super.key, this.regionCode});
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +27,18 @@ class FilesystemsPickerPage extends StatelessWidget {
             return Center(child: CircularProgressIndicator.adaptive());
           }
 
-          final data = snapshot.data!;
+          final filesystemsInRegion = snapshot.data!
+              .where((element) => element.region.name == regionCode)
+              .toList(growable: false);
           return RefreshIndicator.adaptive(
             onRefresh: () => _filesystemsRepository.update(force: true),
             child: ListView.builder(
-              itemCount: data.length,
+              itemCount: filesystemsInRegion.length,
               itemBuilder: (BuildContext context, int index) {
                 return PlatformListTile(
-                  onTap: () => _onSelectFilesystem(context, data[index].id),
-                  title: Text(data[index].name),
+                  onTap: () => _onSelectFilesystem(
+                      context, filesystemsInRegion[index].id),
+                  title: Text(filesystemsInRegion[index].name),
                 );
               },
             ),

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
 import 'package:lambda_gui/src/platform/icon_button.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
@@ -35,7 +35,9 @@ class InstancesList extends StatelessWidget {
               PlatformTopBarSliver(
                 title: Text('Instances'),
                 action: PlatformIconButton(
-                  onPressed: () => context.go('/instances/launch'),
+                  onPressed: () => Navigator.of(context).push(
+                      CupertinoModalPopupRoute(
+                          builder: (context) => LaunchInstancePage())),
                   icon: Icon(CupertinoIcons.add_circled),
                 ),
               ),

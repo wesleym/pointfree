@@ -4,13 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/filesystems/picker_dialog.dart';
+import 'package:lambda_gui/src/filesystems/picker_page.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/instance_types/picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/regions_picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
-import 'package:lambda_gui/src/platform/text_button.dart';
 import 'package:lambda_gui/src/ssh/picker_dialog.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
 import 'package:openapi/api.dart';
@@ -80,7 +80,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
     switch (platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        backgroundColor = CupertinoColors.systemGroupedBackground;
+        // backgroundColor = CupertinoColors.systemGroupedBackground;
         body = ListView(
           children: [
             CupertinoListSection.insetGrouped(
@@ -120,7 +120,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
                   },
                 ),
                 CupertinoListTile(
-                  onTap: () => _onCupertinoFilesystemTap(context),
+                  onTap: _handleCupertinoFilesystemTap(context),
                   title: Text('Filesystem'),
                   additionalInfo: Text(filesystemDisplayName ?? 'Not selected'),
                   trailing: CupertinoListTileChevron(),
@@ -132,6 +132,10 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
                   trailing: CupertinoListTileChevron(),
                 ),
               ],
+            ),
+            CupertinoButton(
+              onPressed: _launchHandler(),
+              child: Text('Launch'),
             ),
           ],
         );
@@ -168,7 +172,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
             },
           ),
           ListTile(
-            onTap: () => _onMaterialFilesystemTap(context),
+            onTap: _handleMaterialFilesystemTap(context),
             title: Text('Filesystem'),
             subtitle: Text(filesystemDisplayName ?? 'Not selected'),
           ),
@@ -177,6 +181,10 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
             title: Text('SSH key'),
             subtitle: Text(sshKeyDisplayName ?? 'Not selected'),
           ),
+          ElevatedButton(
+            onPressed: _launchHandler(),
+            child: Text('Launch'),
+          ),
         ]);
     }
 
@@ -184,11 +192,11 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
       backgroundColor: backgroundColor,
       topBar: PlatformTopBar(
         title: Text('New GPU instance'),
-        action: PlatformTextButton(
-          cupertinoPadding: EdgeInsets.zero,
-          onPressed: _launchHandler(),
-          child: Text('Launch'),
-        ),
+        // action: PlatformTextButton(
+        //   cupertinoPadding: EdgeInsets.zero,
+        //   onPressed: _launchHandler(),
+        //   child: Text('Launch'),
+        // ),
       ),
       body: Form(child: body),
     );
@@ -214,10 +222,17 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
     };
   }
 
-  void _onCupertinoFilesystemTap(BuildContext context) async {
-    final filesystemId =
-        await context.push<String>('/instances/launch/filesystems');
-    setState(() => _filesystemId = filesystemId);
+  void Function()? _handleCupertinoFilesystemTap(BuildContext context) {
+    if (_regionCode == null) return null;
+
+    return () async {
+      final filesystemId = await Navigator.of(context).push<String>(
+              CupertinoPageRoute(
+                  builder: (context) =>
+                      FilesystemsPickerPage(regionCode: _regionCode))) ??
+          _filesystemId;
+      setState(() => _filesystemId = filesystemId);
+    };
   }
 
   void _onCupertinoSshKeyTap(BuildContext context) async {
@@ -266,10 +281,16 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
     };
   }
 
-  void _onMaterialFilesystemTap(BuildContext context) async {
-    final filesystemId = await showDialog(
-        context: context, builder: (context) => FilesystemsPickerDialog());
-    setState(() => _filesystemId = filesystemId);
+  void Function()? _handleMaterialFilesystemTap(BuildContext context) {
+    if (_regionCode == null) return null;
+
+    return () async {
+      final filesystemId = await showDialog(
+          context: context,
+          builder: (context) =>
+              FilesystemsPickerDialog(regionCode: _regionCode!));
+      setState(() => _filesystemId = filesystemId);
+    };
   }
 
   void _onMaterialSshKeyTap(BuildContext context) async {
