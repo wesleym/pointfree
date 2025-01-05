@@ -35,13 +35,26 @@ class InstancesRepository {
     _lastFetchTime = now;
   }
 
-  Future<void> terminate(String id, {bool force = false}) async {
+  Future<void> terminate(String id) async {
     try {
       await DefaultApi(defaultApiClient)
           .terminateInstance(TerminateInstanceRequest(instanceIds: [id]));
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to terminate instance with ID $id: ${e.message}');
+      return;
+    }
+
+    await update(force: true);
+  }
+
+  Future<void> restart(String id) async {
+    try {
+      await DefaultApi(defaultApiClient)
+          .restartInstance(RestartInstanceRequest(instanceIds: [id]));
+    } on ApiException catch (e) {
+      // TODO: Error handling.
+      log('Failed to restart instance with ID $id: ${e.message}');
       return;
     }
 
