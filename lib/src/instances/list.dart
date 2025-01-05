@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
 import 'package:lambda_gui/src/platform/icon_button.dart';
@@ -50,6 +51,7 @@ class InstancesList extends StatelessWidget {
                         _repository.terminate(data[index].id),
                     key: ValueKey(data[index].id),
                     child: PlatformListTile(
+                        onTap: () => context.go('/instance/${data[index].id}'),
                         title: Text(data[index].name ?? data[index].id)),
                   );
                 },
