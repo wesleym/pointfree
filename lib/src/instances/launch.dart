@@ -185,6 +185,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
                 return CircularProgressIndicator.adaptive();
               }
               return ListTile(
+                enabled: _instanceTypeName != null,
                 onTap: _materialRegionTapHandler(context),
                 title: Text('Region'),
                 subtitle: Text(regionDisplayName ?? ''),
@@ -192,6 +193,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
             },
           ),
           ListTile(
+            enabled: _regionCode != null,
             onTap: _handleMaterialFilesystemTap(context),
             title: Text('Filesystem'),
             subtitle: Text(filesystemDisplayName ?? ''),
