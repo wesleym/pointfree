@@ -63,12 +63,15 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
   }
 
   void Function()? _launchHandler() {
-    if ([_instanceTypeName, _regionCode, _filesystemId, _sshKeyId]
-        .contains(null)) {
+    if ([_instanceTypeName, _regionCode, _sshKeyId].contains(null)) {
       return null;
     }
 
-    final filesystemName = _filesystemRepository.getById(_filesystemId!)?.name;
+    String? filesystemName;
+    final filesystemId = _filesystemId;
+    if (filesystemId != null) {
+      filesystemName = _filesystemRepository.getById(filesystemId)?.name;
+    }
     final sshKeyName = _sshKeyRepository.getById(_sshKeyId!)?.name;
     if (filesystemName == null || sshKeyName == null) {
       return null;
