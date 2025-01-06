@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
+import 'package:lambda_gui/src/instances/launch.dart';
 
 class FilesystemsPickerDialog extends StatelessWidget {
   final _filesystemsRepository = FilesystemsRepository();
@@ -23,14 +24,20 @@ class FilesystemsPickerDialog extends StatelessWidget {
           return CircularProgressIndicator.adaptive();
         }
 
-        final options = snapshot.data!
+        final options = (snapshot.data!)
             .where((element) => element.region.name == regionCode)
             .map((e) => SimpleDialogOption(
-                  child: Text(e.name),
                   onPressed: () => _onFilesystemPressed(context, e.id),
-                ))
-            .toList(growable: false);
-        return SimpleDialog(title: Text('Filesystem'), children: options);
+                  child: Text(e.name),
+                ));
+        var noneOption = SimpleDialogOption(
+          onPressed: () => _onFilesystemPressed(context, noneItemId),
+          child: Text('Do not attach a filesystem'),
+        );
+        return SimpleDialog(
+          title: Text('Filesystem'),
+          children: [noneOption, ...options],
+        );
       },
     );
   }

@@ -9,6 +9,8 @@ import 'package:lambda_gui/src/instances/launch_material.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
 
+const noneItemId = '__none__';
+
 class LaunchInstancePage extends StatefulWidget {
   const LaunchInstancePage({super.key});
 
@@ -67,14 +69,15 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
       return null;
     }
 
+    final sshKeyName = _sshKeyRepository.getById(_sshKeyId!)?.name;
+    if (sshKeyName == null) {
+      return null;
+    }
+
     String? filesystemName;
     final filesystemId = _filesystemId;
     if (filesystemId != null) {
       filesystemName = _filesystemRepository.getById(filesystemId)?.name;
-    }
-    final sshKeyName = _sshKeyRepository.getById(_sshKeyId!)?.name;
-    if (filesystemName == null || sshKeyName == null) {
-      return null;
     }
 
     return () async {

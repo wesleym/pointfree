@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
+import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 
@@ -33,12 +34,18 @@ class FilesystemsPickerPage extends StatelessWidget {
           return RefreshIndicator.adaptive(
             onRefresh: () => _filesystemsRepository.update(force: true),
             child: ListView.builder(
-              itemCount: filesystemsInRegion.length,
+              itemCount: filesystemsInRegion.length + 1,
               itemBuilder: (BuildContext context, int index) {
+                if (index == 0) {
+                  return PlatformListTile(
+                    onTap: () => _onSelectFilesystem(context, noneItemId),
+                    title: Text('Do not attach a filesystem'),
+                  );
+                }
                 return PlatformListTile(
                   onTap: () => _onSelectFilesystem(
-                      context, filesystemsInRegion[index].id),
-                  title: Text(filesystemsInRegion[index].name),
+                      context, filesystemsInRegion[index - 1].id),
+                  title: Text(filesystemsInRegion[index - 1].name),
                 );
               },
             ),
