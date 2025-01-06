@@ -1,6 +1,24 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+ThemeData makeTheme({Brightness? brightness, ColorScheme? colorScheme}) {
+  var platform = TargetPlatform.fuchsia;
+  return ThemeData(
+    brightness: brightness,
+    colorScheme: colorScheme,
+    platform: platform,
+    textTheme: GoogleFonts.robotoMonoTextTheme().copyWith(
+      headlineLarge: GoogleFonts.mitr(
+          textStyle: Typography.material2021().black.headlineLarge),
+      headlineMedium: GoogleFonts.mitr(
+          textStyle: Typography.material2021().black.headlineMedium),
+      headlineSmall: GoogleFonts.mitr(
+          textStyle: Typography.material2021().black.headlineSmall),
+    ),
+  );
+}
 
 class PlatformApp extends StatelessWidget {
   final String? title;
@@ -26,13 +44,13 @@ class PlatformApp extends StatelessWidget {
           builder: (lightDynamic, darkDynamic) => MaterialApp.router(
             title: title,
             routerConfig: _routerConfig,
-            theme: ThemeData(
+            theme: makeTheme(
+              brightness: Brightness.light,
               colorScheme: lightDynamic,
-              // platform: TargetPlatform.fuchsia,
             ),
-            darkTheme: ThemeData(
+            darkTheme: makeTheme(
+              brightness: Brightness.dark,
               colorScheme: darkDynamic,
-              // platform: TargetPlatform.fuchsia,
             ),
           ),
         );
