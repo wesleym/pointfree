@@ -39,33 +39,33 @@ class InstancesPage extends StatelessWidget {
       case TargetPlatform.macOS:
         body = [
           Icon(CupertinoIcons.desktopcomputer, size: 96),
-          SizedBox(height: 48),
-          CupertinoFormSection.insetGrouped(children: [
-            CupertinoFormRow(
-              prefix: Text('ID'),
-              child: Text(instanceId),
+          SizedBox(height: 32),
+          CupertinoListSection.insetGrouped(children: [
+            CupertinoListTile(
+              title: Text('ID'),
+              additionalInfo: Text(instanceId),
             ),
-            CupertinoFormRow(
-              prefix: Text('Name'),
-              child: Text(instance.name ?? ''),
+            CupertinoListTile(
+              title: Text('Name'),
+              additionalInfo: Text(instance.name ?? ''),
             ),
-            CupertinoFormRow(
-              prefix: Text('IP address'),
-              child: Text(instance.ip ?? ''),
+            CupertinoListTile(
+              title: Text('IP address'),
+              additionalInfo: Text(instance.ip ?? ''),
             ),
-            CupertinoFormRow(
-              prefix: Text('Status'),
-              child: Text(instance.status.value),
+            CupertinoListTile(
+              title: Text('Status'),
+              additionalInfo: Text(instance.status.value),
             ),
           ]),
-          CupertinoFormSection.insetGrouped(children: [
-            CupertinoFormRow(
-              prefix: Text('Instance type'),
-              child: Text(instance.instanceType?.description ?? ''),
+          CupertinoListSection.insetGrouped(children: [
+            CupertinoListTile(
+              title: Text('Instance type'),
+              additionalInfo: Text(instance.instanceType?.description ?? ''),
             ),
-            CupertinoFormRow(
-              prefix: Text('Region'),
-              child: Text(instance.region == null
+            CupertinoListTile(
+              title: Text('Region'),
+              additionalInfo: Text(instance.region == null
                   ? ''
                   : '${instance.region?.description} (${instance.region?.name})'),
             ),
@@ -85,7 +85,7 @@ class InstancesPage extends StatelessWidget {
       default:
         body = [
           Icon(Icons.computer, size: 96),
-          SizedBox(height: 48),
+          SizedBox(height: 32),
           PlatformListTile(
             title: Text('ID'),
             subtitle: Text(instanceId),
