@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
@@ -74,7 +75,7 @@ class InstancesPage extends StatelessWidget {
                 onPressed: () => _instancesRepository.restart(instanceId),
                 child: Text('Restart')),
             PlatformTextButton(
-                onPressed: () => _instancesRepository.terminate(instanceId),
+                onPressed: () => _handleCupertinoTerminatePressed(context),
                 child: Text(
                   'Terminate',
                   style: TextStyle(color: color),
@@ -118,7 +119,7 @@ class InstancesPage extends StatelessWidget {
                 onPressed: () => _instancesRepository.restart(instanceId),
                 child: Text('Restart')),
             PlatformTextButton(
-                onPressed: () => _instancesRepository.terminate(instanceId),
+                onPressed: () => _handleMaterialTerminatePressed(context),
                 child: Text(
                   'Terminate',
                   style: TextStyle(color: color),
@@ -132,5 +133,44 @@ class InstancesPage extends StatelessWidget {
         body: ListView(
           children: body,
         ));
+  }
+
+  void _handleMaterialTerminatePressed(BuildContext context) async {
+    final go = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(actions: [
+              TextButton(
+                  onPressed: () => context.pop(true),
+                  child: Text('Terminate',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.error))),
+              TextButton(
+                  onPressed: () => context.pop(false), child: Text('Cancel')),
+            ]));
+
+    if (go != true) return;
+
+    _instancesRepository.terminate(instanceId);
+  }
+
+  void _handleCupertinoTerminatePressed(BuildContext context) async {
+    final go = await showCupertinoModalPopup<bool>(
+        context: context,
+        builder: (context) => CupertinoActionSheet(
+              actions: [
+                CupertinoActionSheetAction(
+                    onPressed: () => context.pop(true),
+                    isDestructiveAction: true,
+                    child: Text('Terminate')),
+              ],
+              cancelButton: CupertinoActionSheetAction(
+                  onPressed: () => context.pop(false),
+                  isDefaultAction: true,
+                  child: Text('Cancel')),
+            ));
+
+    if (go != true) return;
+
+    _instancesRepository.terminate(instanceId);
   }
 }
