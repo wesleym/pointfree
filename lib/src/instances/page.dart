@@ -39,7 +39,7 @@ class InstancesPage extends StatelessWidget {
       case TargetPlatform.macOS:
         body = [
           Icon(CupertinoIcons.desktopcomputer, size: 96),
-          SizedBox(height: 16),
+          SizedBox(height: 48),
           CupertinoFormSection.insetGrouped(children: [
             CupertinoFormRow(
               prefix: Text('ID'),
@@ -85,7 +85,7 @@ class InstancesPage extends StatelessWidget {
       default:
         body = [
           Icon(Icons.computer, size: 96),
-          SizedBox(height: 16),
+          SizedBox(height: 48),
           PlatformListTile(
             title: Text('ID'),
             subtitle: Text(instanceId),
@@ -128,10 +128,19 @@ class InstancesPage extends StatelessWidget {
         ];
     }
 
+    var name = instance.name;
+    Widget? title;
+    if (name != null) {
+      title = Text(name);
+    }
+
     return PlatformScaffold(
-        topBar: PlatformTopBar(title: Text('GPU Instance')),
-        body: ListView(
-          children: body,
+        topBar: PlatformTopBar(title: title),
+        body: Center(
+          child: ListView(
+            shrinkWrap: true,
+            children: body,
+          ),
         ));
   }
 
