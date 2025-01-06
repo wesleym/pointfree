@@ -34,7 +34,7 @@ class InstancesList extends StatelessWidget {
             slivers: [
               // TODO: Make platform icons.
               PlatformTopBarSliver(
-                title: Text('Instances'),
+                title: Text('GPU Instances'),
                 action: PlatformIconButton(
                   onPressed: () => Navigator.of(context).push(
                       CupertinoPageRoute(
