@@ -38,6 +38,7 @@ class InstancesList extends StatelessWidget {
                 action: PlatformIconButton(
                   onPressed: () => Navigator.of(context).push(
                       CupertinoPageRoute(
+                          title: 'Launch',
                           fullscreenDialog: true,
                           builder: (context) => LaunchInstancePage())),
                   icon: Icon(CupertinoIcons.add_circled),

@@ -88,91 +88,93 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
       sshKeyDisplayName = _sshKeyRepository.getById(thisSshKeyIds)?.name;
     }
 
-    final Widget body;
     Color? backgroundColor;
 
     backgroundColor = CupertinoColors.systemGroupedBackground;
     const inactiveColor = CupertinoColors.inactiveGray;
-    body = ListView(
-      children: [
-        CupertinoListSection.insetGrouped(
-          hasLeading: false,
-          children: [
-            StreamBuilder(
-              initialData: _instanceTypesRepository.instanceTypes,
-              stream: _instanceTypesRepository.stream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  // TODO: Error handling
-                  return CircularProgressIndicator.adaptive();
-                }
-                return CupertinoListTile(
-                  onTap: () => _onCupertinoInstanceTypeTap(context),
-                  title: Text('Instance type'),
-                  additionalInfo: instanceDisplayName,
-                  trailing: CupertinoListTileChevron(),
-                );
-              },
-            ),
-            StreamBuilder(
-              initialData: _instanceTypesRepository.instanceTypes,
-              stream: _instanceTypesRepository.stream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  // TODO: Error handling
-                  return CircularProgressIndicator.adaptive();
-                }
-                return CupertinoListTile(
-                  onTap: _cupertinoRegionTapHandler(context),
-                  title: Text('Region',
-                      style: TextStyle(
-                          color: _instanceTypeName == null
-                              ? inactiveColor
-                              : null)),
-                  additionalInfo: regionDisplayName == null
-                      ? null
-                      : Text(regionDisplayName),
-                  trailing: _instanceTypeName == null
-                      ? null
-                      : CupertinoListTileChevron(),
-                );
-              },
-            ),
-            CupertinoListTile(
-              onTap: _handleCupertinoFilesystemTap(context),
-              title: Text(
-                'Filesystem',
-                style: TextStyle(
-                    color: _regionCode == null ? inactiveColor : null),
-              ),
-              additionalInfo: filesystemDisplayName == null
-                  ? null
-                  : Text(filesystemDisplayName),
-              trailing: _regionCode == null ? null : CupertinoListTileChevron(),
-            ),
-            CupertinoListTile(
-              onTap: () => _onCupertinoSshKeyTap(context),
-              title: Text('SSH'),
-              additionalInfo:
-                  sshKeyDisplayName == null ? null : Text(sshKeyDisplayName),
-              trailing: CupertinoListTileChevron(),
-            ),
-          ],
-        ),
-        CupertinoButton(
-          onPressed: _onLaunchPressed,
-          child: Text(
-            'Launch',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-      ],
-    );
 
     return PlatformScaffold(
       backgroundColor: backgroundColor,
-      topBar: PlatformTopBar(title: Text('New GPU instance')),
-      body: Form(child: body),
+      topBar: PlatformTopBar(),
+      body: Form(
+        child: ListView(
+          children: [
+            CupertinoListSection.insetGrouped(
+              hasLeading: false,
+              children: [
+                StreamBuilder(
+                  initialData: _instanceTypesRepository.instanceTypes,
+                  stream: _instanceTypesRepository.stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      // TODO: Error handling
+                      return CircularProgressIndicator.adaptive();
+                    }
+                    return CupertinoListTile(
+                      onTap: () => _onCupertinoInstanceTypeTap(context),
+                      title: Text('Instance type'),
+                      additionalInfo: instanceDisplayName,
+                      trailing: CupertinoListTileChevron(),
+                    );
+                  },
+                ),
+                StreamBuilder(
+                  initialData: _instanceTypesRepository.instanceTypes,
+                  stream: _instanceTypesRepository.stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      // TODO: Error handling
+                      return CircularProgressIndicator.adaptive();
+                    }
+                    return CupertinoListTile(
+                      onTap: _cupertinoRegionTapHandler(context),
+                      title: Text('Region',
+                          style: TextStyle(
+                              color: _instanceTypeName == null
+                                  ? inactiveColor
+                                  : null)),
+                      additionalInfo: regionDisplayName == null
+                          ? null
+                          : Text(regionDisplayName),
+                      trailing: _instanceTypeName == null
+                          ? null
+                          : CupertinoListTileChevron(),
+                    );
+                  },
+                ),
+                CupertinoListTile(
+                  onTap: _handleCupertinoFilesystemTap(context),
+                  title: Text(
+                    'Filesystem',
+                    style: TextStyle(
+                        color: _regionCode == null ? inactiveColor : null),
+                  ),
+                  additionalInfo: filesystemDisplayName == null
+                      ? null
+                      : Text(filesystemDisplayName),
+                  trailing:
+                      _regionCode == null ? null : CupertinoListTileChevron(),
+                ),
+                CupertinoListTile(
+                  onTap: () => _onCupertinoSshKeyTap(context),
+                  title: Text('SSH'),
+                  additionalInfo: sshKeyDisplayName == null
+                      ? null
+                      : Text(sshKeyDisplayName),
+                  trailing: CupertinoListTileChevron(),
+                ),
+              ],
+            ),
+            CupertinoButton(
+              onPressed: _onLaunchPressed,
+              child: Text(
+                'Start',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

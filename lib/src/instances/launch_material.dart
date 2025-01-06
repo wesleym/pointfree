@@ -87,65 +87,60 @@ class MaterialLaunchInstancePage extends StatelessWidget {
       sshKeyDisplayName = _sshKeyRepository.getById(thisSshKeyIds)?.name;
     }
 
-    final Widget body;
-    Color? backgroundColor;
-
-    body = ListView(children: [
-      StreamBuilder(
-        initialData: _instanceTypesRepository.instanceTypes,
-        stream: _instanceTypesRepository.stream,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            // TODO: Error handling
-            return CircularProgressIndicator.adaptive();
-          }
-          return ListTile(
-            onTap: () => _onMaterialInstanceTypeTap(context),
-            title: Text('Instance type'),
-            subtitle: instanceDisplayName ?? Text(''),
-          );
-        },
-      ),
-      StreamBuilder(
-        initialData: _instanceTypesRepository.instanceTypes,
-        stream: _instanceTypesRepository.stream,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            // TODO: Error handling
-            return CircularProgressIndicator.adaptive();
-          }
-          return ListTile(
-            enabled: _instanceTypeName != null,
-            onTap: _materialRegionTapHandler(context),
-            title: Text('Region'),
-            subtitle: Text(regionDisplayName ?? ''),
-          );
-        },
-      ),
-      ListTile(
-        enabled: _regionCode != null,
-        onTap: _handleMaterialFilesystemTap(context),
-        title: Text('Filesystem'),
-        subtitle: Text(filesystemDisplayName ?? ''),
-      ),
-      ListTile(
-        onTap: () => _onMaterialSshKeyTap(context),
-        title: Text('SSH key'),
-        subtitle: Text(sshKeyDisplayName ?? ''),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(16),
-        child: ElevatedButton(
-          onPressed: _onLaunchPressed,
-          child: Text('Launch'),
-        ),
-      ),
-    ]);
-
     return PlatformScaffold(
-      backgroundColor: backgroundColor,
-      topBar: PlatformTopBar(title: Text('New GPU instance')),
-      body: Form(child: body),
+      topBar: PlatformTopBar(),
+      body: Form(
+          child: ListView(children: [
+        StreamBuilder(
+          initialData: _instanceTypesRepository.instanceTypes,
+          stream: _instanceTypesRepository.stream,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              // TODO: Error handling
+              return CircularProgressIndicator.adaptive();
+            }
+            return ListTile(
+              onTap: () => _onMaterialInstanceTypeTap(context),
+              title: Text('Instance type'),
+              subtitle: instanceDisplayName ?? Text(''),
+            );
+          },
+        ),
+        StreamBuilder(
+          initialData: _instanceTypesRepository.instanceTypes,
+          stream: _instanceTypesRepository.stream,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              // TODO: Error handling
+              return CircularProgressIndicator.adaptive();
+            }
+            return ListTile(
+              enabled: _instanceTypeName != null,
+              onTap: _materialRegionTapHandler(context),
+              title: Text('Region'),
+              subtitle: Text(regionDisplayName ?? ''),
+            );
+          },
+        ),
+        ListTile(
+          enabled: _regionCode != null,
+          onTap: _handleMaterialFilesystemTap(context),
+          title: Text('Filesystem'),
+          subtitle: Text(filesystemDisplayName ?? ''),
+        ),
+        ListTile(
+          onTap: () => _onMaterialSshKeyTap(context),
+          title: Text('SSH key'),
+          subtitle: Text(sshKeyDisplayName ?? ''),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: ElevatedButton(
+            onPressed: _onLaunchPressed,
+            child: Text('Start'),
+          ),
+        ),
+      ])),
     );
   }
 
