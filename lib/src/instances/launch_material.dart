@@ -88,7 +88,7 @@ class MaterialLaunchInstancePage extends StatelessWidget {
     }
 
     return PlatformScaffold(
-      topBar: PlatformTopBar(),
+      topBar: PlatformTopBar(title: Text('Launch')),
       body: Form(
           child: ListView(children: [
         StreamBuilder(
