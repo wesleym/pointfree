@@ -26,8 +26,14 @@ class PlatformApp extends StatelessWidget {
           builder: (lightDynamic, darkDynamic) => MaterialApp.router(
             title: title,
             routerConfig: _routerConfig,
-            theme: ThemeData(colorScheme: lightDynamic),
-            darkTheme: ThemeData(colorScheme: darkDynamic),
+            theme: ThemeData(
+              colorScheme: lightDynamic,
+              // platform: TargetPlatform.fuchsia,
+            ),
+            darkTheme: ThemeData(
+              colorScheme: darkDynamic,
+              // platform: TargetPlatform.fuchsia,
+            ),
           ),
         );
     }
