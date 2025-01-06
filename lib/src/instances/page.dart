@@ -138,14 +138,17 @@ class InstancesPage extends StatelessWidget {
   void _handleMaterialTerminatePressed(BuildContext context) async {
     final go = await showDialog<bool>(
         context: context,
-        builder: (context) => AlertDialog(actions: [
+        builder: (context) =>
+            AlertDialog(title: Text('Terminate instance'), actions: [
               TextButton(
                   onPressed: () => context.pop(true),
                   child: Text('Terminate',
+                      textAlign: TextAlign.end,
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.error))),
               TextButton(
-                  onPressed: () => context.pop(false), child: Text('Cancel')),
+                  onPressed: () => context.pop(false),
+                  child: Text('Cancel', textAlign: TextAlign.end)),
             ]));
 
     if (go != true) return;

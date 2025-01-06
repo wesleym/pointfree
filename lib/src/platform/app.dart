@@ -1,22 +1,27 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 ThemeData makeTheme({Brightness? brightness, ColorScheme? colorScheme}) {
-  var platform = TargetPlatform.fuchsia;
+  // var platform = TargetPlatform.fuchsia;
   return ThemeData(
     brightness: brightness,
     colorScheme: colorScheme,
-    platform: platform,
-    textTheme: GoogleFonts.robotoMonoTextTheme().copyWith(
-      headlineLarge: GoogleFonts.mitr(
-          textStyle: Typography.material2021().black.headlineLarge),
-      headlineMedium: GoogleFonts.mitr(
-          textStyle: Typography.material2021().black.headlineMedium),
-      headlineSmall: GoogleFonts.mitr(
-          textStyle: Typography.material2021().black.headlineSmall),
-    ),
+    // platform: platform,
+    // textTheme: GoogleFonts.robotoMonoTextTheme().copyWith(
+    //   headlineLarge: GoogleFonts.mitr(
+    //       textStyle: Typography.material2021().englishLike.headlineLarge),
+    //   headlineMedium: GoogleFonts.mitr(
+    //       textStyle: Typography.material2021().englishLike.headlineMedium),
+    //   headlineSmall: GoogleFonts.mitr(
+    //       textStyle: Typography.material2021().englishLike.headlineSmall),
+    //   titleLarge: GoogleFonts.mitr(
+    //       textStyle: Typography.material2021().englishLike.titleLarge),
+    //   titleMedium: GoogleFonts.mitr(
+    //       textStyle: Typography.material2021().englishLike.titleMedium),
+    //   titleSmall: GoogleFonts.mitr(
+    //       textStyle: Typography.material2021().englishLike.titleSmall),
+    // ),
   );
 }
 
