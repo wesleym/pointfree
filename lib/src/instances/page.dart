@@ -40,30 +40,30 @@ class InstancesPage extends StatelessWidget {
         body = [
           Icon(CupertinoIcons.desktopcomputer, size: 96),
           SizedBox(height: 32),
-          CupertinoListSection.insetGrouped(children: [
-            CupertinoListTile(
+          CupertinoListSection.insetGrouped(hasLeading: false, children: [
+            CupertinoListTile.notched(
               title: Text('ID'),
               additionalInfo: Text(instanceId),
             ),
-            CupertinoListTile(
+            CupertinoListTile.notched(
               title: Text('Name'),
               additionalInfo: Text(instance.name ?? ''),
             ),
-            CupertinoListTile(
+            CupertinoListTile.notched(
               title: Text('IP address'),
               additionalInfo: Text(instance.ip ?? ''),
             ),
-            CupertinoListTile(
+            CupertinoListTile.notched(
               title: Text('Status'),
               additionalInfo: Text(instance.status.value),
             ),
           ]),
-          CupertinoListSection.insetGrouped(children: [
-            CupertinoListTile(
+          CupertinoListSection.insetGrouped(hasLeading: false, children: [
+            CupertinoListTile.notched(
               title: Text('Instance type'),
               additionalInfo: Text(instance.instanceType?.description ?? ''),
             ),
-            CupertinoListTile(
+            CupertinoListTile.notched(
               title: Text('Region'),
               additionalInfo: Text(instance.region == null
                   ? ''

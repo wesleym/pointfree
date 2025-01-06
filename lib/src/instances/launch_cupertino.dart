@@ -111,7 +111,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                       // TODO: Error handling
                       return CircularProgressIndicator.adaptive();
                     }
-                    return CupertinoListTile(
+                    return CupertinoListTile.notched(
                       onTap: () => _onCupertinoInstanceTypeTap(context),
                       title: Text('Instance type'),
                       additionalInfo: instanceDisplayName,
@@ -127,7 +127,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                       // TODO: Error handling
                       return CircularProgressIndicator.adaptive();
                     }
-                    return CupertinoListTile(
+                    return CupertinoListTile.notched(
                       onTap: _cupertinoRegionTapHandler(context),
                       title: Text('Region',
                           style: TextStyle(
@@ -143,7 +143,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                     );
                   },
                 ),
-                CupertinoListTile(
+                CupertinoListTile.notched(
                   onTap: _handleCupertinoFilesystemTap(context),
                   title: Text(
                     'Filesystem',
@@ -156,7 +156,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                   trailing:
                       _regionCode == null ? null : CupertinoListTileChevron(),
                 ),
-                CupertinoListTile(
+                CupertinoListTile.notched(
                   onTap: () => _onCupertinoSshKeyTap(context),
                   title: Text('SSH'),
                   additionalInfo: sshKeyDisplayName == null
