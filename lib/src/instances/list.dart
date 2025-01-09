@@ -18,6 +18,8 @@ class InstancesList extends StatelessWidget {
   Widget build(BuildContext context) {
     unawaited(_repository.update());
 
+    final theme = Theme.of(context);
+
     return StreamBuilder(
       initialData: _repository.instances,
       stream: _repository.stream,
@@ -34,7 +36,12 @@ class InstancesList extends StatelessWidget {
             slivers: [
               // TODO: Make platform icons.
               PlatformTopBarSliver(
-                title: Text('GPU Instances'),
+                title: Text(
+                  'GPU Instances',
+                  style: TextStyle(
+                      color: theme.colorScheme.onInverseSurface,
+                      backgroundColor: theme.colorScheme.inverseSurface),
+                ),
                 action: PlatformIconButton(
                   onPressed: () => Navigator.of(context).push(
                       CupertinoPageRoute(

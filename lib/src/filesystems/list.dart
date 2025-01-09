@@ -14,6 +14,8 @@ class FilesystemsList extends StatelessWidget {
   Widget build(BuildContext context) {
     unawaited(_repository.update());
 
+    final theme = Theme.of(context);
+
     return StreamBuilder(
       initialData: _repository.filesystems,
       stream: _repository.stream,
@@ -28,7 +30,13 @@ class FilesystemsList extends StatelessWidget {
           onRefresh: () => _repository.update(force: true),
           child: CustomScrollView(
             slivers: [
-              PlatformTopBarSliver(title: Text('Filesystems')),
+              PlatformTopBarSliver(
+                  title: Text(
+                'Filesystems',
+                style: TextStyle(
+                    color: theme.colorScheme.onInverseSurface,
+                    backgroundColor: theme.colorScheme.inverseSurface),
+              )),
               SliverList.builder(
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) =>

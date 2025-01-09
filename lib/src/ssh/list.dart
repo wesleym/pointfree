@@ -14,6 +14,8 @@ class SshKeysList extends StatelessWidget {
   Widget build(BuildContext context) {
     unawaited(_repository.update());
 
+    final theme = Theme.of(context);
+
     return StreamBuilder(
       initialData: _repository.sshKeys,
       stream: _repository.stream,
@@ -28,7 +30,13 @@ class SshKeysList extends StatelessWidget {
           onRefresh: () => _repository.update(force: true),
           child: CustomScrollView(
             slivers: [
-              PlatformTopBarSliver(title: Text('SSH')),
+              PlatformTopBarSliver(
+                  title: Text(
+                'SSH',
+                style: TextStyle(
+                    color: theme.colorScheme.onInverseSurface,
+                    backgroundColor: theme.colorScheme.inverseSurface),
+              )),
               SliverList.builder(
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
