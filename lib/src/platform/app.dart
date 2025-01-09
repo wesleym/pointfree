@@ -24,14 +24,16 @@ const lambdaIndigoLight = Color(0xffb9b1fd);
 
 ThemeData makeTheme(
     {required TargetPlatform platform, required ColorScheme colorScheme}) {
-  // final platform = TargetPlatform.fuchsia;
-  final defaultTextTheme =
-      Typography.material2021(platform: platform, colorScheme: colorScheme)
-          .englishLike
-          .apply(fontFamily: 'Berkeley Mono');
+  var typography =
+      Typography.material2021(platform: platform, colorScheme: colorScheme);
+  final defaultTextTheme = typography.englishLike
+      .merge(switch (colorScheme.brightness) {
+        Brightness.light => typography.black,
+        Brightness.dark => typography.white,
+      })
+      .apply(fontFamily: 'Berkeley Mono');
 
   return ThemeData(
-    brightness: colorScheme.brightness,
     colorScheme: colorScheme,
     platform: platform,
     textTheme: defaultTextTheme,
@@ -79,24 +81,22 @@ class PlatformApp extends StatelessWidget {
           ),
         );
       case ThemeType.lambda:
-        return DynamicColorBuilder(
-          builder: (lightDynamic, darkDynamic) => MaterialApp.router(
-            title: title,
-            routerConfig: _routerConfig,
-            theme: makeTheme(
-                platform:
-                    themeOverride == null ? platform : TargetPlatform.fuchsia,
-                colorScheme: ColorScheme(
-                    brightness: Brightness.dark,
-                    primary: lambdaIndigo,
-                    onPrimary: Colors.white,
-                    secondary: lambdaIndigoLight,
-                    onSecondary: Colors.white,
-                    error: Colors.red,
-                    onError: Colors.white,
-                    surface: Colors.black,
-                    onSurface: Colors.white)),
-          ),
+        return MaterialApp.router(
+          title: title,
+          routerConfig: _routerConfig,
+          theme: makeTheme(
+              platform:
+                  themeOverride == null ? platform : TargetPlatform.fuchsia,
+              colorScheme: ColorScheme(
+                  brightness: Brightness.light,
+                  primary: lambdaIndigo,
+                  onPrimary: Colors.white,
+                  secondary: lambdaIndigoLight,
+                  onSecondary: Colors.black,
+                  error: Colors.red,
+                  onError: Colors.white,
+                  surface: Colors.white,
+                  onSurface: Colors.black)),
         );
     }
   }
