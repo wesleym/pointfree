@@ -1,27 +1,30 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-ThemeData makeTheme({Brightness? brightness, ColorScheme? colorScheme}) {
-  // var platform = TargetPlatform.fuchsia;
+ThemeData makeTheme({
+  required ColorScheme colorScheme,
+}) {
+  final platform = TargetPlatform.fuchsia;
+  var robotoMonoTextTheme = GoogleFonts.robotoMonoTextTheme(
+      Typography.material2021(platform: platform, colorScheme: colorScheme)
+          .englishLike);
+  var mitrTextTheme = GoogleFonts.mitrTextTheme(
+      Typography.material2021(platform: platform, colorScheme: colorScheme)
+          .englishLike);
   return ThemeData(
-    brightness: brightness,
+    brightness: colorScheme.brightness,
     colorScheme: colorScheme,
-    // platform: platform,
-    // textTheme: GoogleFonts.robotoMonoTextTheme().copyWith(
-    //   headlineLarge: GoogleFonts.mitr(
-    //       textStyle: Typography.material2021().englishLike.headlineLarge),
-    //   headlineMedium: GoogleFonts.mitr(
-    //       textStyle: Typography.material2021().englishLike.headlineMedium),
-    //   headlineSmall: GoogleFonts.mitr(
-    //       textStyle: Typography.material2021().englishLike.headlineSmall),
-    //   titleLarge: GoogleFonts.mitr(
-    //       textStyle: Typography.material2021().englishLike.titleLarge),
-    //   titleMedium: GoogleFonts.mitr(
-    //       textStyle: Typography.material2021().englishLike.titleMedium),
-    //   titleSmall: GoogleFonts.mitr(
-    //       textStyle: Typography.material2021().englishLike.titleSmall),
-    // ),
+    platform: platform,
+    textTheme: robotoMonoTextTheme.copyWith(
+      headlineLarge: GoogleFonts.mitr(textStyle: mitrTextTheme.headlineLarge),
+      headlineMedium: GoogleFonts.mitr(textStyle: mitrTextTheme.headlineMedium),
+      headlineSmall: GoogleFonts.mitr(textStyle: mitrTextTheme.headlineSmall),
+      titleLarge: GoogleFonts.mitr(textStyle: mitrTextTheme.titleLarge),
+      titleMedium: GoogleFonts.mitr(textStyle: mitrTextTheme.titleMedium),
+      titleSmall: GoogleFonts.mitr(textStyle: mitrTextTheme.titleSmall),
+    ),
   );
 }
 
@@ -50,12 +53,14 @@ class PlatformApp extends StatelessWidget {
             title: title,
             routerConfig: _routerConfig,
             theme: makeTheme(
-              brightness: Brightness.light,
-              colorScheme: lightDynamic,
+              colorScheme: lightDynamic ??
+                  ColorScheme.fromSeed(
+                      seedColor: Colors.indigo, brightness: Brightness.dark),
             ),
             darkTheme: makeTheme(
-              brightness: Brightness.dark,
-              colorScheme: darkDynamic,
+              colorScheme: darkDynamic ??
+                  ColorScheme.fromSeed(
+                      seedColor: Colors.indigo, brightness: Brightness.dark),
             ),
           ),
         );
