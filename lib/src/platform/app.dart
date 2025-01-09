@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 enum ThemeType { cupertino, material, lambda }
 
-const ThemeType? themeOverride = null;
+const ThemeType? themeOverride = ThemeType.material;
 
 ThemeType resolveThemeType(
     ThemeType? themeOverride, TargetPlatform targetPlatform) {
@@ -64,19 +64,15 @@ class PlatformApp extends StatelessWidget {
           builder: (lightDynamic, darkDynamic) => MaterialApp.router(
             title: title,
             routerConfig: _routerConfig,
-            theme: makeTheme(
+            theme: ThemeData(
+              colorScheme: lightDynamic ?? ColorScheme.light(),
               platform:
                   themeOverride == null ? platform : TargetPlatform.fuchsia,
-              colorScheme: lightDynamic ??
-                  ColorScheme.fromSeed(
-                      seedColor: Colors.indigo, brightness: Brightness.dark),
             ),
-            darkTheme: makeTheme(
+            darkTheme: ThemeData(
+              colorScheme: darkDynamic ?? ColorScheme.dark(),
               platform:
                   themeOverride == null ? platform : TargetPlatform.fuchsia,
-              colorScheme: darkDynamic ??
-                  ColorScheme.fromSeed(
-                      seedColor: Colors.indigo, brightness: Brightness.dark),
             ),
           ),
         );
