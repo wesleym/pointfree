@@ -22,8 +22,9 @@ ThemeType resolveThemeType(
 const lambdaIndigo = Color(0xff4027ff);
 const lambdaIndigoLight = Color(0xffb9b1fd);
 
-ThemeData makeTheme({required ColorScheme colorScheme}) {
-  final platform = TargetPlatform.fuchsia;
+ThemeData makeTheme(
+    {required TargetPlatform platform, required ColorScheme colorScheme}) {
+  // final platform = TargetPlatform.fuchsia;
   final defaultTextTheme =
       Typography.material2021(platform: platform, colorScheme: colorScheme)
           .englishLike
@@ -62,11 +63,15 @@ class PlatformApp extends StatelessWidget {
             title: title,
             routerConfig: _routerConfig,
             theme: makeTheme(
+              platform:
+                  themeOverride == null ? platform : TargetPlatform.fuchsia,
               colorScheme: lightDynamic ??
                   ColorScheme.fromSeed(
                       seedColor: Colors.indigo, brightness: Brightness.dark),
             ),
             darkTheme: makeTheme(
+              platform:
+                  themeOverride == null ? platform : TargetPlatform.fuchsia,
               colorScheme: darkDynamic ??
                   ColorScheme.fromSeed(
                       seedColor: Colors.indigo, brightness: Brightness.dark),
@@ -79,6 +84,8 @@ class PlatformApp extends StatelessWidget {
             title: title,
             routerConfig: _routerConfig,
             theme: makeTheme(
+                platform:
+                    themeOverride == null ? platform : TargetPlatform.fuchsia,
                 colorScheme: ColorScheme(
                     brightness: Brightness.dark,
                     primary: lambdaIndigo,
