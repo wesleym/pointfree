@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
+import 'package:lambda_gui/src/platform/app.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
 
@@ -15,6 +16,14 @@ class FilesystemsList extends StatelessWidget {
     unawaited(_repository.update());
 
     final theme = Theme.of(context);
+    final themeType = resolveThemeType(themeOverride, theme.platform);
+    TextStyle? titleStyle;
+    if (themeType == ThemeType.lambda) {
+      // It would be nice to do this in the theme. Unfortunately, setting inverted colours in the TextTheme only sets the background colour, and setting a TextTheme in the AppBarTheme results in the wrong text size in one of regular or large app bars. Doing it onesey-twosey is easiest. TODO: factor this into a component.
+      titleStyle = TextStyle(
+          color: theme.colorScheme.onInverseSurface,
+          backgroundColor: theme.colorScheme.inverseSurface);
+    }
 
     return StreamBuilder(
       initialData: _repository.filesystems,
@@ -33,9 +42,7 @@ class FilesystemsList extends StatelessWidget {
               PlatformTopBarSliver(
                   title: Text(
                 'Filesystems',
-                style: TextStyle(
-                    color: theme.colorScheme.onInverseSurface,
-                    backgroundColor: theme.colorScheme.inverseSurface),
+                style: titleStyle,
               )),
               SliverList.builder(
                 itemCount: data.length,

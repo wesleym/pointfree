@@ -1,5 +1,23 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+enum ThemeType { cupertino, material, lambda }
+
+const ThemeType? themeOverride = null;
+
+ThemeType resolveThemeType(
+    ThemeType? themeOverride, TargetPlatform targetPlatform) {
+  if (themeOverride != null) return themeOverride;
+
+  switch (targetPlatform) {
+    case TargetPlatform.iOS:
+    case TargetPlatform.macOS:
+      return ThemeType.cupertino;
+    default:
+      return ThemeType.material;
+  }
+}
 
 const lambdaIndigo = Color(0xff4027ff);
 const lambdaIndigoLight = Color(0xffb9b1fd);
@@ -10,26 +28,7 @@ ThemeData makeTheme({required ColorScheme colorScheme}) {
       Typography.material2021(platform: platform, colorScheme: colorScheme)
           .englishLike
           .apply(fontFamily: 'Berkeley Mono');
-  // var mitrTextTheme = GoogleFonts.mitrTextTheme(
-  // var robotoMonoTextTheme = GoogleFonts.robotoMonoTextTheme(
-  //     Typography.material2021(platform: platform, colorScheme: colorScheme)
-  //         .englishLike);
-  // var mitrTextTheme = GoogleFonts.mitrTextTheme(
-  //     Typography.material2021(platform: platform, colorScheme: colorScheme)
-  //         .englishLike);
-  // return ThemeData(
-  //   brightness: colorScheme.brightness,
-  //   colorScheme: colorScheme,
-  //   platform: platform,
-  //   textTheme: robotoMonoTextTheme.copyWith(
-  //     headlineLarge: GoogleFonts.mitr(textStyle: mitrTextTheme.headlineLarge),
-  //     headlineMedium: GoogleFonts.mitr(textStyle: mitrTextTheme.headlineMedium),
-  //     headlineSmall: GoogleFonts.mitr(textStyle: mitrTextTheme.headlineSmall),
-  //     titleLarge: GoogleFonts.mitr(textStyle: mitrTextTheme.titleLarge),
-  //     titleMedium: GoogleFonts.mitr(textStyle: mitrTextTheme.titleMedium),
-  //     titleSmall: GoogleFonts.mitr(textStyle: mitrTextTheme.titleSmall),
-  //   ),
-  // );
+
   return ThemeData(
     brightness: colorScheme.brightness,
     colorScheme: colorScheme,
@@ -49,29 +48,36 @@ class PlatformApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final platform = Theme.of(context).platform;
-    switch (platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
-      // return CupertinoApp.router(
-      //   title: title,
-      //   localizationsDelegates: [DefaultMaterialLocalizations.delegate],
-      //   routerConfig: _routerConfig,
-      // );
-      default:
+    final themeType = resolveThemeType(themeOverride, platform);
+    switch (themeType) {
+      case ThemeType.cupertino:
+        return CupertinoApp.router(
+          title: title,
+          localizationsDelegates: [DefaultMaterialLocalizations.delegate],
+          routerConfig: _routerConfig,
+        );
+      case ThemeType.material:
         return DynamicColorBuilder(
           builder: (lightDynamic, darkDynamic) => MaterialApp.router(
             title: title,
             routerConfig: _routerConfig,
-            // theme: makeTheme(
-            //   colorScheme: lightDynamic ??
-            //       ColorScheme.fromSeed(
-            //           seedColor: Colors.indigo, brightness: Brightness.dark),
-            // ),
-            // darkTheme: makeTheme(
-            //   colorScheme: darkDynamic ??
-            //       ColorScheme.fromSeed(
-            //           seedColor: Colors.indigo, brightness: Brightness.dark),
-            // ),
+            theme: makeTheme(
+              colorScheme: lightDynamic ??
+                  ColorScheme.fromSeed(
+                      seedColor: Colors.indigo, brightness: Brightness.dark),
+            ),
+            darkTheme: makeTheme(
+              colorScheme: darkDynamic ??
+                  ColorScheme.fromSeed(
+                      seedColor: Colors.indigo, brightness: Brightness.dark),
+            ),
+          ),
+        );
+      case ThemeType.lambda:
+        return DynamicColorBuilder(
+          builder: (lightDynamic, darkDynamic) => MaterialApp.router(
+            title: title,
+            routerConfig: _routerConfig,
             theme: makeTheme(
                 colorScheme: ColorScheme(
                     brightness: Brightness.dark,

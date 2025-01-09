@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
           case 2:
             return SshKeysList();
           default:
-            return FilesystemsList();
+            return InstancesList();
         }
       },
     );
