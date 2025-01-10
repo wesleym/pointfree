@@ -15,20 +15,10 @@ void main() {
         ..apiKeyPrefix = 'Bearer'
         ..apiKey = apiKey);
 
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return PlatformApp.router(
-      title: 'Lambda Cloud',
-      routerConfig: router,
-    );
-  }
+  runApp(PlatformApp.router(
+    title: 'Lambda Cloud',
+    routerConfig: router,
+  ));
 }
 
 class MyHomePage extends StatefulWidget {

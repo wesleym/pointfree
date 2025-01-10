@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 enum ThemeType { cupertino, material, lambda }
 
-const ThemeType? themeOverride = ThemeType.material;
+// ignore: unnecessary_nullable_for_final_variable_declarations
+const ThemeType? themeOverride = ThemeType.lambda;
 
 ThemeType resolveThemeType(
     ThemeType? themeOverride, TargetPlatform targetPlatform) {
