@@ -1,6 +1,6 @@
 {
-    "name": "lambda_gui",
-    "short_name": "lambda_gui",
+    "name": "Lambda Cloud",
+    "short_name": "Lambda Cloud",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#hexcode",

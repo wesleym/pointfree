@@ -1,4 +1,4 @@
-package com.example.lambda_gui
+package com.lambdalabs.cloud.gui
 
 import io.flutter.embedding.android.FlutterActivity
 
