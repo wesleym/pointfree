@@ -7,7 +7,9 @@ import 'package:flutter_client_sse/constants/sse_request_type_enum.dart';
 import 'package:flutter_client_sse/flutter_client_sse.dart';
 import 'package:lambda_gui/src/chat/messages.dart';
 import 'package:lambda_gui/src/chat/store.dart';
+import 'package:lambda_gui/src/platform/icon_button.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:lambda_gui/src/platform/text_button.dart';
 import 'package:lambda_gui/src/platform/text_field.dart';
 import 'package:lambda_gui/src/secrets.dart';
 
@@ -104,7 +106,7 @@ class _ChatPageState extends State<ChatPage> {
     return PlatformScaffold(
       topBar: PlatformTopBar(
         title: const Text('Lambda Chat'),
-        action: IconButton(
+        action: PlatformIconButton(
           onPressed: _newConversation,
           icon: Icon(iconData),
         ),
@@ -125,7 +127,7 @@ class _ChatPageState extends State<ChatPage> {
                       children: [
                         const Text('Examples'),
                         const SizedBox(height: 8),
-                        ElevatedButton(
+                        PlatformTextButton(
                             onPressed: () =>
                                 _sendMessage('What does JSON look like?'),
                             child: const Text('What does JSON look like?'))
