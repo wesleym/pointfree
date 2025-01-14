@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_client_sse/constants/sse_request_type_enum.dart';
 import 'package:flutter_client_sse/flutter_client_sse.dart';
 import 'package:lambda_gui/src/chat/messages.dart';
 import 'package:lambda_gui/src/chat/store.dart';
+import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:lambda_gui/src/platform/text_field.dart';
 import 'package:lambda_gui/src/secrets.dart';
 
 class ChatPage extends StatefulWidget {
@@ -87,15 +90,24 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
+    final platform = Theme.of(context).platform;
+    IconData? iconData;
+    switch (platform) {
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        iconData = CupertinoIcons.delete_left;
+        break;
+      default:
+        iconData = Icons.delete_sweep;
+        break;
+    }
+    return PlatformScaffold(
+      topBar: PlatformTopBar(
         title: const Text('Lambda Chat'),
-        actions: [
-          IconButton(
-              onPressed: _newConversation,
-              icon: const Icon(Icons.delete_sweep)),
-        ],
+        action: IconButton(
+          onPressed: _newConversation,
+          icon: Icon(iconData),
+        ),
       ),
       body: SafeArea(
         minimum: const EdgeInsets.only(bottom: 16),
@@ -154,23 +166,10 @@ class _ChatPageState extends State<ChatPage> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
+            child: PlatformTextField(
               controller: _chatController,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                suffixIcon: _inProgress
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox.square(
-                            dimension: (theme.iconTheme.size ?? 48) - 16,
-                            child: const CircularProgressIndicator()),
-                      )
-                    : IconButton(
-                        onPressed: () => _sendMessage(_chatController.text),
-                        icon: const Icon(Icons.send),
-                      ),
-              ),
               onSubmitted: _sendMessage,
+              enabled: !_inProgress,
             ),
           ),
         ]),
