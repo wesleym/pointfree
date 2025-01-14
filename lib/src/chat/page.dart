@@ -97,7 +97,7 @@ class _ChatPageState extends State<ChatPage> {
     switch (platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        iconData = CupertinoIcons.delete_left;
+        iconData = CupertinoIcons.trash_circle;
         break;
       default:
         iconData = Icons.delete_sweep;

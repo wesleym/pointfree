@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lambda_gui/src/chat/home.dart';
+import 'package:lambda_gui/src/chat/page.dart';
 import 'package:lambda_gui/src/filesystems/list.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/instances/list.dart';
