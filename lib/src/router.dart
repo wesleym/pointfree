@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/main.dart';
+import 'package:lambda_gui/src/home.dart';
 import 'package:lambda_gui/src/instances/page.dart';
 
 // GoRouter configuration
@@ -14,9 +14,9 @@ final router = GoRouter(
         switch (platform) {
           case TargetPlatform.iOS:
           case TargetPlatform.macOS:
-            return CupertinoPage(title: 'Instances', child: MyHomePage());
+            return CupertinoPage(title: 'Instances', child: HomePage());
           default:
-            return MaterialPage(child: MyHomePage());
+            return MaterialPage(child: HomePage());
         }
       },
       routes: [
