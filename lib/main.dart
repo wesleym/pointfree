@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lambda_gui/src/chat/home.dart';
 import 'package:lambda_gui/src/filesystems/list.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/instances/list.dart';
@@ -57,6 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
             return FilesystemsList();
           case 2:
             return SshKeysList();
+          case 3:
+            return ChatPage();
           default:
             return InstancesList();
         }

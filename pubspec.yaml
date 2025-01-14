@@ -19,6 +19,8 @@ dependencies:
   go_router: ^14.6.2
   dynamic_color: ^1.7.0
   google_fonts: ^6.2.1
+  flutter_client_sse: ^2.0.3
+  flutter_markdown: ^0.7.5
 
 dev_dependencies:
   flutter_test:

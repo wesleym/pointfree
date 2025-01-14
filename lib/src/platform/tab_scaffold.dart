@@ -32,6 +32,8 @@ class PlatformTabScaffold extends StatelessWidget {
                 icon: Icon(CupertinoIcons.folder), label: 'Filesystems'),
             BottomNavigationBarItem(
                 icon: Icon(CupertinoIcons.lock), label: 'SSH'),
+            BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.chat_bubble), label: 'Chat'),
           ]),
           tabBuilder: _builder,
         );
@@ -91,6 +93,7 @@ class _MaterialTabScaffoldState extends State<_MaterialTabScaffold> {
           BottomNavigationBarItem(
               icon: Icon(Icons.folder), label: 'Filesystems'),
           BottomNavigationBarItem(icon: Icon(Icons.key), label: 'SSH'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
         ],
       ),
       floatingActionButton: fab,
