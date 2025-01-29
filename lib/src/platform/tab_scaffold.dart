@@ -81,19 +81,17 @@ class _MaterialTabScaffoldState extends State<_MaterialTabScaffold> {
       );
     }
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: (value) {
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _selectedIndex,
+        onDestinationSelected: (value) {
           _selectedIndex = value;
           widget._onTabTapped?.call(value);
         },
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.computer), label: 'Instances'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.folder), label: 'Filesystems'),
-          BottomNavigationBarItem(icon: Icon(Icons.key), label: 'SSH'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
+        destinations: [
+          NavigationDestination(icon: Icon(Icons.computer), label: 'Instances'),
+          NavigationDestination(icon: Icon(Icons.folder), label: 'Filesystems'),
+          NavigationDestination(icon: Icon(Icons.key), label: 'SSH'),
+          NavigationDestination(icon: Icon(Icons.chat), label: 'Chat'),
         ],
       ),
       floatingActionButton: fab,
