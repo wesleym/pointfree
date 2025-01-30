@@ -73,7 +73,7 @@ class AppendableMessage implements DisplayableMessage {
     };
 
     return {
-      'type': jsonType,
+      'role': jsonType,
       'content': _content,
     };
   }
@@ -98,7 +98,7 @@ class Message implements DisplayableMessage {
     };
 
     return {
-      'type': jsonType,
+      'role': jsonType,
       'content': content,
     };
   }
@@ -141,7 +141,7 @@ class Store {
   }
 
   Conversation createConversation() {
-    final conversation = Conversation('hermes-3-llama-3.1-405b-fp8');
+    final conversation = Conversation('hermes3-405b');
     conversation.addMessage(Message(
       MessageType.system,
       systemPrompt,
