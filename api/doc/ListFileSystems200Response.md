@@ -1,4 +1,4 @@
-# openapi.model.ListFileSystems200Response
+# openapi.model.ListFilesystems200Response
 
 ## Load the model package
 ```dart
@@ -8,7 +8,7 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | [**List<FileSystem>**](FileSystem.md) |  | [default to const []]
+**data** | [**List<Filesystem>**](Filesystem.md) |  | [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

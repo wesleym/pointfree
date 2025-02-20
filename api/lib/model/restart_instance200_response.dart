@@ -16,7 +16,7 @@ class RestartInstance200Response {
     required this.data,
   });
 
-  RestartInstance200ResponseData data;
+  InstanceRestartResponse data;
 
   @override
   bool operator ==(Object other) =>
@@ -58,7 +58,7 @@ class RestartInstance200Response {
       }());
 
       return RestartInstance200Response(
-        data: RestartInstance200ResponseData.fromJson(json[r'data'])!,
+        data: InstanceRestartResponse.fromJson(json[r'data'])!,
       );
     }
     return null;

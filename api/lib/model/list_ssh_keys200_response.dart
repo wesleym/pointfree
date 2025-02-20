@@ -16,7 +16,7 @@ class ListSSHKeys200Response {
     this.data = const [],
   });
 
-  List<SshKey> data;
+  List<SSHKey> data;
 
   @override
   bool operator ==(Object other) =>
@@ -58,7 +58,7 @@ class ListSSHKeys200Response {
       }());
 
       return ListSSHKeys200Response(
-        data: SshKey.listFromJson(json[r'data']),
+        data: SSHKey.listFromJson(json[r'data']),
       );
     }
     return null;

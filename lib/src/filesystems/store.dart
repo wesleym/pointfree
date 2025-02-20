@@ -3,29 +3,29 @@ import 'package:openapi/api.dart';
 // TODO: Define store-level types rather than reusing the generated API types. This would allow customizing stringers and equality.
 
 abstract class FilesystemsStore {
-  void put(FileSystem filesystem);
-  void putAll(Iterable<FileSystem> filesystems);
-  FileSystem? get(String filesystemId);
-  Iterable<FileSystem> list();
+  void put(Filesystem filesystem);
+  void putAll(Iterable<Filesystem> filesystems);
+  Filesystem? get(String filesystemId);
+  Iterable<Filesystem> list();
 }
 
 class FilesystemsMemoryStore implements FilesystemsStore {
   static final instance = FilesystemsMemoryStore();
 
   /// A mapping from filesystem ID to filesystem.
-  final _filesystems = <String, FileSystem>{};
+  final _filesystems = <String, Filesystem>{};
 
   @override
-  FileSystem? get(String filesystemId) => _filesystems[filesystemId];
+  Filesystem? get(String filesystemId) => _filesystems[filesystemId];
 
   @override
-  List<FileSystem> list() => _filesystems.values.toList(growable: false);
+  List<Filesystem> list() => _filesystems.values.toList(growable: false);
 
   @override
-  void put(FileSystem filesystem) => _filesystems[filesystem.id] = filesystem;
+  void put(Filesystem filesystem) => _filesystems[filesystem.id] = filesystem;
 
   @override
-  void putAll(Iterable<FileSystem> filesystems) {
+  void putAll(Iterable<Filesystem> filesystems) {
     var filesystemEntries = {for (final fs in filesystems) fs.id: fs};
     _filesystems.addAll(filesystemEntries);
   }

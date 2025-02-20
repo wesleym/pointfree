@@ -8,6 +8,7 @@ import 'package:lambda_gui/src/instances/launch_cupertino.dart';
 import 'package:lambda_gui/src/instances/launch_material.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
+import 'package:openapi/api.dart';
 
 const noneItemId = '__none__';
 
@@ -24,7 +25,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
   final _filesystemRepository = FilesystemsRepository.instance;
   final _sshKeyRepository = SshKeysRepository.instance;
   String? _instanceTypeName;
-  String? _regionCode;
+  PublicRegionCode? _regionCode;
   String? _filesystemId;
   String? _sshKeyId;
 

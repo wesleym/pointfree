@@ -53,6 +53,6 @@ class RegionsPickerPage extends StatelessWidget {
     );
   }
 
-  void _onSelectRegion(BuildContext context, String regionCode) =>
+  void _onSelectRegion(BuildContext context, PublicRegionCode regionCode) =>
       context.pop(regionCode);
 }

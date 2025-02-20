@@ -6,10 +6,11 @@ import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:openapi/api.dart';
 
 class FilesystemsPickerPage extends StatelessWidget {
   final _filesystemsRepository = FilesystemsRepository();
-  final String regionCode;
+  final PublicRegionCode regionCode;
 
   FilesystemsPickerPage({super.key, required this.regionCode});
 

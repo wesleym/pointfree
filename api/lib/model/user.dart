@@ -18,14 +18,14 @@ class User {
     required this.status,
   });
 
-  /// Unique identifier for the user
+  /// The unique identifier for the user.
   String id;
 
-  /// Email address of the user
+  /// The email address of the user.
   String email;
 
-  /// Status of the user's account
-  UserStatusEnum status;
+  /// The status of the user's account.
+  UserStatus status;
 
   @override
   bool operator ==(Object other) =>
@@ -74,7 +74,7 @@ class User {
       return User(
         id: mapValueOfType<String>(json, r'id')!,
         email: mapValueOfType<String>(json, r'email')!,
-        status: UserStatusEnum.fromJson(json[r'status'])!,
+        status: UserStatus.fromJson(json[r'status'])!,
       );
     }
     return null;
@@ -135,84 +135,4 @@ class User {
     'email',
     'status',
   };
-}
-
-/// Status of the user's account
-class UserStatusEnum {
-  /// Instantiate a new enum with the provided [value].
-  const UserStatusEnum._(this.value);
-
-  /// The underlying value of this enum member.
-  final String value;
-
-  @override
-  String toString() => value;
-
-  String toJson() => value;
-
-  static const active = UserStatusEnum._(r'active');
-  static const deactivated = UserStatusEnum._(r'deactivated');
-
-  /// List of all possible values in this [enum][UserStatusEnum].
-  static const values = <UserStatusEnum>[
-    active,
-    deactivated,
-  ];
-
-  static UserStatusEnum? fromJson(dynamic value) =>
-      UserStatusEnumTypeTransformer().decode(value);
-
-  static List<UserStatusEnum> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
-    final result = <UserStatusEnum>[];
-    if (json is List && json.isNotEmpty) {
-      for (final row in json) {
-        final value = UserStatusEnum.fromJson(row);
-        if (value != null) {
-          result.add(value);
-        }
-      }
-    }
-    return result.toList(growable: growable);
-  }
-}
-
-/// Transformation class that can [encode] an instance of [UserStatusEnum] to String,
-/// and [decode] dynamic data back to [UserStatusEnum].
-class UserStatusEnumTypeTransformer {
-  factory UserStatusEnumTypeTransformer() =>
-      _instance ??= const UserStatusEnumTypeTransformer._();
-
-  const UserStatusEnumTypeTransformer._();
-
-  String encode(UserStatusEnum data) => data.value;
-
-  /// Decodes a [dynamic value][data] to a UserStatusEnum.
-  ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  UserStatusEnum? decode(dynamic data, {bool allowNull = true}) {
-    if (data != null) {
-      switch (data) {
-        case r'active':
-          return UserStatusEnum.active;
-        case r'deactivated':
-          return UserStatusEnum.deactivated;
-        default:
-          if (!allowNull) {
-            throw ArgumentError('Unknown enum value to decode: $data');
-          }
-      }
-    }
-    return null;
-  }
-
-  /// Singleton [UserStatusEnumTypeTransformer] instance.
-  static UserStatusEnumTypeTransformer? _instance;
 }

@@ -16,8 +16,8 @@ import 'package:openapi/api.dart';
 class CupertinoLaunchInstancePage extends StatelessWidget {
   final String? _instanceTypeName;
   final void Function(String? instanceType) _onInstanceTypeNameChange;
-  final String? _regionCode;
-  final void Function(String? instanceType) _onRegionCodeChange;
+  final PublicRegionCode? _regionCode;
+  final void Function(PublicRegionCode? instanceType) _onRegionCodeChange;
   final String? _filesystemId;
   final void Function(String? instanceType) _onFilesystemIdChange;
   final String? _sshKeyId;
@@ -32,8 +32,8 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
     super.key,
     required String? instanceTypeName,
     required void Function(String?) onInstanceTypeNameChange,
-    required String? regionCode,
-    required void Function(String?) onRegionCodeChange,
+    required PublicRegionCode? regionCode,
+    required void Function(PublicRegionCode?) onRegionCodeChange,
     required String? filesystemId,
     required void Function(String?) onFilesystemIdChange,
     required String? sshKeyId,
@@ -193,7 +193,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
     if (instanceType == null) return null;
 
     return () async {
-      final regionCode = await Navigator.of(context).push<String>(
+      final regionCode = await Navigator.of(context).push<PublicRegionCode>(
           CupertinoPageRoute(
               builder: (context) =>
                   RegionsPickerPage(instanceType: instanceType)));

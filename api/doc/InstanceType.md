@@ -8,11 +8,11 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **String** | Name of an instance type | 
-**description** | **String** | Long name of the instance type | 
-**gpuDescription** | **String** | Description of the GPU(s) in the instance type | 
-**priceCentsPerHour** | **int** | Price of the instance type, in US cents per hour | 
-**specs** | [**InstanceTypeSpecs**](InstanceTypeSpecs.md) |  | 
+**name** | **String** | The name of the instance type. | 
+**description** | **String** | A description of the instance type. | 
+**gpuDescription** | **String** | The type of GPU used by this instance type. | 
+**priceCentsPerHour** | **int** | The price of the instance type in US cents per hour. | 
+**specs** | [**InstanceTypeSpecs**](InstanceTypeSpecs.md) | Detailed technical specifications for the instance type. | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

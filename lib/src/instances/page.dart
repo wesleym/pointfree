@@ -61,13 +61,12 @@ class InstancesPage extends StatelessWidget {
           CupertinoListSection.insetGrouped(hasLeading: false, children: [
             CupertinoListTile.notched(
               title: Text('Instance type'),
-              additionalInfo: Text(instance.instanceType?.description ?? ''),
+              additionalInfo: Text(instance.instanceType.description),
             ),
             CupertinoListTile.notched(
               title: Text('Region'),
-              additionalInfo: Text(instance.region == null
-                  ? ''
-                  : '${instance.region?.description} (${instance.region?.name})'),
+              additionalInfo: Text(
+                  '${instance.region.description} (${instance.region.name})'),
             ),
           ]),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -105,13 +104,12 @@ class InstancesPage extends StatelessWidget {
           Divider(),
           PlatformListTile(
             title: Text('Instance type'),
-            subtitle: Text(instance.instanceType?.description ?? ''),
+            subtitle: Text(instance.instanceType.description),
           ),
           PlatformListTile(
             title: Text('Region'),
-            subtitle: Text(instance.region == null
-                ? ''
-                : '${instance.region?.description} (${instance.region?.name})'),
+            subtitle: Text(
+                '${instance.region.description} (${instance.region.name})'),
           ),
           Divider(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [

@@ -21,7 +21,8 @@ class InstancesRepository {
 
     final ListInstances200Response instances;
     try {
-      final maybeInstances = await DefaultApi(defaultApiClient).listInstances();
+      final maybeInstances =
+          await InstancesApi(defaultApiClient).listInstances();
       // This should never be null: an ApiException should have been thrown instead.
       instances = maybeInstances!;
     } on ApiException catch (e) {
@@ -37,8 +38,8 @@ class InstancesRepository {
 
   Future<void> terminate(String id) async {
     try {
-      await DefaultApi(defaultApiClient)
-          .terminateInstance(TerminateInstanceRequest(instanceIds: [id]));
+      await InstancesApi(defaultApiClient)
+          .terminateInstance(InstanceTerminateRequest(instanceIds: [id]));
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to terminate instance with ID $id: ${e.message}');
@@ -50,8 +51,8 @@ class InstancesRepository {
 
   Future<void> restart(String id) async {
     try {
-      await DefaultApi(defaultApiClient)
-          .restartInstance(RestartInstanceRequest(instanceIds: [id]));
+      await InstancesApi(defaultApiClient)
+          .restartInstance(InstanceRestartRequest(instanceIds: [id]));
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to restart instance with ID $id: ${e.message}');
@@ -64,13 +65,13 @@ class InstancesRepository {
   Future<void> launch({
     String? name,
     required String instanceTypeName,
-    required String regionCode,
+    required PublicRegionCode regionCode,
     required String sshKeyName,
     String? filesystemName,
   }) async {
     final filesystemNames = [if (filesystemName != null) filesystemName];
     try {
-      await DefaultApi(defaultApiClient).launchInstance(LaunchInstanceRequest(
+      await InstancesApi(defaultApiClient).launchInstance(InstanceLaunchRequest(
         name: name,
         regionName: regionCode,
         instanceTypeName: instanceTypeName,

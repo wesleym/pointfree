@@ -11,18 +11,18 @@ class FilesystemsRepository {
 
   final _store = FilesystemsMemoryStore.instance;
   var _lastFetchTime = DateTime.fromMillisecondsSinceEpoch(0);
-  List<FileSystem> get filesystems => _store.list();
-  final _controller = StreamController<List<FileSystem>>.broadcast();
-  Stream<List<FileSystem>> get stream => _controller.stream;
+  List<Filesystem> get filesystems => _store.list();
+  final _controller = StreamController<List<Filesystem>>.broadcast();
+  Stream<List<Filesystem>> get stream => _controller.stream;
 
   Future<void> update({bool force = false}) async {
     var now = DateTime.now();
     if (!force && _lastFetchTime.add(_ttl).isAfter(now)) return;
 
-    final ListFileSystems200Response filesystems;
+    final ListFilesystems200Response filesystems;
     try {
       final maybeFilesystems =
-          await DefaultApi(defaultApiClient).listFileSystems();
+          await FilesystemsApi(defaultApiClient).listFilesystems();
       // This should never be null: an ApiException should have been thrown instead.
       filesystems = maybeFilesystems!;
     } on ApiException catch (e) {
@@ -36,5 +36,5 @@ class FilesystemsRepository {
     _lastFetchTime = now;
   }
 
-  FileSystem? getById(String filesystemId) => _store.get(filesystemId);
+  Filesystem? getById(String filesystemId) => _store.get(filesystemId);
 }

@@ -17,10 +17,10 @@ class Region {
     required this.description,
   });
 
-  /// Short name of a region
-  String name;
+  /// The region code.
+  PublicRegionCode name;
 
-  /// Long name of a region
+  /// The location represented by the region code.
   String description;
 
   @override
@@ -64,7 +64,7 @@ class Region {
       }());
 
       return Region(
-        name: mapValueOfType<String>(json, r'name')!,
+        name: PublicRegionCode.fromJson(json[r'name'])!,
         description: mapValueOfType<String>(json, r'description')!,
       );
     }

@@ -16,7 +16,7 @@ class LaunchInstance200Response {
     required this.data,
   });
 
-  LaunchInstance200ResponseData data;
+  InstanceLaunchResponse data;
 
   @override
   bool operator ==(Object other) =>
@@ -58,7 +58,7 @@ class LaunchInstance200Response {
       }());
 
       return LaunchInstance200Response(
-        data: LaunchInstance200ResponseData.fromJson(json[r'data'])!,
+        data: InstanceLaunchResponse.fromJson(json[r'data'])!,
       );
     }
     return null;

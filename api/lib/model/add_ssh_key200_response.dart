@@ -16,7 +16,7 @@ class AddSSHKey200Response {
     required this.data,
   });
 
-  SshKey data;
+  Response2 data;
 
   @override
   bool operator ==(Object other) =>
@@ -58,7 +58,7 @@ class AddSSHKey200Response {
       }());
 
       return AddSSHKey200Response(
-        data: SshKey.fromJson(json[r'data'])!,
+        data: Response2.fromJson(json[r'data'])!,
       );
     }
     return null;

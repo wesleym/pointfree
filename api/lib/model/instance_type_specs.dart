@@ -19,16 +19,16 @@ class InstanceTypeSpecs {
     required this.gpus,
   });
 
-  /// Number of virtual CPUs
+  /// The number of virtual CPUs.
   int vcpus;
 
-  /// Amount of RAM, in gibibytes (GiB)
+  /// The amount of RAM in gibibytes (GiB).
   int memoryGib;
 
-  /// Amount of storage, in gibibytes (GiB).
+  /// The amount of storage in gibibytes (GiB).
   int storageGib;
 
-  /// Number of GPUs
+  /// The number of GPUs.
   int gpus;
 
   @override

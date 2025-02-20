@@ -15,8 +15,8 @@ import 'package:openapi/api.dart';
 class MaterialLaunchInstancePage extends StatelessWidget {
   final String? _instanceTypeName;
   final void Function(String? instanceType) _onInstanceTypeNameChange;
-  final String? _regionCode;
-  final void Function(String? instanceType) _onRegionCodeChange;
+  final PublicRegionCode? _regionCode;
+  final void Function(PublicRegionCode? instanceType) _onRegionCodeChange;
   final String? _filesystemId;
   final void Function(String? instanceType) _onFilesystemIdChange;
   final String? _sshKeyId;
@@ -31,8 +31,8 @@ class MaterialLaunchInstancePage extends StatelessWidget {
     super.key,
     required String? instanceTypeName,
     required void Function(String?) onInstanceTypeNameChange,
-    required String? regionCode,
-    required void Function(String?) onRegionCodeChange,
+    required PublicRegionCode? regionCode,
+    required void Function(PublicRegionCode?) onRegionCodeChange,
     required String? filesystemId,
     required void Function(String?) onFilesystemIdChange,
     required String? sshKeyId,
@@ -160,7 +160,7 @@ class MaterialLaunchInstancePage extends StatelessWidget {
       return null;
     }
     return () async {
-      final regionCode = await showDialog(
+      final regionCode = await showDialog<PublicRegionCode>(
           context: context,
           builder: (context) =>
               RegionsPickerDialog(instanceType: instanceTypeName));

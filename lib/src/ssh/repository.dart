@@ -11,9 +11,9 @@ class SshKeysRepository {
 
   final _store = SshKeysMemoryStore.instance;
   var _lastFetchTime = DateTime.fromMillisecondsSinceEpoch(0);
-  List<SshKey> get sshKeys => _store.list();
-  final _controller = StreamController<List<SshKey>>.broadcast();
-  Stream<List<SshKey>> get stream => _controller.stream;
+  List<SSHKey> get sshKeys => _store.list();
+  final _controller = StreamController<List<SSHKey>>.broadcast();
+  Stream<List<SSHKey>> get stream => _controller.stream;
 
   Future<void> update({bool force = false}) async {
     var now = DateTime.now();
@@ -21,7 +21,7 @@ class SshKeysRepository {
 
     final ListSSHKeys200Response sshKeys;
     try {
-      final maybeSshKeys = await DefaultApi(defaultApiClient).listSSHKeys();
+      final maybeSshKeys = await SSHKeysApi(defaultApiClient).listSSHKeys();
       // This should never be null: an ApiException should have been thrown instead.
       sshKeys = maybeSshKeys!;
     } on ApiException catch (e) {
@@ -37,7 +37,7 @@ class SshKeysRepository {
 
   Future<void> delete(String id, {bool force = false}) async {
     try {
-      await DefaultApi(defaultApiClient).deleteSSHKey(id);
+      await SSHKeysApi(defaultApiClient).deleteSSHKey(id);
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to delete SSH key with ID $id: ${e.message}');
@@ -50,5 +50,5 @@ class SshKeysRepository {
     _controller.add(_store.list());
   }
 
-  SshKey? getById(String sshKeyId) => _store.get(sshKeyId);
+  SSHKey? getById(String sshKeyId) => _store.get(sshKeyId);
 }

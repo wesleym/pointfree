@@ -20,68 +20,87 @@ class Instance {
     required this.status,
     this.sshKeyNames = const [],
     this.fileSystemNames = const [],
-    this.region,
-    this.instanceType,
+    required this.region,
+    required this.instanceType,
     this.hostname,
     this.jupyterToken,
     this.jupyterUrl,
-    this.isReserved,
+    required this.actions,
   });
 
-  /// Unique identifier (ID) of an instance
+  /// The unique identifier of the instance.
   String id;
 
-  /// User-provided name for the instance
+  /// If set, the user-provided name of the instance.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? name;
 
-  /// IPv4 address of the instance
+  /// The public IPv4 address of the instance.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? ip;
 
-  /// Private IPv4 address of the instance
+  /// The private IPv4 address of the instance.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? privateIp;
 
-  /// The current status of the instance
-  InstanceStatusEnum status;
+  InstanceStatus status;
 
-  /// Names of the SSH keys allowed to access the instance
+  /// The names of the SSH keys that are allowed to access the instance.
   List<String> sshKeyNames;
 
-  /// Names of the file systems, if any, attached to the instance
+  /// The names of the filesystems attached to the instance. If no filesystems are attached, this array is empty.
   List<String> fileSystemNames;
 
+  /// The region in which the instance is deployed.
+  Region region;
+
+  /// Detailed information about the instance's instance type.
+  InstanceType instanceType;
+
+  /// The hostname assigned to this instance, which resolves to the instance's IP.
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  Region? region;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  InstanceType? instanceType;
-
-  /// Hostname assigned to this instance, which resolves to the instance's IP.
   String? hostname;
 
-  /// Secret token used to log into the jupyter lab server hosted on the instance.
-  String? jupyterToken;
-
-  /// URL that opens a jupyter lab notebook on the instance.
-  String? jupyterUrl;
-
-  /// Whether the instance is reserved.
+  /// The secret token used to log into the JupyterLab server hosted on the instance.
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  bool? isReserved;
+  String? jupyterToken;
+
+  /// The URL that opens the JupyterLab environment on the instance.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? jupyterUrl;
+
+  /// A set of status objects representing the current availability of common instance operations.
+  InstanceActionAvailability actions;
 
   @override
   bool operator ==(Object other) =>
@@ -99,7 +118,7 @@ class Instance {
           other.hostname == hostname &&
           other.jupyterToken == jupyterToken &&
           other.jupyterUrl == jupyterUrl &&
-          other.isReserved == isReserved;
+          other.actions == actions;
 
   @override
   int get hashCode =>
@@ -111,16 +130,16 @@ class Instance {
       (status.hashCode) +
       (sshKeyNames.hashCode) +
       (fileSystemNames.hashCode) +
-      (region == null ? 0 : region!.hashCode) +
-      (instanceType == null ? 0 : instanceType!.hashCode) +
+      (region.hashCode) +
+      (instanceType.hashCode) +
       (hostname == null ? 0 : hostname!.hashCode) +
       (jupyterToken == null ? 0 : jupyterToken!.hashCode) +
       (jupyterUrl == null ? 0 : jupyterUrl!.hashCode) +
-      (isReserved == null ? 0 : isReserved!.hashCode);
+      (actions.hashCode);
 
   @override
   String toString() =>
-      'Instance[id=$id, name=$name, ip=$ip, privateIp=$privateIp, status=$status, sshKeyNames=$sshKeyNames, fileSystemNames=$fileSystemNames, region=$region, instanceType=$instanceType, hostname=$hostname, jupyterToken=$jupyterToken, jupyterUrl=$jupyterUrl, isReserved=$isReserved]';
+      'Instance[id=$id, name=$name, ip=$ip, privateIp=$privateIp, status=$status, sshKeyNames=$sshKeyNames, fileSystemNames=$fileSystemNames, region=$region, instanceType=$instanceType, hostname=$hostname, jupyterToken=$jupyterToken, jupyterUrl=$jupyterUrl, actions=$actions]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -143,16 +162,8 @@ class Instance {
     json[r'status'] = this.status;
     json[r'ssh_key_names'] = this.sshKeyNames;
     json[r'file_system_names'] = this.fileSystemNames;
-    if (this.region != null) {
-      json[r'region'] = this.region;
-    } else {
-      json[r'region'] = null;
-    }
-    if (this.instanceType != null) {
-      json[r'instance_type'] = this.instanceType;
-    } else {
-      json[r'instance_type'] = null;
-    }
+    json[r'region'] = this.region;
+    json[r'instance_type'] = this.instanceType;
     if (this.hostname != null) {
       json[r'hostname'] = this.hostname;
     } else {
@@ -168,11 +179,7 @@ class Instance {
     } else {
       json[r'jupyter_url'] = null;
     }
-    if (this.isReserved != null) {
-      json[r'is_reserved'] = this.isReserved;
-    } else {
-      json[r'is_reserved'] = null;
-    }
+    json[r'actions'] = this.actions;
     return json;
   }
 
@@ -201,7 +208,7 @@ class Instance {
         name: mapValueOfType<String>(json, r'name'),
         ip: mapValueOfType<String>(json, r'ip'),
         privateIp: mapValueOfType<String>(json, r'private_ip'),
-        status: InstanceStatusEnum.fromJson(json[r'status'])!,
+        status: InstanceStatus.fromJson(json[r'status'])!,
         sshKeyNames: json[r'ssh_key_names'] is Iterable
             ? (json[r'ssh_key_names'] as Iterable)
                 .cast<String>()
@@ -212,12 +219,12 @@ class Instance {
                 .cast<String>()
                 .toList(growable: false)
             : const [],
-        region: Region.fromJson(json[r'region']),
-        instanceType: InstanceType.fromJson(json[r'instance_type']),
+        region: Region.fromJson(json[r'region'])!,
+        instanceType: InstanceType.fromJson(json[r'instance_type'])!,
         hostname: mapValueOfType<String>(json, r'hostname'),
         jupyterToken: mapValueOfType<String>(json, r'jupyter_token'),
         jupyterUrl: mapValueOfType<String>(json, r'jupyter_url'),
-        isReserved: mapValueOfType<bool>(json, r'is_reserved'),
+        actions: InstanceActionAvailability.fromJson(json[r'actions'])!,
       );
     }
     return null;
@@ -278,97 +285,8 @@ class Instance {
     'status',
     'ssh_key_names',
     'file_system_names',
+    'region',
+    'instance_type',
+    'actions',
   };
-}
-
-/// The current status of the instance
-class InstanceStatusEnum {
-  /// Instantiate a new enum with the provided [value].
-  const InstanceStatusEnum._(this.value);
-
-  /// The underlying value of this enum member.
-  final String value;
-
-  @override
-  String toString() => value;
-
-  String toJson() => value;
-
-  static const active = InstanceStatusEnum._(r'active');
-  static const booting = InstanceStatusEnum._(r'booting');
-  static const unhealthy = InstanceStatusEnum._(r'unhealthy');
-  static const terminating = InstanceStatusEnum._(r'terminating');
-  static const terminated = InstanceStatusEnum._(r'terminated');
-
-  /// List of all possible values in this [enum][InstanceStatusEnum].
-  static const values = <InstanceStatusEnum>[
-    active,
-    booting,
-    unhealthy,
-    terminating,
-    terminated,
-  ];
-
-  static InstanceStatusEnum? fromJson(dynamic value) =>
-      InstanceStatusEnumTypeTransformer().decode(value);
-
-  static List<InstanceStatusEnum> listFromJson(
-    dynamic json, {
-    bool growable = false,
-  }) {
-    final result = <InstanceStatusEnum>[];
-    if (json is List && json.isNotEmpty) {
-      for (final row in json) {
-        final value = InstanceStatusEnum.fromJson(row);
-        if (value != null) {
-          result.add(value);
-        }
-      }
-    }
-    return result.toList(growable: growable);
-  }
-}
-
-/// Transformation class that can [encode] an instance of [InstanceStatusEnum] to String,
-/// and [decode] dynamic data back to [InstanceStatusEnum].
-class InstanceStatusEnumTypeTransformer {
-  factory InstanceStatusEnumTypeTransformer() =>
-      _instance ??= const InstanceStatusEnumTypeTransformer._();
-
-  const InstanceStatusEnumTypeTransformer._();
-
-  String encode(InstanceStatusEnum data) => data.value;
-
-  /// Decodes a [dynamic value][data] to a InstanceStatusEnum.
-  ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  InstanceStatusEnum? decode(dynamic data, {bool allowNull = true}) {
-    if (data != null) {
-      switch (data) {
-        case r'active':
-          return InstanceStatusEnum.active;
-        case r'booting':
-          return InstanceStatusEnum.booting;
-        case r'unhealthy':
-          return InstanceStatusEnum.unhealthy;
-        case r'terminating':
-          return InstanceStatusEnum.terminating;
-        case r'terminated':
-          return InstanceStatusEnum.terminated;
-        default:
-          if (!allowNull) {
-            throw ArgumentError('Unknown enum value to decode: $data');
-          }
-      }
-    }
-    return null;
-  }
-
-  /// Singleton [InstanceStatusEnumTypeTransformer] instance.
-  static InstanceStatusEnumTypeTransformer? _instance;
 }

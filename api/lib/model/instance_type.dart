@@ -20,18 +20,19 @@ class InstanceType {
     required this.specs,
   });
 
-  /// Name of an instance type
+  /// The name of the instance type.
   String name;
 
-  /// Long name of the instance type
+  /// A description of the instance type.
   String description;
 
-  /// Description of the GPU(s) in the instance type
+  /// The type of GPU used by this instance type.
   String gpuDescription;
 
-  /// Price of the instance type, in US cents per hour
+  /// The price of the instance type in US cents per hour.
   int priceCentsPerHour;
 
+  /// Detailed technical specifications for the instance type.
   InstanceTypeSpecs specs;
 
   @override

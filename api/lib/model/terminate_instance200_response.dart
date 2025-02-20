@@ -16,7 +16,7 @@ class TerminateInstance200Response {
     required this.data,
   });
 
-  TerminateInstance200ResponseData data;
+  InstanceTerminateResponse data;
 
   @override
   bool operator ==(Object other) =>
@@ -58,7 +58,7 @@ class TerminateInstance200Response {
       }());
 
       return TerminateInstance200Response(
-        data: TerminateInstance200ResponseData.fromJson(json[r'data'])!,
+        data: InstanceTerminateResponse.fromJson(json[r'data'])!,
       );
     }
     return null;
