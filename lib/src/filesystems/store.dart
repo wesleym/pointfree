@@ -7,6 +7,7 @@ abstract class FilesystemsStore {
   void putAll(Iterable<Filesystem> filesystems);
   Filesystem? get(String filesystemId);
   Iterable<Filesystem> list();
+  void clear();
 }
 
 class FilesystemsMemoryStore implements FilesystemsStore {
@@ -29,4 +30,7 @@ class FilesystemsMemoryStore implements FilesystemsStore {
     var filesystemEntries = {for (final fs in filesystems) fs.id: fs};
     _filesystems.addAll(filesystemEntries);
   }
+
+  @override
+  void clear() => _filesystems.clear();
 }

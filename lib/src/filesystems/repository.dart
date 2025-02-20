@@ -31,7 +31,9 @@ class FilesystemsRepository {
       return;
     }
 
-    _store.putAll(filesystems.data);
+    _store
+      ..clear()
+      ..putAll(filesystems.data);
     _controller.add(_store.list());
     _lastFetchTime = now;
   }
@@ -44,6 +46,19 @@ class FilesystemsRepository {
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to create filesystem: ${e.message}');
+      return;
+    }
+
+    // TODO: Optimistic update.
+    await update(force: true);
+  }
+
+  Future<void> delete({required String id}) async {
+    try {
+      await FilesystemsApi(defaultApiClient).filesystemDelete(id);
+    } on ApiException catch (e) {
+      // TODO: Error handling.
+      log('Failed to delete filesystem: ${e.message}');
       return;
     }
 

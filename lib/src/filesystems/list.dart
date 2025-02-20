@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:lambda_gui/src/filesystems/create.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/platform/app.dart';
+import 'package:lambda_gui/src/platform/colors.dart';
 import 'package:lambda_gui/src/platform/icon_button.dart';
+import 'package:lambda_gui/src/platform/icons.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
 
@@ -53,8 +55,30 @@ class FilesystemsList extends StatelessWidget {
             final data = snapshot.data!;
             body = ListView.builder(
               itemCount: data.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  PlatformListTile(title: Text(data[index].name)),
+              itemBuilder: (BuildContext context, int index) {
+                var platform = Theme.of(context).platform;
+                return Dismissible(
+                  key: ValueKey(data[index].id),
+                  onDismissed: (direction) =>
+                      // TODO: Confirmation
+                      _repository.delete(id: data[index].id),
+                  background: Container(
+                    color: PlatformColors.destructive(platform),
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: Icon(PlatformIcons.delete(platform),
+                        color: Colors.white),
+                  ),
+                  secondaryBackground: Container(
+                    color: PlatformColors.destructive(platform),
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: Icon(PlatformIcons.delete(platform),
+                        color: Colors.white),
+                  ),
+                  child: PlatformListTile(title: Text(data[index].name)),
+                );
+              },
             );
           } else {
             // TODO: Error handling.
