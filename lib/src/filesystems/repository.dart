@@ -27,13 +27,28 @@ class FilesystemsRepository {
       filesystems = maybeFilesystems!;
     } on ApiException catch (e) {
       // TODO: Error handling.
-      log('Failed to instances: ${e.message}');
+      log('Failed to update filesystems: ${e.message}');
       return;
     }
 
     _store.putAll(filesystems.data);
     _controller.add(_store.list());
     _lastFetchTime = now;
+  }
+
+  Future<void> create(
+      {required String name, required PublicRegionCode region}) async {
+    try {
+      await FilesystemsApi(defaultApiClient).createFilesystem(
+          FilesystemCreateRequest(name: name, region: region));
+    } on ApiException catch (e) {
+      // TODO: Error handling.
+      log('Failed to create filesystem: ${e.message}');
+      return;
+    }
+
+    // TODO: Optimistic update.
+    await update(force: true);
   }
 
   Filesystem? getById(String filesystemId) => _store.get(filesystemId);

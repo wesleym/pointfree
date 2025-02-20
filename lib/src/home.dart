@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lambda_gui/src/chat/page.dart';
+import 'package:lambda_gui/src/filesystems/create.dart';
 import 'package:lambda_gui/src/filesystems/list.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/instances/list.dart';
@@ -20,18 +21,29 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final platform = Theme.of(context).platform;
     Widget? primaryActionIcon;
-    if (_selectedIndex == 0 &&
-        platform != TargetPlatform.iOS &&
-        platform != TargetPlatform.macOS) {
-      // TODO: Platform icons. This one is always Material because it's for the FAB.
-      primaryActionIcon = Icon(Icons.add);
+    if (platform != TargetPlatform.iOS && platform != TargetPlatform.macOS) {
+      switch (_selectedIndex) {
+        case 0:
+        case 1:
+          primaryActionIcon = Icon(Icons.add);
+          break;
+      }
     }
     return PlatformTabScaffold(
       primaryActionIcon: primaryActionIcon,
       onPrimaryActionSelected: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (context) => LaunchInstancePage()));
+        switch (_selectedIndex) {
+          case 0:
+            Navigator.of(context).push(MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (context) => LaunchInstancePage()));
+            break;
+          case 1:
+            Navigator.of(context).push(MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (context) => CreateFilesystemPage()));
+            break;
+        }
       },
       onTabTapped: (index) => setState(() => _selectedIndex = index),
       builder: (context, index) {
