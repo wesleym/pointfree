@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lambda_gui/src/chat/page.dart';
 import 'package:lambda_gui/src/filesystems/create.dart';
 import 'package:lambda_gui/src/filesystems/list.dart';
+import 'package:lambda_gui/src/firewall/create.dart';
+import 'package:lambda_gui/src/firewall/list.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/instances/list.dart';
 import 'package:lambda_gui/src/platform/tab_scaffold.dart';
@@ -43,6 +45,10 @@ class _HomePageState extends State<HomePage> {
                 fullscreenDialog: true,
                 builder: (context) => CreateFilesystemPage()));
             break;
+          case 3:
+            Navigator.of(context).push(MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (context) => CreateFirewallRulePage()));
         }
       },
       onTabTapped: (index) => setState(() => _selectedIndex = index),
@@ -55,6 +61,8 @@ class _HomePageState extends State<HomePage> {
           case 2:
             return SshKeysList();
           case 3:
+            return FirewallList();
+          case 4:
             return ChatPage();
           default:
             return InstancesList();
