@@ -62,6 +62,19 @@ class InstancesRepository {
     await update(force: true);
   }
 
+  Future<void> rename({required String id, required String? name}) async {
+    try {
+      await InstancesApi(defaultApiClient)
+          .postInstance(id, InstanceModificationRequest(name: name));
+    } on ApiException catch (e) {
+      // TODO: Error handling.
+      log('Failed to rename instance with ID $id to $name: ${e.message}');
+      return;
+    }
+
+    await update(force: true);
+  }
+
   Future<void> launch({
     String? name,
     required String instanceTypeName,

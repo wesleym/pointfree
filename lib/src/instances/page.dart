@@ -40,33 +40,51 @@ class InstancesPage extends StatelessWidget {
         body = [
           Icon(CupertinoIcons.desktopcomputer, size: 96),
           SizedBox(height: 32),
-          CupertinoListSection.insetGrouped(hasLeading: false, children: [
-            CupertinoListTile.notched(
-              title: Text('ID'),
-              additionalInfo: Text(instanceId),
+          CupertinoFormSection(children: [
+            CupertinoFormRow(
+              prefix: Text('ID'),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(instanceId),
+              ),
             ),
-            CupertinoListTile.notched(
-              title: Text('Name'),
-              additionalInfo: Text(instance.name ?? ''),
+            CupertinoTextFormFieldRow(
+              prefix: Text('Name'),
+              initialValue: instance.name,
+              textAlign: TextAlign.end,
+              onChanged: (value) =>
+                  _instancesRepository.rename(id: instanceId, name: value),
             ),
-            CupertinoListTile.notched(
-              title: Text('IP address'),
-              additionalInfo: Text(instance.ip ?? ''),
+            CupertinoFormRow(
+              prefix: Text('IP address'),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(instance.ip ?? ''),
+              ),
             ),
-            CupertinoListTile.notched(
-              title: Text('Status'),
-              additionalInfo: Text(instance.status.value),
+            CupertinoFormRow(
+              prefix: Text('Status'),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(instance.status.value),
+              ),
             ),
           ]),
-          CupertinoListSection.insetGrouped(hasLeading: false, children: [
-            CupertinoListTile.notched(
-              title: Text('Instance type'),
-              additionalInfo: Text(instance.instanceType.description),
+          CupertinoFormSection(children: [
+            CupertinoFormRow(
+              prefix: Text('Instance type'),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(instance.instanceType.description),
+              ),
             ),
-            CupertinoListTile.notched(
-              title: Text('Region'),
-              additionalInfo: Text(
-                  '${instance.region.description} (${instance.region.name})'),
+            CupertinoFormRow(
+              prefix: Text('Region'),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    '${instance.region.description} (${instance.region.name})'),
+              ),
             ),
           ]),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
