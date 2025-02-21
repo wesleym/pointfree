@@ -8,7 +8,7 @@ import 'package:lambda_gui/src/instances/launch_cupertino.dart';
 import 'package:lambda_gui/src/instances/launch_material.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
-import 'package:openapi/api.dart';
+import 'package:openapi/api.dart' as api;
 
 const noneItemId = '__none__';
 
@@ -25,7 +25,8 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
   final _filesystemRepository = FilesystemsRepository.instance;
   final _sshKeyRepository = SshKeysRepository.instance;
   String? _instanceTypeName;
-  PublicRegionCode? _regionCode;
+  api.Image? _image;
+  api.PublicRegionCode? _regionCode;
   String? _filesystemId;
   String? _sshKeyId;
 
@@ -41,6 +42,8 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
           instanceTypeName: _instanceTypeName,
           onInstanceTypeNameChange: (v) =>
               setState(() => _instanceTypeName = v),
+          image: _image,
+          onImageChange: (v) => setState(() => _image = v),
           regionCode: _regionCode,
           onRegionCodeChange: (v) => setState(() => _regionCode = v),
           filesystemId: _filesystemId,
@@ -54,6 +57,8 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
           instanceTypeName: _instanceTypeName,
           onInstanceTypeNameChange: (v) =>
               setState(() => _instanceTypeName = v),
+          image: _image,
+          onImageChange: (v) => setState(() => _image = v),
           regionCode: _regionCode,
           onRegionCodeChange: (v) => setState(() => _regionCode = v),
           filesystemId: _filesystemId,
@@ -87,6 +92,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
         regionCode: _regionCode!,
         filesystemName: filesystemName,
         sshKeyName: sshKeyName,
+        image: _image,
       );
 
       if (mounted) {

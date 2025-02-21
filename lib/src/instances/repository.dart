@@ -81,6 +81,7 @@ class InstancesRepository {
     required PublicRegionCode regionCode,
     required String sshKeyName,
     String? filesystemName,
+    Image? image,
   }) async {
     final filesystemNames = [if (filesystemName != null) filesystemName];
     try {
@@ -90,6 +91,7 @@ class InstancesRepository {
         instanceTypeName: instanceTypeName,
         sshKeyNames: [sshKeyName],
         fileSystemNames: filesystemNames,
+        image: image,
       ));
     } on ApiException catch (e) {
       // TODO: Error handling.

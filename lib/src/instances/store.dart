@@ -30,7 +30,7 @@ class InstancesMemoryStore implements InstancesStore {
     var instanceEntries = {for (final k in instances) k.id: k};
     _instances.addAll(instanceEntries);
   }
-  
+
   @override
   void delete(String instanceId) => _instances.remove(instanceId);
 }

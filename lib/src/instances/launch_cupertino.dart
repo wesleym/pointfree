@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lambda_gui/src/filesystems/picker_page.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
+import 'package:lambda_gui/src/images/picker_page.dart';
+import 'package:lambda_gui/src/images/repository.dart';
 import 'package:lambda_gui/src/instance_types/picker_page.dart';
 import 'package:lambda_gui/src/instance_types/regions_picker_page.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
@@ -11,13 +13,15 @@ import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/ssh/picker_page.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
-import 'package:openapi/api.dart';
+import 'package:openapi/api.dart' as api;
 
 class CupertinoLaunchInstancePage extends StatelessWidget {
   final String? _instanceTypeName;
   final void Function(String? instanceType) _onInstanceTypeNameChange;
-  final PublicRegionCode? _regionCode;
-  final void Function(PublicRegionCode? instanceType) _onRegionCodeChange;
+  final api.Image? _image;
+  final void Function(api.Image? instanceType) _onImageChange;
+  final api.PublicRegionCode? _regionCode;
+  final void Function(api.PublicRegionCode? instanceType) _onRegionCodeChange;
   final String? _filesystemId;
   final void Function(String? instanceType) _onFilesystemIdChange;
   final String? _sshKeyId;
@@ -25,6 +29,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
   final void Function()? _onLaunchPressed;
 
   final _instanceTypesRepository = InstanceTypesRepository.instance;
+  final _imagesRepository = ImagesRepository.instance;
   final _filesystemRepository = FilesystemsRepository.instance;
   final _sshKeyRepository = SshKeysRepository.instance;
 
@@ -32,8 +37,10 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
     super.key,
     required String? instanceTypeName,
     required void Function(String?) onInstanceTypeNameChange,
-    required PublicRegionCode? regionCode,
-    required void Function(PublicRegionCode?) onRegionCodeChange,
+    required api.Image? image,
+    required void Function(api.Image?) onImageChange,
+    required api.PublicRegionCode? regionCode,
+    required void Function(api.PublicRegionCode?) onRegionCodeChange,
     required String? filesystemId,
     required void Function(String?) onFilesystemIdChange,
     required String? sshKeyId,
@@ -47,13 +54,16 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
         _regionCode = regionCode,
         _onInstanceTypeNameChange = onInstanceTypeNameChange,
         _instanceTypeName = instanceTypeName,
+        _image = image,
+        _onImageChange = onImageChange,
         _onLaunchPressed = onLaunchPressed;
 
   @override
   Widget build(BuildContext context) {
     unawaited(_instanceTypesRepository.update());
+    unawaited(_imagesRepository.update());
 
-    InstanceType? instanceType;
+    api.InstanceType? instanceType;
     final instanceTypeName = _instanceTypeName;
     if (instanceTypeName != null) {
       instanceType =
@@ -120,6 +130,23 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                   },
                 ),
                 StreamBuilder(
+                  initialData: _imagesRepository.images,
+                  stream: _imagesRepository.stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      // TODO: Error handling
+                      return CircularProgressIndicator.adaptive();
+                    }
+                    return CupertinoListTile.notched(
+                      onTap: () => _onCupertinoImageTap(context),
+                      title: Text('Image'),
+                      additionalInfo:
+                          _image == null ? null : Text(_image.family),
+                      trailing: CupertinoListTileChevron(),
+                    );
+                  },
+                ),
+                StreamBuilder(
                   initialData: _instanceTypesRepository.instanceTypes,
                   stream: _instanceTypesRepository.stream,
                   builder: (context, snapshot) {
@@ -179,6 +206,15 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
     );
   }
 
+  void _onCupertinoImageTap(BuildContext context) async {
+    final image = await Navigator.of(context).push<api.Image>(
+        CupertinoPageRoute(builder: (context) => ImagePickerPage()));
+
+    if (image != null && image != _image) {
+      _onImageChange(image);
+    }
+  }
+
   void _onCupertinoInstanceTypeTap(BuildContext context) async {
     final instanceTypeName = await Navigator.of(context).push<String>(
         CupertinoPageRoute(builder: (context) => InstanceTypesPickerPage()));
@@ -193,7 +229,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
     if (instanceType == null) return null;
 
     return () async {
-      final regionCode = await Navigator.of(context).push<PublicRegionCode>(
+      final regionCode = await Navigator.of(context).push<api.PublicRegionCode>(
           CupertinoPageRoute(
               builder: (context) =>
                   RegionsPickerPage(instanceType: instanceType)));

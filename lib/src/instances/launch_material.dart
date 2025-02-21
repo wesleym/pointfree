@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lambda_gui/src/filesystems/picker_dialog.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
+import 'package:lambda_gui/src/images/picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/regions_picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
@@ -10,13 +11,15 @@ import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/ssh/picker_dialog.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
-import 'package:openapi/api.dart';
+import 'package:openapi/api.dart' as api;
 
 class MaterialLaunchInstancePage extends StatelessWidget {
   final String? _instanceTypeName;
   final void Function(String? instanceType) _onInstanceTypeNameChange;
-  final PublicRegionCode? _regionCode;
-  final void Function(PublicRegionCode? instanceType) _onRegionCodeChange;
+  final api.Image? _image;
+  final void Function(api.Image? instanceType) _onImageChange;
+  final api.PublicRegionCode? _regionCode;
+  final void Function(api.PublicRegionCode? instanceType) _onRegionCodeChange;
   final String? _filesystemId;
   final void Function(String? instanceType) _onFilesystemIdChange;
   final String? _sshKeyId;
@@ -31,8 +34,10 @@ class MaterialLaunchInstancePage extends StatelessWidget {
     super.key,
     required String? instanceTypeName,
     required void Function(String?) onInstanceTypeNameChange,
-    required PublicRegionCode? regionCode,
-    required void Function(PublicRegionCode?) onRegionCodeChange,
+    required api.Image? image,
+    required void Function(api.Image? instanceType) onImageChange,
+    required api.PublicRegionCode? regionCode,
+    required void Function(api.PublicRegionCode?) onRegionCodeChange,
     required String? filesystemId,
     required void Function(String?) onFilesystemIdChange,
     required String? sshKeyId,
@@ -46,13 +51,15 @@ class MaterialLaunchInstancePage extends StatelessWidget {
         _regionCode = regionCode,
         _onInstanceTypeNameChange = onInstanceTypeNameChange,
         _instanceTypeName = instanceTypeName,
+        _image = image,
+        _onImageChange = onImageChange,
         _onLaunchPressed = onLaunchPressed;
 
   @override
   Widget build(BuildContext context) {
     unawaited(_instanceTypesRepository.update());
 
-    InstanceType? instanceType;
+    api.InstanceType? instanceType;
     final instanceTypeName = _instanceTypeName;
     if (instanceTypeName != null) {
       instanceType =
@@ -107,21 +114,16 @@ class MaterialLaunchInstancePage extends StatelessWidget {
             );
           },
         ),
-        StreamBuilder(
-          initialData: _instanceTypesRepository.instanceTypes,
-          stream: _instanceTypesRepository.stream,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              // TODO: Error handling
-              return CircularProgressIndicator.adaptive();
-            }
-            return ListTile(
-              enabled: _instanceTypeName != null,
-              onTap: _materialRegionTapHandler(context),
-              title: Text('Region'),
-              subtitle: Text(regionDisplayName ?? ''),
-            );
-          },
+        ListTile(
+          onTap: () => _onMaterialImageTap(context),
+          title: Text('Image'),
+          subtitle: Text(_image?.family ?? ''),
+        ),
+        ListTile(
+          enabled: _instanceTypeName != null,
+          onTap: _materialRegionTapHandler(context),
+          title: Text('Region'),
+          subtitle: Text(regionDisplayName ?? ''),
         ),
         ListTile(
           enabled: _regionCode != null,
@@ -154,13 +156,22 @@ class MaterialLaunchInstancePage extends StatelessWidget {
     }
   }
 
+  void _onMaterialImageTap(BuildContext context) async {
+    final image = await showDialog<api.Image>(
+        context: context, builder: (context) => ImagePickerDialog());
+
+    if (image != null && image != _image) {
+      _onImageChange(image);
+    }
+  }
+
   void Function()? _materialRegionTapHandler(BuildContext context) {
     final instanceTypeName = _instanceTypeName;
     if (instanceTypeName == null) {
       return null;
     }
     return () async {
-      final regionCode = await showDialog<PublicRegionCode>(
+      final regionCode = await showDialog<api.PublicRegionCode>(
           context: context,
           builder: (context) =>
               RegionsPickerDialog(instanceType: instanceTypeName));
