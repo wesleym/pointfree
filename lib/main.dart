@@ -6,6 +6,7 @@ import 'package:openapi/api.dart';
 
 void main() {
   defaultApiClient = ApiClient(
+      basePath: 'https://cloud.lambda.ai',
       authentication: ApiKeyAuth('header', 'Authorization')
         ..apiKeyPrefix = 'Bearer'
         ..apiKey = apiKey);

@@ -37,7 +37,7 @@ class _ChatPageState extends State<ChatPage> {
     });
     final sseStream = SSEClient.subscribeToSSE(
       method: SSERequestType.POST,
-      url: 'https://api.lambdalabs.com/v1/chat/completions',
+      url: 'https://api.lambda.ai/v1/chat/completions',
       header: {
         'Authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json; charset=utf-8',
