@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class PlatformIcons {
-  static IconData delete(TargetPlatform platform) => switch (platform) {
-        TargetPlatform.iOS => CupertinoIcons.delete,
-        TargetPlatform.macOS => CupertinoIcons.delete,
-        TargetPlatform.android => Icons.delete,
-        TargetPlatform.fuchsia => Icons.delete,
-        TargetPlatform.linux => Icons.delete,
-        TargetPlatform.windows => Icons.delete,
+  static IconData delete(ThemeType themeType) => switch (themeType) {
+        ThemeType.cupertino => CupertinoIcons.delete,
+        ThemeType.material => Icons.delete,
+        ThemeType.lambda => Icons.delete,
       };
 }

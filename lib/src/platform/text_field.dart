@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class PlatformTextField extends StatelessWidget {
   final TextEditingController? _controller;
@@ -17,16 +18,16 @@ class PlatformTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platform = Theme.of(context).platform;
-    switch (platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+    final themeType = ThemeTypeProvider.of(context);
+    switch (themeType) {
+      case ThemeType.cupertino:
         return CupertinoTextField(
           controller: _controller,
           onSubmitted: _onSubmitted,
           enabled: _enabled,
         );
-      default:
+      case ThemeType.material:
+      case ThemeType.lambda:
         return TextField(
           controller: _controller,
           onSubmitted: _onSubmitted,

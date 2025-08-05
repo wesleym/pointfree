@@ -12,6 +12,7 @@ import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/text_button.dart';
 import 'package:lambda_gui/src/platform/text_field.dart';
 import 'package:lambda_gui/src/secrets.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -92,14 +93,14 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final platform = Theme.of(context).platform;
+    final themeType = ThemeTypeProvider.of(context);
     IconData? iconData;
-    switch (platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+    switch (themeType) {
+      case ThemeType.cupertino:
         iconData = CupertinoIcons.trash_circle;
         break;
-      default:
+      case ThemeType.material:
+      case ThemeType.lambda:
         iconData = Icons.delete_sweep;
         break;
     }

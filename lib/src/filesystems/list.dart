@@ -4,12 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lambda_gui/src/filesystems/create.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
-import 'package:lambda_gui/src/platform/app.dart';
 import 'package:lambda_gui/src/platform/colors.dart';
 import 'package:lambda_gui/src/platform/icon_button.dart';
 import 'package:lambda_gui/src/platform/icons.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class FilesystemsList extends StatelessWidget {
   final _repository = FilesystemsRepository.instance;
@@ -21,7 +21,7 @@ class FilesystemsList extends StatelessWidget {
     unawaited(_repository.update());
 
     final theme = Theme.of(context);
-    final themeType = resolveThemeType(themeOverride, theme.platform);
+    final themeType = ThemeTypeProvider.of(context);
     TextStyle? titleStyle;
     if (themeType == ThemeType.lambda) {
       // It would be nice to do this in the theme. Unfortunately, setting inverted colours in the TextTheme only sets the background colour, and setting a TextTheme in the AppBarTheme results in the wrong text size in one of regular or large app bars. Doing it onesey-twosey is easiest. TODO: factor this into a component.
@@ -56,24 +56,23 @@ class FilesystemsList extends StatelessWidget {
             body = ListView.builder(
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
-                var platform = Theme.of(context).platform;
                 return Dismissible(
                   key: ValueKey(data[index].id),
                   onDismissed: (direction) =>
                       // TODO: Confirmation
                       _repository.delete(id: data[index].id),
                   background: Container(
-                    color: PlatformColors.destructive(platform),
+                    color: PlatformColors.destructive(themeType),
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.symmetric(horizontal: 24),
-                    child: Icon(PlatformIcons.delete(platform),
+                    child: Icon(PlatformIcons.delete(themeType),
                         color: Colors.white),
                   ),
                   secondaryBackground: Container(
-                    color: PlatformColors.destructive(platform),
+                    color: PlatformColors.destructive(themeType),
                     alignment: Alignment.centerRight,
                     padding: EdgeInsets.symmetric(horizontal: 24),
-                    child: Icon(PlatformIcons.delete(platform),
+                    child: Icon(PlatformIcons.delete(themeType),
                         color: Colors.white),
                   ),
                   child: PlatformListTile(title: Text(data[index].name)),

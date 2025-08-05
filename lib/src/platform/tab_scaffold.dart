@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class PlatformTabScaffold extends StatelessWidget {
   final Widget? _primaryActionIcon;
@@ -20,10 +21,9 @@ class PlatformTabScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platform = Theme.of(context).platform;
-    switch (platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+    final themeType = ThemeTypeProvider.of(context);
+    switch (themeType) {
+      case ThemeType.cupertino:
         return CupertinoTabScaffold(
           tabBar: CupertinoTabBar(onTap: _onTabTapped, items: [
             BottomNavigationBarItem(
@@ -39,7 +39,8 @@ class PlatformTabScaffold extends StatelessWidget {
           ]),
           tabBuilder: _builder,
         );
-      default:
+      case ThemeType.material:
+      case ThemeType.lambda:
         return _MaterialTabScaffold(
           primaryActionIcon: _primaryActionIcon,
           onPrimaryActionSelected: _onPrimaryActionSelected,

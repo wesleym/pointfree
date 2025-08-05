@@ -8,6 +8,7 @@ import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/instances/list.dart';
 import 'package:lambda_gui/src/platform/tab_scaffold.dart';
 import 'package:lambda_gui/src/ssh/list.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,9 +22,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final platform = Theme.of(context).platform;
+    final themeType = ThemeTypeProvider.of(context);
     Widget? primaryActionIcon;
-    if (platform != TargetPlatform.iOS && platform != TargetPlatform.macOS) {
+    if (themeType != ThemeType.cupertino) {
       switch (_selectedIndex) {
         case 0:
         case 1:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/home.dart';
 import 'package:lambda_gui/src/instances/page.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 // GoRouter configuration
 final router = GoRouter(
@@ -10,12 +11,12 @@ final router = GoRouter(
     GoRoute(
       path: '/',
       pageBuilder: (context, state) {
-        final platform = Theme.of(context).platform;
-        switch (platform) {
-          case TargetPlatform.iOS:
-          case TargetPlatform.macOS:
+        final themeType = ThemeTypeProvider.of(context);
+        switch (themeType) {
+          case ThemeType.cupertino:
             return CupertinoPage(title: 'Instances', child: HomePage());
-          default:
+          case ThemeType.material:
+          case ThemeType.lambda:
             return MaterialPage(child: HomePage());
         }
       },

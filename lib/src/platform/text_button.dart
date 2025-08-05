@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class PlatformTextButton extends StatelessWidget {
   const PlatformTextButton({
@@ -17,16 +18,16 @@ class PlatformTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platform = Theme.of(context).platform;
-    switch (platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+    final themeType = ThemeTypeProvider.of(context);
+    switch (themeType) {
+      case ThemeType.cupertino:
         return CupertinoButton(
           onPressed: _onPressed,
           padding: _cupertinoPadding,
           child: _child,
         );
-      default:
+      case ThemeType.material:
+      case ThemeType.lambda:
         return TextButton(onPressed: _onPressed, child: _child);
     }
   }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class PlatformListTile extends StatelessWidget {
   final FutureOr<void> Function()? _onTap;
@@ -18,16 +19,16 @@ class PlatformListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platform = Theme.of(context).platform;
-    switch (platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+    final themeType = ThemeTypeProvider.of(context);
+    switch (themeType) {
+      case ThemeType.cupertino:
         return CupertinoListTile(
           onTap: _onTap,
           title: title,
           additionalInfo: _subtitle,
         );
-      default:
+      case ThemeType.material:
+      case ThemeType.lambda:
         return ListTile(
           onTap: _onTap,
           title: title,

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class PlatformScaffold extends StatelessWidget {
   final Widget? _primaryActionIcon;
@@ -23,10 +24,9 @@ class PlatformScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platform = Theme.of(context).platform;
-    switch (platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+    final themeType = ThemeTypeProvider.of(context);
+    switch (themeType) {
+      case ThemeType.cupertino:
         CupertinoNavigationBar? navigationBar;
         if (_topBar != null) {
           navigationBar = CupertinoNavigationBar(
@@ -39,7 +39,8 @@ class PlatformScaffold extends StatelessWidget {
           navigationBar: navigationBar,
           child: _body,
         );
-      default:
+      case ThemeType.material:
+      case ThemeType.lambda:
         AppBar? appBar;
         if (_topBar != null) {
           final actions = <Widget>[];

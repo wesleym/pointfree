@@ -1,24 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-enum ThemeType { cupertino, material, lambda }
-
-// ignore: unnecessary_nullable_for_final_variable_declarations
-const ThemeType? themeOverride = null;
-
-ThemeType resolveThemeType(
-    ThemeType? themeOverride, TargetPlatform targetPlatform) {
-  if (themeOverride != null) return themeOverride;
-
-  switch (targetPlatform) {
-    case TargetPlatform.iOS:
-    case TargetPlatform.macOS:
-      return ThemeType.cupertino;
-    default:
-      return ThemeType.material;
-  }
-}
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 const lambdaIndigo = Color(0xff4027ff);
 const lambdaIndigoLight = Color(0xffb9b1fd);
@@ -52,38 +35,33 @@ class PlatformApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final platform = Theme.of(context).platform;
-    final themeType = resolveThemeType(themeOverride, platform);
-    switch (themeType) {
-      case ThemeType.cupertino:
-        return CupertinoApp.router(
+    final themeType = ThemeTypeProvider.of(context);
+
+    return switch (themeType) {
+      ThemeType.cupertino => CupertinoApp.router(
           title: title,
           localizationsDelegates: [DefaultMaterialLocalizations.delegate],
           routerConfig: _routerConfig,
-        );
-      case ThemeType.material:
-        return DynamicColorBuilder(
+        ),
+      ThemeType.material => DynamicColorBuilder(
           builder: (lightDynamic, darkDynamic) => MaterialApp.router(
             title: title,
             routerConfig: _routerConfig,
             theme: ThemeData(
               colorScheme: lightDynamic ?? ColorScheme.light(),
-              platform:
-                  themeOverride == null ? platform : TargetPlatform.fuchsia,
+              platform: platform,
             ),
             darkTheme: ThemeData(
               colorScheme: darkDynamic ?? ColorScheme.dark(),
-              platform:
-                  themeOverride == null ? platform : TargetPlatform.fuchsia,
+              platform: platform,
             ),
           ),
-        );
-      case ThemeType.lambda:
-        return MaterialApp.router(
+        ),
+      ThemeType.lambda => MaterialApp.router(
           title: title,
           routerConfig: _routerConfig,
           theme: makeTheme(
-              platform:
-                  themeOverride == null ? platform : TargetPlatform.fuchsia,
+              platform: platform,
               colorScheme: ColorScheme(
                   brightness: Brightness.light,
                   primary: lambdaIndigo,
@@ -94,7 +72,7 @@ class PlatformApp extends StatelessWidget {
                   onError: Colors.white,
                   surface: Colors.white,
                   onSurface: Colors.black)),
-        );
-    }
+        ),
+    };
   }
 }
