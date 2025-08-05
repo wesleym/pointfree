@@ -16,8 +16,9 @@ import 'package:openapi/api.dart' as api;
 class MaterialLaunchInstancePage extends StatelessWidget {
   final String? _instanceTypeName;
   final void Function(String? instanceType) _onInstanceTypeNameChange;
-  final api.Image? _image;
-  final void Function(api.Image? instanceType) _onImageChange;
+  final api.InstanceLaunchRequestImage? _image;
+  final void Function(api.InstanceLaunchRequestImage? instanceType)
+      _onImageChange;
   final api.PublicRegionCode? _regionCode;
   final void Function(api.PublicRegionCode? instanceType) _onRegionCodeChange;
   final String? _filesystemId;
@@ -34,8 +35,9 @@ class MaterialLaunchInstancePage extends StatelessWidget {
     super.key,
     required String? instanceTypeName,
     required void Function(String?) onInstanceTypeNameChange,
-    required api.Image? image,
-    required void Function(api.Image? instanceType) onImageChange,
+    required api.InstanceLaunchRequestImage? image,
+    required void Function(api.InstanceLaunchRequestImage? instanceType)
+        onImageChange,
     required api.PublicRegionCode? regionCode,
     required void Function(api.PublicRegionCode?) onRegionCodeChange,
     required String? filesystemId,
@@ -157,7 +159,7 @@ class MaterialLaunchInstancePage extends StatelessWidget {
   }
 
   void _onMaterialImageTap(BuildContext context) async {
-    final image = await showDialog<api.Image>(
+    final image = await showDialog<api.InstanceLaunchRequestImage>(
         context: context, builder: (context) => ImagePickerDialog());
 
     if (image != null && image != _image) {

@@ -16,20 +16,20 @@ void main() {
   // final instance = User();
 
   group('test User', () {
-    // Unique identifier for the user
+    // The unique identifier for the user.
     // String id
     test('to test the property `id`', () async {
       // TODO
     });
 
-    // Email address of the user
+    // The email address of the user.
     // String email
     test('to test the property `email`', () async {
       // TODO
     });
 
-    // Status of the user's account
-    // String status
+    // The status of the user's account.
+    // UserStatus status
     test('to test the property `status`', () async {
       // TODO
     });

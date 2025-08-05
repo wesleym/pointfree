@@ -16,7 +16,7 @@ void main() {
   // final instance = AddSSHKey200Response();
 
   group('test AddSSHKey200Response', () {
-    // SshKey data
+    // AddSSHKey200ResponseData data
     test('to test the property `data`', () async {
       // TODO
     });

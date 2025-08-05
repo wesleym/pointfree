@@ -16,7 +16,7 @@ void main() {
   // final instance = CreateFilesystem400Response();
 
   group('test CreateFilesystem400Response', () {
-    // Response3 error
+    // CreateFilesystem400ResponseError error
     test('to test the property `error`', () async {
       // TODO
     });

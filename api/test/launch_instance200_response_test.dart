@@ -16,7 +16,7 @@ void main() {
   // final instance = LaunchInstance200Response();
 
   group('test LaunchInstance200Response', () {
-    // LaunchInstance200ResponseData data
+    // InstanceLaunchResponse data
     test('to test the property `data`', () async {
       // TODO
     });

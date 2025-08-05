@@ -49,7 +49,7 @@ class CreateFirewallRulePage extends StatefulWidget {
 
 class _CreateFirewallRulePageState extends State<CreateFirewallRulePage> {
   final _firewallRepository = FirewallRepository.instance;
-  var _protocol = SecurityGroupRuleProtocol.tcp;
+  var _protocol = NetworkProtocol.tcp;
   String _sourceNetwork = '0.0.0.0/0';
   PortRange _portRange = PortRange.single(0);
   String? _description;

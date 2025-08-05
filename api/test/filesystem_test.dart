@@ -28,7 +28,7 @@ void main() {
       // TODO
     });
 
-    // The absolute path indicating where on instances the filesystem will be mounted.
+    // The DEFAULT absolute path indicating where on instances the filesystem will be mounted. If `file_system_mounts` were used at launch time, the actual mount point is in the  instance response.
     // String mountPoint
     test('to test the property `mountPoint`', () async {
       // TODO
@@ -46,7 +46,7 @@ void main() {
       // TODO
     });
 
-    // Whether the filesystem is currently in use by an instance. Filesystems that are in use cannot be deleted.
+    // Whether the filesystem is currently mounted to an instance. Filesystems that are mounted cannot be deleted.
     // bool isInUse
     test('to test the property `isInUse`', () async {
       // TODO

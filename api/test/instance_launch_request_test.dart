@@ -34,9 +34,21 @@ void main() {
       // TODO
     });
 
-    // The names of the filesystems you want to attach to the instance. Currently, you can attach only one filesystem during instance creation. By default, no filesystems are attached.
+    // The names of the filesystems you want to mount to the instance. When specified alongside `file_system_mounts`, any filesystems referred to in both lists will use the mount path specified in `file_system_mounts`, rather than the default.
     // List<String> fileSystemNames (default value: const [])
     test('to test the property `fileSystemNames`', () async {
+      // TODO
+    });
+
+    // The filesystem mounts to mount to the instance. When specified alongside  `file_system_names`, any filesystems referred to in both lists will use the mount path specified in `file_system_mounts`, rather than the default.
+    // List<RequestedFilesystemMountEntry> fileSystemMounts (default value: const [])
+    test('to test the property `fileSystemMounts`', () async {
+      // TODO
+    });
+
+    // The hostname to assign to the instance. If not specified, a default, IP-address-based hostname is assigned. This hostname is driven into /etc/hostname on the instance.
+    // String hostname
+    test('to test the property `hostname`', () async {
       // TODO
     });
 
@@ -46,7 +58,7 @@ void main() {
       // TODO
     });
 
-    // Image image
+    // InstanceLaunchRequestImage image
     test('to test the property `image`', () async {
       // TODO
     });
@@ -54,6 +66,18 @@ void main() {
     // An instance configuration string specified in a valid [cloud-init user-data](https://cloudinit.readthedocs.io/en/latest/explanation/format.html) format. You can use this field to configure your instance on launch. The user data string must be plain text and cannot exceed 1MB in size.
     // String userData
     test('to test the property `userData`', () async {
+      // TODO
+    });
+
+    // Key/value pairs representing the instance's tags.
+    // List<RequestedTagEntry> tags (default value: const [])
+    test('to test the property `tags`', () async {
+      // TODO
+    });
+
+    // The firewall rulesets to associate with the instance. The firewall rulesets must exist in the same region as the instance.
+    // List<FirewallRulesetEntry> firewallRulesets (default value: const [])
+    test('to test the property `firewallRulesets`', () async {
       // TODO
     });
   });

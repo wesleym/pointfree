@@ -8,8 +8,8 @@ import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:openapi/api.dart';
 
 class MaterialCreateFirewallRulePage extends StatelessWidget {
-  final SecurityGroupRuleProtocol _protocol;
-  final void Function(SecurityGroupRuleProtocol protocol) _onProtocolChange;
+  final NetworkProtocol _protocol;
+  final void Function(NetworkProtocol protocol) _onProtocolChange;
   final String _sourceNetwork;
   final void Function(String sourceNetwork) _onSourceNetworkChange;
   final PortRange _portRange;
@@ -20,8 +20,8 @@ class MaterialCreateFirewallRulePage extends StatelessWidget {
 
   const MaterialCreateFirewallRulePage({
     super.key,
-    required SecurityGroupRuleProtocol protocol,
-    required void Function(SecurityGroupRuleProtocol) onProtocolChange,
+    required NetworkProtocol protocol,
+    required void Function(NetworkProtocol) onProtocolChange,
     required String sourceNetwork,
     required void Function(String) onSourceNetworkChange,
     required PortRange portRange,
@@ -107,7 +107,7 @@ class MaterialCreateFirewallRulePage extends StatelessWidget {
   }
 
   void _handleProtocolTap(BuildContext context) async {
-    final protocol = await showDialog<SecurityGroupRuleProtocol>(
+    final protocol = await showDialog<NetworkProtocol>(
         context: context, builder: (context) => ProtocolPickerDialog());
 
     if (protocol != null && protocol != _protocol) {

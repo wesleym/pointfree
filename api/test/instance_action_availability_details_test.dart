@@ -22,7 +22,7 @@ void main() {
       // TODO
     });
 
-    // ReasonCode reasonCode
+    // InstanceActionAvailabilityDetailsReasonCode reasonCode
     test('to test the property `reasonCode`', () async {
       // TODO
     });

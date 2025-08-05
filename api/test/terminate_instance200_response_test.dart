@@ -16,7 +16,7 @@ void main() {
   // final instance = TerminateInstance200Response();
 
   group('test TerminateInstance200Response', () {
-    // TerminateInstance200ResponseData data
+    // InstanceTerminateResponse data
     test('to test the property `data`', () async {
       // TODO
     });

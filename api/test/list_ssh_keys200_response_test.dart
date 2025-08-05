@@ -16,7 +16,7 @@ void main() {
   // final instance = ListSSHKeys200Response();
 
   group('test ListSSHKeys200Response', () {
-    // List<SshKey> data (default value: const [])
+    // List<SSHKey> data (default value: const [])
     test('to test the property `data`', () async {
       // TODO
     });

@@ -28,6 +28,7 @@ class InstanceStatus {
   static const unhealthy = InstanceStatus._(r'unhealthy');
   static const terminated = InstanceStatus._(r'terminated');
   static const terminating = InstanceStatus._(r'terminating');
+  static const preempted = InstanceStatus._(r'preempted');
 
   /// List of all possible values in this [enum][InstanceStatus].
   static const values = <InstanceStatus>[
@@ -36,6 +37,7 @@ class InstanceStatus {
     unhealthy,
     terminated,
     terminating,
+    preempted,
   ];
 
   static InstanceStatus? fromJson(dynamic value) =>
@@ -89,6 +91,8 @@ class InstanceStatusTypeTransformer {
           return InstanceStatus.terminated;
         case r'terminating':
           return InstanceStatus.terminating;
+        case r'preempted':
+          return InstanceStatus.preempted;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');

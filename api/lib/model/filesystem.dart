@@ -29,7 +29,7 @@ class Filesystem {
   /// The name of the filesystem.
   String name;
 
-  /// The absolute path indicating where on instances the filesystem will be mounted.
+  /// The DEFAULT absolute path indicating where on instances the filesystem will be mounted. If `file_system_mounts` were used at launch time, the actual mount point is in the  instance response.
   String mountPoint;
 
   /// The date and time at which the filesystem was created. Formatted as an ISO 8601 timestamp.
@@ -38,7 +38,7 @@ class Filesystem {
   /// The user in your Team that created the filesystem.
   User createdBy;
 
-  /// Whether the filesystem is currently in use by an instance. Filesystems that are in use cannot be deleted.
+  /// Whether the filesystem is currently mounted to an instance. Filesystems that are mounted cannot be deleted.
   bool isInUse;
 
   /// The region in which the filesystem is deployed.

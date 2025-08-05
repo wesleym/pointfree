@@ -20,13 +20,13 @@ class InstancesApi {
   ///
   /// Retrieves the details of a specific instance, including whether or not the instance is running.
   ///
-  /// Note: This method returns the HTTP [http.Response].
+  /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] id (required):
   ///   The unique identifier (ID) of the instance
-  Future<http.Response> getInstanceWithHttpInfo(
+  Future<Response> getInstanceWithHttpInfo(
     String id,
   ) async {
     // ignore: prefer_const_declarations
@@ -86,12 +86,12 @@ class InstancesApi {
   ///
   /// Launches a Lambda On-Demand Cloud instance.
   ///
-  /// Note: This method returns the HTTP [http.Response].
+  /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [InstanceLaunchRequest] instanceLaunchRequest (required):
-  Future<http.Response> launchInstanceWithHttpInfo(
+  Future<Response> launchInstanceWithHttpInfo(
     InstanceLaunchRequest instanceLaunchRequest,
   ) async {
     // ignore: prefer_const_declarations
@@ -146,12 +146,62 @@ class InstancesApi {
     return null;
   }
 
+  /// List available instance types
+  ///
+  /// Retrieves a list of the instance types currently offered on Lambda's public cloud, as well as details about each type. Details include resource specifications, pricing, and regional availability.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> listInstanceTypesWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/v1/instance-types';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// List available instance types
+  ///
+  /// Retrieves a list of the instance types currently offered on Lambda's public cloud, as well as details about each type. Details include resource specifications, pricing, and regional availability.
+  Future<ListInstanceTypes200Response?> listInstanceTypes() async {
+    final response = await listInstanceTypesWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty &&
+        response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(
+        await _decodeBodyBytes(response),
+        'ListInstanceTypes200Response',
+      ) as ListInstanceTypes200Response;
+    }
+    return null;
+  }
+
   /// List running instances
   ///
   /// Retrieves a list of your running instances.
   ///
-  /// Note: This method returns the HTTP [http.Response].
-  Future<http.Response> listInstancesWithHttpInfo() async {
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> listInstancesWithHttpInfo() async {
     // ignore: prefer_const_declarations
     final path = r'/api/v1/instances';
 
@@ -200,7 +250,7 @@ class InstancesApi {
   ///
   /// Updates the details of the specified instance.
   ///
-  /// Note: This method returns the HTTP [http.Response].
+  /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
@@ -208,7 +258,7 @@ class InstancesApi {
   ///   The unique identifier (ID) of the instance
   ///
   /// * [InstanceModificationRequest] instanceModificationRequest (required):
-  Future<http.Response> postInstanceWithHttpInfo(
+  Future<Response> postInstanceWithHttpInfo(
     String id,
     InstanceModificationRequest instanceModificationRequest,
   ) async {
@@ -273,12 +323,12 @@ class InstancesApi {
   ///
   /// Restarts one or more instances.
   ///
-  /// Note: This method returns the HTTP [http.Response].
+  /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [InstanceRestartRequest] instanceRestartRequest (required):
-  Future<http.Response> restartInstanceWithHttpInfo(
+  Future<Response> restartInstanceWithHttpInfo(
     InstanceRestartRequest instanceRestartRequest,
   ) async {
     // ignore: prefer_const_declarations
@@ -333,69 +383,16 @@ class InstancesApi {
     return null;
   }
 
-  /// List available instance types
-  ///
-  /// Retrieves a list of the instance types currently offered on Lambda's public cloud, as well as details about each type. Details include resource specifications, pricing, and regional availability.
-  ///
-  /// Note: This method returns the HTTP [http.Response].
-  Future<http.Response>
-      svrExternalApiV1EndpointsInstanceTypesGetWithHttpInfo() async {
-    // ignore: prefer_const_declarations
-    final path = r'/api/v1/instance-types';
-
-    // ignore: prefer_final_locals
-    Object? postBody;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    const contentTypes = <String>[];
-
-    return apiClient.invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  /// List available instance types
-  ///
-  /// Retrieves a list of the instance types currently offered on Lambda's public cloud, as well as details about each type. Details include resource specifications, pricing, and regional availability.
-  Future<SvrExternalApiV1EndpointsInstanceTypesGet200Response?>
-      svrExternalApiV1EndpointsInstanceTypesGet() async {
-    final response =
-        await svrExternalApiV1EndpointsInstanceTypesGetWithHttpInfo();
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty &&
-        response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'SvrExternalApiV1EndpointsInstanceTypesGet200Response',
-      ) as SvrExternalApiV1EndpointsInstanceTypesGet200Response;
-    }
-    return null;
-  }
-
   /// Terminate instances
   ///
   /// Terminates one or more instances.
   ///
-  /// Note: This method returns the HTTP [http.Response].
+  /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [InstanceTerminateRequest] instanceTerminateRequest (required):
-  Future<http.Response> terminateInstanceWithHttpInfo(
+  Future<Response> terminateInstanceWithHttpInfo(
     InstanceTerminateRequest instanceTerminateRequest,
   ) async {
     // ignore: prefer_const_declarations

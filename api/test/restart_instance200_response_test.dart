@@ -16,7 +16,7 @@ void main() {
   // final instance = RestartInstance200Response();
 
   group('test RestartInstance200Response', () {
-    // RestartInstance200ResponseData data
+    // InstanceRestartResponse data
     test('to test the property `data`', () async {
       // TODO
     });

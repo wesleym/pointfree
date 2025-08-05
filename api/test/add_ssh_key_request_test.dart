@@ -16,13 +16,13 @@ void main() {
   // final instance = AddSSHKeyRequest();
 
   group('test AddSSHKeyRequest', () {
-    // Name of the SSH key
+    // The name of the SSH key.
     // String name
     test('to test the property `name`', () async {
       // TODO
     });
 
-    // Public key for the SSH key
+    // The public key for the SSH key.
     // String publicKey
     test('to test the property `publicKey`', () async {
       // TODO

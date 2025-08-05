@@ -16,7 +16,7 @@ void main() {
   // final instance = LaunchInstance400Response();
 
   group('test LaunchInstance400Response', () {
-    // Response1 error
+    // LaunchInstance400ResponseError error
     test('to test the property `error`', () async {
       // TODO
     });

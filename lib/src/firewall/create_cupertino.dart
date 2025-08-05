@@ -5,8 +5,8 @@ import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:openapi/api.dart';
 
 class CupertinoCreateFirewallRulePage extends StatelessWidget {
-  final SecurityGroupRuleProtocol _protocol;
-  final void Function(SecurityGroupRuleProtocol protocol) _onProtocolChange;
+  final NetworkProtocol _protocol;
+  final void Function(NetworkProtocol protocol) _onProtocolChange;
   final String _sourceNetwork;
   final void Function(String sourceNetwork) _onSourceNetworkChange;
   final PortRange _portRange;
@@ -17,8 +17,8 @@ class CupertinoCreateFirewallRulePage extends StatelessWidget {
 
   const CupertinoCreateFirewallRulePage({
     super.key,
-    required SecurityGroupRuleProtocol protocol,
-    required void Function(SecurityGroupRuleProtocol) onProtocolChange,
+    required NetworkProtocol protocol,
+    required void Function(NetworkProtocol) onProtocolChange,
     required String sourceNetwork,
     required void Function(String) onSourceNetworkChange,
     required PortRange portRange,
@@ -107,9 +107,8 @@ class CupertinoCreateFirewallRulePage extends StatelessWidget {
   }
 
   void _handleProtocolTap(BuildContext context) async {
-    final protocol = await Navigator.of(context)
-        .push<SecurityGroupRuleProtocol>(
-            CupertinoPageRoute(builder: (context) => ProtocolPickerPage()));
+    final protocol = await Navigator.of(context).push<NetworkProtocol>(
+        CupertinoPageRoute(builder: (context) => ProtocolPickerPage()));
 
     if (protocol != null && protocol != _protocol) {
       _onProtocolChange(protocol);

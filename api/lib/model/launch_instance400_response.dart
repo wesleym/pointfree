@@ -16,7 +16,7 @@ class LaunchInstance400Response {
     required this.error,
   });
 
-  Response1 error;
+  LaunchInstance400ResponseError error;
 
   @override
   bool operator ==(Object other) =>
@@ -58,7 +58,7 @@ class LaunchInstance400Response {
       }());
 
       return LaunchInstance400Response(
-        error: Response1.fromJson(json[r'error'])!,
+        error: LaunchInstance400ResponseError.fromJson(json[r'error'])!,
       );
     }
     return null;

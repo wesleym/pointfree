@@ -5,7 +5,7 @@
 import 'package:openapi/api.dart';
 ```
 
-All URIs are relative to *https://cloud.lambdalabs.com*
+All URIs are relative to *https://cloud.lambda.ai*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

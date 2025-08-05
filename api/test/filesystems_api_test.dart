@@ -27,7 +27,7 @@ void main() {
 
     // Delete filesystem
     //
-    // Deletes the filesystem with the specified ID. The filesystem must not be attached to any running instances at the time of deletion.
+    // Deletes the filesystem with the specified ID. The filesystem must not be mounted to any running instances at the time of deletion.
     //
     //Future<FilesystemDelete200Response> filesystemDelete(String id) async
     test('test filesystemDelete', () async {

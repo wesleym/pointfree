@@ -17,9 +17,13 @@ class InstanceLaunchRequest {
     required this.instanceTypeName,
     this.sshKeyNames = const [],
     this.fileSystemNames = const [],
+    this.fileSystemMounts = const [],
+    this.hostname,
     this.name,
     this.image,
     this.userData,
+    this.tags = const [],
+    this.firewallRulesets = const [],
   });
 
   /// The region into which you want to launch the instance.
@@ -31,8 +35,20 @@ class InstanceLaunchRequest {
   /// The names of the SSH keys you want to use to provide access to the instance. Currently, exactly one SSH key must be specified.
   List<String> sshKeyNames;
 
-  /// The names of the filesystems you want to attach to the instance. Currently, you can attach only one filesystem during instance creation. By default, no filesystems are attached.
+  /// The names of the filesystems you want to mount to the instance. When specified alongside `file_system_mounts`, any filesystems referred to in both lists will use the mount path specified in `file_system_mounts`, rather than the default.
   List<String> fileSystemNames;
+
+  /// The filesystem mounts to mount to the instance. When specified alongside  `file_system_names`, any filesystems referred to in both lists will use the mount path specified in `file_system_mounts`, rather than the default.
+  List<RequestedFilesystemMountEntry> fileSystemMounts;
+
+  /// The hostname to assign to the instance. If not specified, a default, IP-address-based hostname is assigned. This hostname is driven into /etc/hostname on the instance.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? hostname;
 
   /// The name you want to assign to your instance. Must be 64 characters or fewer.
   ///
@@ -49,7 +65,7 @@ class InstanceLaunchRequest {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  Image? image;
+  InstanceLaunchRequestImage? image;
 
   /// An instance configuration string specified in a valid [cloud-init user-data](https://cloudinit.readthedocs.io/en/latest/explanation/format.html) format. You can use this field to configure your instance on launch. The user data string must be plain text and cannot exceed 1MB in size.
   ///
@@ -60,6 +76,12 @@ class InstanceLaunchRequest {
   ///
   String? userData;
 
+  /// Key/value pairs representing the instance's tags.
+  List<RequestedTagEntry> tags;
+
+  /// The firewall rulesets to associate with the instance. The firewall rulesets must exist in the same region as the instance.
+  List<FirewallRulesetEntry> firewallRulesets;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -68,9 +90,13 @@ class InstanceLaunchRequest {
           other.instanceTypeName == instanceTypeName &&
           _deepEquality.equals(other.sshKeyNames, sshKeyNames) &&
           _deepEquality.equals(other.fileSystemNames, fileSystemNames) &&
+          _deepEquality.equals(other.fileSystemMounts, fileSystemMounts) &&
+          other.hostname == hostname &&
           other.name == name &&
           other.image == image &&
-          other.userData == userData;
+          other.userData == userData &&
+          _deepEquality.equals(other.tags, tags) &&
+          _deepEquality.equals(other.firewallRulesets, firewallRulesets);
 
   @override
   int get hashCode =>
@@ -79,13 +105,17 @@ class InstanceLaunchRequest {
       (instanceTypeName.hashCode) +
       (sshKeyNames.hashCode) +
       (fileSystemNames.hashCode) +
+      (fileSystemMounts.hashCode) +
+      (hostname == null ? 0 : hostname!.hashCode) +
       (name == null ? 0 : name!.hashCode) +
       (image == null ? 0 : image!.hashCode) +
-      (userData == null ? 0 : userData!.hashCode);
+      (userData == null ? 0 : userData!.hashCode) +
+      (tags.hashCode) +
+      (firewallRulesets.hashCode);
 
   @override
   String toString() =>
-      'InstanceLaunchRequest[regionName=$regionName, instanceTypeName=$instanceTypeName, sshKeyNames=$sshKeyNames, fileSystemNames=$fileSystemNames, name=$name, image=$image, userData=$userData]';
+      'InstanceLaunchRequest[regionName=$regionName, instanceTypeName=$instanceTypeName, sshKeyNames=$sshKeyNames, fileSystemNames=$fileSystemNames, fileSystemMounts=$fileSystemMounts, hostname=$hostname, name=$name, image=$image, userData=$userData, tags=$tags, firewallRulesets=$firewallRulesets]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -93,6 +123,12 @@ class InstanceLaunchRequest {
     json[r'instance_type_name'] = this.instanceTypeName;
     json[r'ssh_key_names'] = this.sshKeyNames;
     json[r'file_system_names'] = this.fileSystemNames;
+    json[r'file_system_mounts'] = this.fileSystemMounts;
+    if (this.hostname != null) {
+      json[r'hostname'] = this.hostname;
+    } else {
+      json[r'hostname'] = null;
+    }
     if (this.name != null) {
       json[r'name'] = this.name;
     } else {
@@ -108,6 +144,8 @@ class InstanceLaunchRequest {
     } else {
       json[r'user_data'] = null;
     }
+    json[r'tags'] = this.tags;
+    json[r'firewall_rulesets'] = this.firewallRulesets;
     return json;
   }
 
@@ -144,9 +182,15 @@ class InstanceLaunchRequest {
                 .cast<String>()
                 .toList(growable: false)
             : const [],
+        fileSystemMounts: RequestedFilesystemMountEntry.listFromJson(
+            json[r'file_system_mounts']),
+        hostname: mapValueOfType<String>(json, r'hostname'),
         name: mapValueOfType<String>(json, r'name'),
-        image: Image.fromJson(json[r'image']),
+        image: InstanceLaunchRequestImage.fromJson(json[r'image']),
         userData: mapValueOfType<String>(json, r'user_data'),
+        tags: RequestedTagEntry.listFromJson(json[r'tags']),
+        firewallRulesets:
+            FirewallRulesetEntry.listFromJson(json[r'firewall_rulesets']),
       );
     }
     return null;

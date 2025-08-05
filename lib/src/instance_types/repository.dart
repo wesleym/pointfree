@@ -22,10 +22,10 @@ class InstanceTypesRepository {
     var now = DateTime.now();
     if (!force && _lastFetchTime.add(_ttl).isAfter(now)) return;
 
-    final SvrExternalApiV1EndpointsInstanceTypesGet200Response instances;
+    final ListInstanceTypes200Response instances;
     try {
-      final maybeInstances = await InstancesApi(defaultApiClient)
-          .svrExternalApiV1EndpointsInstanceTypesGet();
+      final maybeInstances =
+          await InstancesApi(defaultApiClient).listInstanceTypes();
       // This should never be null: an ApiException should have been thrown instead.
       instances = maybeInstances!;
     } on ApiException catch (e) {

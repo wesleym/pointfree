@@ -38,6 +38,7 @@ class PublicRegionCode {
   static const usSouth2 = PublicRegionCode._(r'us-south-2');
   static const usSouth3 = PublicRegionCode._(r'us-south-3');
   static const usEast3 = PublicRegionCode._(r'us-east-3');
+  static const usMidwest2 = PublicRegionCode._(r'us-midwest-2');
   static const testEast1 = PublicRegionCode._(r'test-east-1');
   static const testWest1 = PublicRegionCode._(r'test-west-1');
 
@@ -59,6 +60,7 @@ class PublicRegionCode {
     usSouth2,
     usSouth3,
     usEast3,
+    usMidwest2,
     testEast1,
     testWest1,
   ];
@@ -136,6 +138,8 @@ class PublicRegionCodeTypeTransformer {
           return PublicRegionCode.usSouth3;
         case r'us-east-3':
           return PublicRegionCode.usEast3;
+        case r'us-midwest-2':
+          return PublicRegionCode.usMidwest2;
         case r'test-east-1':
           return PublicRegionCode.testEast1;
         case r'test-west-1':

@@ -9,7 +9,7 @@ class ProtocolPickerDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleDialog(
       title: Text('Protocol'),
-      children: SecurityGroupRuleProtocol.values
+      children: NetworkProtocol.values
           .map((e) => SimpleDialogOption(
                 onPressed: () => _onSelectProtocol(context, e),
                 child: Text(e.value),
@@ -18,7 +18,6 @@ class ProtocolPickerDialog extends StatelessWidget {
     );
   }
 
-  void _onSelectProtocol(
-          BuildContext context, SecurityGroupRuleProtocol protocol) =>
+  void _onSelectProtocol(BuildContext context, NetworkProtocol protocol) =>
       context.pop(protocol);
 }

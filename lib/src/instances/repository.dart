@@ -81,7 +81,7 @@ class InstancesRepository {
     required PublicRegionCode regionCode,
     required String sshKeyName,
     String? filesystemName,
-    Image? image,
+    InstanceLaunchRequestImage? image,
   }) async {
     final filesystemNames = [if (filesystemName != null) filesystemName];
     try {

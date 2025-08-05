@@ -20,12 +20,15 @@ class Instance {
     required this.status,
     this.sshKeyNames = const [],
     this.fileSystemNames = const [],
+    this.fileSystemMounts = const [],
     required this.region,
     required this.instanceType,
     this.hostname,
     this.jupyterToken,
     this.jupyterUrl,
     required this.actions,
+    this.tags = const [],
+    this.firewallRulesets = const [],
   });
 
   /// The unique identifier of the instance.
@@ -63,8 +66,11 @@ class Instance {
   /// The names of the SSH keys that are allowed to access the instance.
   List<String> sshKeyNames;
 
-  /// The names of the filesystems attached to the instance. If no filesystems are attached, this array is empty.
+  /// The names of the filesystems mounted to the instance. If no filesystems are mounted, this array is empty.
   List<String> fileSystemNames;
+
+  /// The filesystems, along with the mount paths, mounted to  the instances. If no filesystems are mounted, this parameter will be missing from the response.
+  List<FilesystemMountEntry> fileSystemMounts;
 
   /// The region in which the instance is deployed.
   Region region;
@@ -102,6 +108,12 @@ class Instance {
   /// A set of status objects representing the current availability of common instance operations.
   InstanceActionAvailability actions;
 
+  /// Key/value pairs representing the instance's tags.
+  List<TagEntry> tags;
+
+  /// The firewall rulesets associated with this instance.
+  List<FirewallRulesetEntry> firewallRulesets;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -113,12 +125,15 @@ class Instance {
           other.status == status &&
           _deepEquality.equals(other.sshKeyNames, sshKeyNames) &&
           _deepEquality.equals(other.fileSystemNames, fileSystemNames) &&
+          _deepEquality.equals(other.fileSystemMounts, fileSystemMounts) &&
           other.region == region &&
           other.instanceType == instanceType &&
           other.hostname == hostname &&
           other.jupyterToken == jupyterToken &&
           other.jupyterUrl == jupyterUrl &&
-          other.actions == actions;
+          other.actions == actions &&
+          _deepEquality.equals(other.tags, tags) &&
+          _deepEquality.equals(other.firewallRulesets, firewallRulesets);
 
   @override
   int get hashCode =>
@@ -130,16 +145,19 @@ class Instance {
       (status.hashCode) +
       (sshKeyNames.hashCode) +
       (fileSystemNames.hashCode) +
+      (fileSystemMounts.hashCode) +
       (region.hashCode) +
       (instanceType.hashCode) +
       (hostname == null ? 0 : hostname!.hashCode) +
       (jupyterToken == null ? 0 : jupyterToken!.hashCode) +
       (jupyterUrl == null ? 0 : jupyterUrl!.hashCode) +
-      (actions.hashCode);
+      (actions.hashCode) +
+      (tags.hashCode) +
+      (firewallRulesets.hashCode);
 
   @override
   String toString() =>
-      'Instance[id=$id, name=$name, ip=$ip, privateIp=$privateIp, status=$status, sshKeyNames=$sshKeyNames, fileSystemNames=$fileSystemNames, region=$region, instanceType=$instanceType, hostname=$hostname, jupyterToken=$jupyterToken, jupyterUrl=$jupyterUrl, actions=$actions]';
+      'Instance[id=$id, name=$name, ip=$ip, privateIp=$privateIp, status=$status, sshKeyNames=$sshKeyNames, fileSystemNames=$fileSystemNames, fileSystemMounts=$fileSystemMounts, region=$region, instanceType=$instanceType, hostname=$hostname, jupyterToken=$jupyterToken, jupyterUrl=$jupyterUrl, actions=$actions, tags=$tags, firewallRulesets=$firewallRulesets]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -162,6 +180,7 @@ class Instance {
     json[r'status'] = this.status;
     json[r'ssh_key_names'] = this.sshKeyNames;
     json[r'file_system_names'] = this.fileSystemNames;
+    json[r'file_system_mounts'] = this.fileSystemMounts;
     json[r'region'] = this.region;
     json[r'instance_type'] = this.instanceType;
     if (this.hostname != null) {
@@ -180,6 +199,8 @@ class Instance {
       json[r'jupyter_url'] = null;
     }
     json[r'actions'] = this.actions;
+    json[r'tags'] = this.tags;
+    json[r'firewall_rulesets'] = this.firewallRulesets;
     return json;
   }
 
@@ -219,12 +240,17 @@ class Instance {
                 .cast<String>()
                 .toList(growable: false)
             : const [],
+        fileSystemMounts:
+            FilesystemMountEntry.listFromJson(json[r'file_system_mounts']),
         region: Region.fromJson(json[r'region'])!,
         instanceType: InstanceType.fromJson(json[r'instance_type'])!,
         hostname: mapValueOfType<String>(json, r'hostname'),
         jupyterToken: mapValueOfType<String>(json, r'jupyter_token'),
         jupyterUrl: mapValueOfType<String>(json, r'jupyter_url'),
         actions: InstanceActionAvailability.fromJson(json[r'actions'])!,
+        tags: TagEntry.listFromJson(json[r'tags']),
+        firewallRulesets:
+            FirewallRulesetEntry.listFromJson(json[r'firewall_rulesets']),
       );
     }
     return null;

@@ -27,7 +27,7 @@ class InstanceActionAvailabilityDetails {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  ReasonCode? reasonCode;
+  InstanceActionAvailabilityDetailsReasonCode? reasonCode;
 
   /// A longer description of why this operation is currently blocked. Only provided if the operation is blocked.
   ///
@@ -95,7 +95,8 @@ class InstanceActionAvailabilityDetails {
 
       return InstanceActionAvailabilityDetails(
         available: mapValueOfType<bool>(json, r'available')!,
-        reasonCode: ReasonCode.fromJson(json[r'reason_code']),
+        reasonCode: InstanceActionAvailabilityDetailsReasonCode.fromJson(
+            json[r'reason_code']),
         reasonDescription: mapValueOfType<String>(json, r'reason_description'),
       );
     }

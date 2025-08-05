@@ -16,7 +16,7 @@ class CreateFilesystem400Response {
     required this.error,
   });
 
-  Response3 error;
+  CreateFilesystem400ResponseError error;
 
   @override
   bool operator ==(Object other) =>
@@ -58,7 +58,7 @@ class CreateFilesystem400Response {
       }());
 
       return CreateFilesystem400Response(
-        error: Response3.fromJson(json[r'error'])!,
+        error: CreateFilesystem400ResponseError.fromJson(json[r'error'])!,
       );
     }
     return null;

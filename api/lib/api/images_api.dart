@@ -19,8 +19,8 @@ class ImagesApi {
   ///
   /// Retrieves a list of available images by region.
   ///
-  /// Note: This method returns the HTTP [http.Response].
-  Future<http.Response> listImagesWithHttpInfo() async {
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> listImagesWithHttpInfo() async {
     // ignore: prefer_const_declarations
     final path = r'/api/v1/images';
 

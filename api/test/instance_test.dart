@@ -16,79 +16,98 @@ void main() {
   // final instance = Instance();
 
   group('test Instance', () {
-    // Unique identifier (ID) of an instance
+    // The unique identifier of the instance.
     // String id
     test('to test the property `id`', () async {
       // TODO
     });
 
-    // User-provided name for the instance
+    // If set, the user-provided name of the instance.
     // String name
     test('to test the property `name`', () async {
       // TODO
     });
 
-    // IPv4 address of the instance
+    // The public IPv4 address of the instance.
     // String ip
     test('to test the property `ip`', () async {
       // TODO
     });
 
-    // Private IPv4 address of the instance
+    // The private IPv4 address of the instance.
     // String privateIp
     test('to test the property `privateIp`', () async {
       // TODO
     });
 
-    // The current status of the instance
-    // String status
+    // InstanceStatus status
     test('to test the property `status`', () async {
       // TODO
     });
 
-    // Names of the SSH keys allowed to access the instance
+    // The names of the SSH keys that are allowed to access the instance.
     // List<String> sshKeyNames (default value: const [])
     test('to test the property `sshKeyNames`', () async {
       // TODO
     });
 
-    // Names of the file systems, if any, attached to the instance
+    // The names of the filesystems mounted to the instance. If no filesystems are mounted, this array is empty.
     // List<String> fileSystemNames (default value: const [])
     test('to test the property `fileSystemNames`', () async {
       // TODO
     });
 
+    // The filesystems, along with the mount paths, mounted to  the instances. If no filesystems are mounted, this parameter will be missing from the response.
+    // List<FilesystemMountEntry> fileSystemMounts (default value: const [])
+    test('to test the property `fileSystemMounts`', () async {
+      // TODO
+    });
+
+    // The region in which the instance is deployed.
     // Region region
     test('to test the property `region`', () async {
       // TODO
     });
 
+    // Detailed information about the instance's instance type.
     // InstanceType instanceType
     test('to test the property `instanceType`', () async {
       // TODO
     });
 
-    // Hostname assigned to this instance, which resolves to the instance's IP.
+    // The hostname assigned to this instance, which resolves to the instance's IP.
     // String hostname
     test('to test the property `hostname`', () async {
       // TODO
     });
 
-    // Secret token used to log into the jupyter lab server hosted on the instance.
+    // The secret token used to log into the JupyterLab server hosted on the instance.
     // String jupyterToken
     test('to test the property `jupyterToken`', () async {
       // TODO
     });
 
-    // URL that opens a jupyter lab notebook on the instance.
+    // The URL that opens the JupyterLab environment on the instance.
     // String jupyterUrl
     test('to test the property `jupyterUrl`', () async {
       // TODO
     });
 
-    // Whether the instance is reserved.
-    // bool isReserved
-    test('to test the property `isReserved`', () async {
+    // A set of status objects representing the current availability of common instance operations.
+    // InstanceActionAvailability actions
+    test('to test the property `actions`', () async {
+      // TODO
+    });
+
+    // Key/value pairs representing the instance's tags.
+    // List<TagEntry> tags (default value: const [])
+    test('to test the property `tags`', () async {
+      // TODO
+    });
+
+    // The firewall rulesets associated with this instance.
+    // List<FirewallRulesetEntry> firewallRulesets (default value: const [])
+    test('to test the property `firewallRulesets`', () async {
       // TODO
     });
   });

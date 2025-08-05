@@ -11,32 +11,26 @@
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
 
-// tests for SshKey
+// tests for SSHKey
 void main() {
-  // final instance = SshKey();
+  // final instance = SSHKey();
 
-  group('test SshKey', () {
-    // Unique identifier (ID) of an SSH key
+  group('test SSHKey', () {
+    // The unique identifier (ID) of the SSH key.
     // String id
     test('to test the property `id`', () async {
       // TODO
     });
 
-    // Name of the SSH key
+    // The name of the SSH key.
     // String name
     test('to test the property `name`', () async {
       // TODO
     });
 
-    // Public key for the SSH key
+    // The public key for the SSH key.
     // String publicKey
     test('to test the property `publicKey`', () async {
-      // TODO
-    });
-
-    // Private key for the SSH key. Only returned when generating a new key pair.
-    // String privateKey
-    test('to test the property `privateKey`', () async {
       // TODO
     });
   });

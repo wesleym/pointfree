@@ -76,11 +76,11 @@ String parameterToString(dynamic value) {
   if (value is InstanceStatus) {
     return InstanceStatusTypeTransformer().encode(value).toString();
   }
+  if (value is NetworkProtocol) {
+    return NetworkProtocolTypeTransformer().encode(value).toString();
+  }
   if (value is PublicRegionCode) {
     return PublicRegionCodeTypeTransformer().encode(value).toString();
-  }
-  if (value is SecurityGroupRuleProtocol) {
-    return SecurityGroupRuleProtocolTypeTransformer().encode(value).toString();
   }
   if (value is UserStatus) {
     return UserStatusTypeTransformer().encode(value).toString();
@@ -90,7 +90,7 @@ String parameterToString(dynamic value) {
 
 /// Returns the decoded body as UTF-8 if the given headers indicate an 'application/json'
 /// content type. Otherwise, returns the decoded body as decoded by dart:http package.
-Future<String> _decodeBodyBytes(http.Response response) async {
+Future<String> _decodeBodyBytes(Response response) async {
   final contentType = response.headers['content-type'];
   return contentType != null &&
           contentType.toLowerCase().startsWith('application/json')

@@ -16,13 +16,13 @@ void main() {
   // final instance = Region();
 
   group('test Region', () {
-    // Short name of a region
-    // String name
+    // The region code.
+    // PublicRegionCode name
     test('to test the property `name`', () async {
       // TODO
     });
 
-    // Long name of a region
+    // The location represented by the region code.
     // String description
     test('to test the property `description`', () async {
       // TODO

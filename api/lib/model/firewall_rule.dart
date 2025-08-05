@@ -20,7 +20,7 @@ class FirewallRule {
   });
 
   /// The protocol to which the rule applies.
-  SecurityGroupRuleProtocol protocol;
+  NetworkProtocol protocol;
 
   /// An inclusive range of network ports specified as `[min, max]`. Not allowed for the `icmp` protocol but required for the others.  To specify a single port, list it twice (for example, `[22,22]`).
   List<int> portRange;
@@ -82,7 +82,7 @@ class FirewallRule {
       }());
 
       return FirewallRule(
-        protocol: SecurityGroupRuleProtocol.fromJson(json[r'protocol'])!,
+        protocol: NetworkProtocol.fromJson(json[r'protocol'])!,
         portRange: json[r'port_range'] is Iterable
             ? (json[r'port_range'] as Iterable)
                 .cast<int>()

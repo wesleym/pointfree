@@ -17,7 +17,7 @@ void main() {
 
   group('test FirewallRule', () {
     // The protocol to which the rule applies.
-    // SecurityGroupRuleProtocol protocol
+    // NetworkProtocol protocol
     test('to test the property `protocol`', () async {
       // TODO
     });

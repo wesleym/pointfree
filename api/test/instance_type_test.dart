@@ -16,30 +16,31 @@ void main() {
   // final instance = InstanceType();
 
   group('test InstanceType', () {
-    // Name of an instance type
+    // The name of the instance type.
     // String name
     test('to test the property `name`', () async {
       // TODO
     });
 
-    // Long name of the instance type
+    // A description of the instance type.
     // String description
     test('to test the property `description`', () async {
       // TODO
     });
 
-    // Description of the GPU(s) in the instance type
+    // The type of GPU used by this instance type.
     // String gpuDescription
     test('to test the property `gpuDescription`', () async {
       // TODO
     });
 
-    // Price of the instance type, in US cents per hour
+    // The price of the instance type in US cents per hour.
     // int priceCentsPerHour
     test('to test the property `priceCentsPerHour`', () async {
       // TODO
     });
 
+    // Detailed technical specifications for the instance type.
     // InstanceTypeSpecs specs
     test('to test the property `specs`', () async {
       // TODO

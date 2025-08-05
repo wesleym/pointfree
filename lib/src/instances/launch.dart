@@ -25,7 +25,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
   final _filesystemRepository = FilesystemsRepository.instance;
   final _sshKeyRepository = SshKeysRepository.instance;
   String? _instanceTypeName;
-  api.Image? _image;
+  api.InstanceLaunchRequestImage? _image;
   api.PublicRegionCode? _regionCode;
   String? _filesystemId;
   String? _sshKeyId;

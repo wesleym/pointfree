@@ -16,25 +16,25 @@ void main() {
   // final instance = InstanceTypeSpecs();
 
   group('test InstanceTypeSpecs', () {
-    // Number of virtual CPUs
+    // The number of virtual CPUs.
     // int vcpus
     test('to test the property `vcpus`', () async {
       // TODO
     });
 
-    // Amount of RAM, in gibibytes (GiB)
+    // The amount of RAM in gibibytes (GiB).
     // int memoryGib
     test('to test the property `memoryGib`', () async {
       // TODO
     });
 
-    // Amount of storage, in gibibytes (GiB).
+    // The amount of storage in gibibytes (GiB).
     // int storageGib
     test('to test the property `storageGib`', () async {
       // TODO
     });
 
-    // Number of GPUs
+    // The number of GPUs.
     // int gpus
     test('to test the property `gpus`', () async {
       // TODO

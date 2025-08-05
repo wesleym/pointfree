@@ -5,7 +5,7 @@
 import 'package:openapi/api.dart';
 ```
 
-All URIs are relative to *https://cloud.lambdalabs.com*
+All URIs are relative to *https://cloud.lambda.ai*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -71,7 +71,7 @@ Name | Type | Description  | Notes
 
 Delete filesystem
 
-Deletes the filesystem with the specified ID. The filesystem must not be attached to any running instances at the time of deletion.
+Deletes the filesystem with the specified ID. The filesystem must not be mounted to any running instances at the time of deletion.
 
 ### Example
 ```dart
@@ -87,7 +87,7 @@ import 'package:openapi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = FilesystemsApi();
-final id = id_example; // String | 
+final id = 398578a2336b49079e74043f0bd2cfe8; // String | The unique identifier (ID) of the filesystem to delete
 
 try {
     final result = api_instance.filesystemDelete(id);
@@ -101,7 +101,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **String**|  | 
+ **id** | **String**| The unique identifier (ID) of the filesystem to delete | 
 
 ### Return type
 

@@ -16,7 +16,7 @@ void main() {
   // final instance = LaunchInstance403Response();
 
   group('test LaunchInstance403Response', () {
-    // Response error
+    // LaunchInstance403ResponseError error
     test('to test the property `error`', () async {
       // TODO
     });

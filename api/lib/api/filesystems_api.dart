@@ -20,12 +20,12 @@ class FilesystemsApi {
   ///
   /// Creates a new filesystem.
   ///
-  /// Note: This method returns the HTTP [http.Response].
+  /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [FilesystemCreateRequest] filesystemCreateRequest (required):
-  Future<http.Response> createFilesystemWithHttpInfo(
+  Future<Response> createFilesystemWithHttpInfo(
     FilesystemCreateRequest filesystemCreateRequest,
   ) async {
     // ignore: prefer_const_declarations
@@ -82,14 +82,15 @@ class FilesystemsApi {
 
   /// Delete filesystem
   ///
-  /// Deletes the filesystem with the specified ID. The filesystem must not be attached to any running instances at the time of deletion.
+  /// Deletes the filesystem with the specified ID. The filesystem must not be mounted to any running instances at the time of deletion.
   ///
-  /// Note: This method returns the HTTP [http.Response].
+  /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] id (required):
-  Future<http.Response> filesystemDeleteWithHttpInfo(
+  ///   The unique identifier (ID) of the filesystem to delete
+  Future<Response> filesystemDeleteWithHttpInfo(
     String id,
   ) async {
     // ignore: prefer_const_declarations
@@ -117,11 +118,12 @@ class FilesystemsApi {
 
   /// Delete filesystem
   ///
-  /// Deletes the filesystem with the specified ID. The filesystem must not be attached to any running instances at the time of deletion.
+  /// Deletes the filesystem with the specified ID. The filesystem must not be mounted to any running instances at the time of deletion.
   ///
   /// Parameters:
   ///
   /// * [String] id (required):
+  ///   The unique identifier (ID) of the filesystem to delete
   Future<FilesystemDelete200Response?> filesystemDelete(
     String id,
   ) async {
@@ -148,8 +150,8 @@ class FilesystemsApi {
   ///
   /// Retrieves a list of your filesystems.
   ///
-  /// Note: This method returns the HTTP [http.Response].
-  Future<http.Response> listFilesystemsWithHttpInfo() async {
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> listFilesystemsWithHttpInfo() async {
     // ignore: prefer_const_declarations
     final path = r'/api/v1/file-systems';
 

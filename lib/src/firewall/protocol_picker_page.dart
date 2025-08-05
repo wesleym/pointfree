@@ -9,7 +9,7 @@ class ProtocolPickerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final protocols = SecurityGroupRuleProtocol.values;
+    final protocols = NetworkProtocol.values;
 
     return PlatformScaffold(
       topBar: PlatformTopBar(title: Text('Protocol')),
@@ -25,7 +25,6 @@ class ProtocolPickerPage extends StatelessWidget {
     );
   }
 
-  void _onSelectProtocol(
-          BuildContext context, SecurityGroupRuleProtocol protocol) =>
+  void _onSelectProtocol(BuildContext context, NetworkProtocol protocol) =>
       context.pop(protocol);
 }

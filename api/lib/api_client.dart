@@ -12,23 +12,23 @@ part of openapi.api;
 
 class ApiClient {
   ApiClient({
-    this.basePath = 'https://cloud.lambdalabs.com',
+    this.basePath = 'https://cloud.lambda.ai',
     this.authentication,
   });
 
   final String basePath;
   final Authentication? authentication;
 
-  var _client = http.Client();
+  var _client = Client();
   final _defaultHeaderMap = <String, String>{};
 
   /// Returns the current HTTP [Client] instance to use in this class.
   ///
   /// The return value is guaranteed to never be null.
-  http.Client get client => _client;
+  Client get client => _client;
 
   /// Requests to use a new HTTP [Client] in this class.
-  set client(http.Client newClient) {
+  set client(Client newClient) {
     _client = newClient;
   }
 
@@ -40,7 +40,7 @@ class ApiClient {
 
   // We don't use a Map<String, String> for queryParams.
   // If collectionFormat is 'multi', a key might appear multiple times.
-  Future<http.Response> invokeAPI(
+  Future<Response> invokeAPI(
     String path,
     String method,
     List<QueryParam> queryParams,
@@ -64,10 +64,10 @@ class ApiClient {
 
     try {
       // Special case for uploading a single file which isn't a 'multipart/form-data'.
-      if (body is http.MultipartFile &&
+      if (body is MultipartFile &&
           (contentType == null ||
               !contentType.toLowerCase().startsWith('multipart/form-data'))) {
-        final request = http.StreamedRequest(method, uri);
+        final request = StreamedRequest(method, uri);
         request.headers.addAll(headerParams);
         request.contentLength = body.length;
         body.finalize().listen(
@@ -78,17 +78,17 @@ class ApiClient {
               cancelOnError: true,
             );
         final response = await _client.send(request);
-        return http.Response.fromStream(response);
+        return Response.fromStream(response);
       }
 
-      if (body is http.MultipartRequest) {
-        final request = http.MultipartRequest(method, uri);
+      if (body is MultipartRequest) {
+        final request = MultipartRequest(method, uri);
         request.fields.addAll(body.fields);
         request.files.addAll(body.files);
         request.headers.addAll(body.headers);
         request.headers.addAll(headerParams);
         final response = await _client.send(request);
-        return http.Response.fromStream(response);
+        return Response.fromStream(response);
       }
 
       final msgBody = contentType == 'application/x-www-form-urlencoded'
@@ -153,7 +153,7 @@ class ApiClient {
         error,
         trace,
       );
-    } on http.ClientException catch (error, trace) {
+    } on ClientException catch (error, trace) {
       throw ApiException.withInner(
         HttpStatus.badRequest,
         'HTTP connection failed: $method $path',
@@ -231,6 +231,8 @@ class ApiClient {
           return value is DateTime ? value : DateTime.tryParse(value);
         case 'AddSSHKey200Response':
           return AddSSHKey200Response.fromJson(value);
+        case 'AddSSHKey200ResponseData':
+          return AddSSHKey200ResponseData.fromJson(value);
         case 'AddSSHKeyRequest':
           return AddSSHKeyRequest.fromJson(value);
         case 'ApiErrorAccountInactive':
@@ -243,10 +245,16 @@ class ApiClient {
           return ApiErrorFilesystemInUse.fromJson(value);
         case 'ApiErrorFilesystemNotFound':
           return ApiErrorFilesystemNotFound.fromJson(value);
+        case 'ApiErrorFirewallRulesetInUse':
+          return ApiErrorFirewallRulesetInUse.fromJson(value);
+        case 'ApiErrorFirewallRulesetNotFound':
+          return ApiErrorFirewallRulesetNotFound.fromJson(value);
         case 'ApiErrorInstanceNotFound':
           return ApiErrorInstanceNotFound.fromJson(value);
         case 'ApiErrorInsufficientCapacity':
           return ApiErrorInsufficientCapacity.fromJson(value);
+        case 'ApiErrorInternal':
+          return ApiErrorInternal.fromJson(value);
         case 'ApiErrorInvalidBillingAddress':
           return ApiErrorInvalidBillingAddress.fromJson(value);
         case 'ApiErrorInvalidParameters':
@@ -261,6 +269,18 @@ class ApiClient {
           return CreateFilesystem200Response.fromJson(value);
         case 'CreateFilesystem400Response':
           return CreateFilesystem400Response.fromJson(value);
+        case 'CreateFilesystem400ResponseError':
+          return CreateFilesystem400ResponseError.fromJson(value);
+        case 'CreateFirewallRuleset200Response':
+          return CreateFirewallRuleset200Response.fromJson(value);
+        case 'CreateFirewallRuleset400Response':
+          return CreateFirewallRuleset400Response.fromJson(value);
+        case 'CreateFirewallRuleset400ResponseError':
+          return CreateFirewallRuleset400ResponseError.fromJson(value);
+        case 'CreateFirewallRuleset409Response':
+          return CreateFirewallRuleset409Response.fromJson(value);
+        case 'DeleteFirewallRuleset400Response':
+          return DeleteFirewallRuleset400Response.fromJson(value);
         case 'DeleteSSHKey200Response':
           return DeleteSSHKey200Response.fromJson(value);
         case 'Filesystem':
@@ -275,20 +295,40 @@ class ApiClient {
           return FilesystemDelete404Response.fromJson(value);
         case 'FilesystemDeleteResponse':
           return FilesystemDeleteResponse.fromJson(value);
+        case 'FilesystemMountEntry':
+          return FilesystemMountEntry.fromJson(value);
         case 'FirewallRule':
           return FirewallRule.fromJson(value);
         case 'FirewallRulesList200Response':
           return FirewallRulesList200Response.fromJson(value);
         case 'FirewallRulesPutRequest':
           return FirewallRulesPutRequest.fromJson(value);
+        case 'FirewallRuleset':
+          return FirewallRuleset.fromJson(value);
+        case 'FirewallRulesetCreateRequest':
+          return FirewallRulesetCreateRequest.fromJson(value);
+        case 'FirewallRulesetEntry':
+          return FirewallRulesetEntry.fromJson(value);
+        case 'FirewallRulesetPatchRequest':
+          return FirewallRulesetPatchRequest.fromJson(value);
+        case 'FirewallRulesetsList200Response':
+          return FirewallRulesetsList200Response.fromJson(value);
         case 'GeneratedSSHKey':
           return GeneratedSSHKey.fromJson(value);
+        case 'GetFirewallRuleset404Response':
+          return GetFirewallRuleset404Response.fromJson(value);
+        case 'GetGlobalFirewallRuleset200Response':
+          return GetGlobalFirewallRuleset200Response.fromJson(value);
         case 'GetInstance200Response':
           return GetInstance200Response.fromJson(value);
         case 'GetInstance401Response':
           return GetInstance401Response.fromJson(value);
         case 'GetInstance404Response':
           return GetInstance404Response.fromJson(value);
+        case 'GlobalFirewallRuleset':
+          return GlobalFirewallRuleset.fromJson(value);
+        case 'GlobalFirewallRulesetPatchRequest':
+          return GlobalFirewallRulesetPatchRequest.fromJson(value);
         case 'Image':
           return Image.fromJson(value);
         case 'ImageArchitecture':
@@ -303,10 +343,14 @@ class ApiClient {
           return InstanceActionAvailability.fromJson(value);
         case 'InstanceActionAvailabilityDetails':
           return InstanceActionAvailabilityDetails.fromJson(value);
+        case 'InstanceActionAvailabilityDetailsReasonCode':
+          return InstanceActionAvailabilityDetailsReasonCode.fromJson(value);
         case 'InstanceActionUnavailableCode':
           return InstanceActionUnavailableCodeTypeTransformer().decode(value);
         case 'InstanceLaunchRequest':
           return InstanceLaunchRequest.fromJson(value);
+        case 'InstanceLaunchRequestImage':
+          return InstanceLaunchRequestImage.fromJson(value);
         case 'InstanceLaunchResponse':
           return InstanceLaunchResponse.fromJson(value);
         case 'InstanceModificationRequest':
@@ -331,14 +375,20 @@ class ApiClient {
           return LaunchInstance200Response.fromJson(value);
         case 'LaunchInstance400Response':
           return LaunchInstance400Response.fromJson(value);
+        case 'LaunchInstance400ResponseError':
+          return LaunchInstance400ResponseError.fromJson(value);
         case 'LaunchInstance403Response':
           return LaunchInstance403Response.fromJson(value);
+        case 'LaunchInstance403ResponseError':
+          return LaunchInstance403ResponseError.fromJson(value);
         case 'LaunchInstance404Response':
           return LaunchInstance404Response.fromJson(value);
         case 'ListFilesystems200Response':
           return ListFilesystems200Response.fromJson(value);
         case 'ListImages200Response':
           return ListImages200Response.fromJson(value);
+        case 'ListInstanceTypes200Response':
+          return ListInstanceTypes200Response.fromJson(value);
         case 'ListInstances200Response':
           return ListInstances200Response.fromJson(value);
         case 'ListInstances401Response':
@@ -347,31 +397,24 @@ class ApiClient {
           return ListInstances403Response.fromJson(value);
         case 'ListSSHKeys200Response':
           return ListSSHKeys200Response.fromJson(value);
+        case 'NetworkProtocol':
+          return NetworkProtocolTypeTransformer().decode(value);
         case 'PostInstance400Response':
           return PostInstance400Response.fromJson(value);
         case 'PublicRegionCode':
           return PublicRegionCodeTypeTransformer().decode(value);
-        case 'ReasonCode':
-          return ReasonCode.fromJson(value);
         case 'Region':
           return Region.fromJson(value);
-        case 'Response':
-          return Response.fromJson(value);
-        case 'Response1':
-          return Response1.fromJson(value);
-        case 'Response2':
-          return Response2.fromJson(value);
-        case 'Response3':
-          return Response3.fromJson(value);
+        case 'RequestedFilesystemMountEntry':
+          return RequestedFilesystemMountEntry.fromJson(value);
+        case 'RequestedTagEntry':
+          return RequestedTagEntry.fromJson(value);
         case 'RestartInstance200Response':
           return RestartInstance200Response.fromJson(value);
         case 'SSHKey':
           return SSHKey.fromJson(value);
-        case 'SecurityGroupRuleProtocol':
-          return SecurityGroupRuleProtocolTypeTransformer().decode(value);
-        case 'SvrExternalApiV1EndpointsInstanceTypesGet200Response':
-          return SvrExternalApiV1EndpointsInstanceTypesGet200Response.fromJson(
-              value);
+        case 'TagEntry':
+          return TagEntry.fromJson(value);
         case 'TerminateInstance200Response':
           return TerminateInstance200Response.fromJson(value);
         case 'User':

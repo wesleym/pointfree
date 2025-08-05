@@ -34,6 +34,15 @@ void main() {
       // TODO
     });
 
+    // List available instance types
+    //
+    // Retrieves a list of the instance types currently offered on Lambda's public cloud, as well as details about each type. Details include resource specifications, pricing, and regional availability.
+    //
+    //Future<ListInstanceTypes200Response> listInstanceTypes() async
+    test('test listInstanceTypes', () async {
+      // TODO
+    });
+
     // List running instances
     //
     // Retrieves a list of your running instances.
@@ -58,15 +67,6 @@ void main() {
     //
     //Future<RestartInstance200Response> restartInstance(InstanceRestartRequest instanceRestartRequest) async
     test('test restartInstance', () async {
-      // TODO
-    });
-
-    // List available instance types
-    //
-    // Retrieves a list of the instance types currently offered on Lambda's public cloud, as well as details about each type. Details include resource specifications, pricing, and regional availability.
-    //
-    //Future<SvrExternalApiV1EndpointsInstanceTypesGet200Response> svrExternalApiV1EndpointsInstanceTypesGet() async
-    test('test svrExternalApiV1EndpointsInstanceTypesGet', () async {
       // TODO
     });
 
