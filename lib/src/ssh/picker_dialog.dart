@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
 
 class SshKeyPickerDialog extends StatelessWidget {
@@ -19,7 +20,7 @@ class SshKeyPickerDialog extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // TODO: Error handling.
-            return CircularProgressIndicator.adaptive();
+            return PlatformCircularProgressIndicator();
           }
 
           final options = snapshot.data!

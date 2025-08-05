@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 
 class InstanceTypesPickerDialog extends StatelessWidget {
   final _instanceTypesRepository = InstanceTypesRepository.instance;
@@ -19,7 +20,7 @@ class InstanceTypesPickerDialog extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // TODO: Error handling.
-          return Center(child: CircularProgressIndicator.adaptive());
+          return Center(child: PlatformCircularProgressIndicator());
         }
 
         final options = snapshot.data!

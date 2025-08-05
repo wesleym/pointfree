@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/images/repository.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:openapi/api.dart' as api;
 
 class ImagePickerDialog extends StatelessWidget {
@@ -20,7 +21,7 @@ class ImagePickerDialog extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // TODO: Error handling.
-          return Center(child: CircularProgressIndicator.adaptive());
+          return Center(child: PlatformCircularProgressIndicator());
         }
 
         final options = snapshot.data!

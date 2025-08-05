@@ -8,6 +8,7 @@ import 'package:lambda_gui/src/instance_types/picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/regions_picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/ssh/picker_dialog.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
@@ -105,7 +106,7 @@ class MaterialLaunchInstancePage extends StatelessWidget {
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               // TODO: Error handling
-              return CircularProgressIndicator.adaptive();
+              return PlatformCircularProgressIndicator();
             }
             return ListTile(
               onTap: () => _onMaterialInstanceTypeTap(context),

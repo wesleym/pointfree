@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/text_button.dart';
@@ -20,7 +21,7 @@ class InstancesPage extends StatelessWidget {
         .singleOrNull;
     if (instance == null) {
       _instancesRepository.update();
-      return CircularProgressIndicator.adaptive();
+      return PlatformCircularProgressIndicator();
     }
 
     final platform = Theme.of(context).platform;

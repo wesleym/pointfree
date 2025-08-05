@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/images/repository.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 import 'package:openapi/api.dart' as api;
 
 class ImagePickerPage extends StatelessWidget {
@@ -16,6 +19,8 @@ class ImagePickerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     unawaited(_imagesRepository.update());
 
+    final themeType = ThemeTypeProvider.of(context);
+
     return PlatformScaffold(
       topBar: PlatformTopBar(title: Text('Instance Type')),
       body: StreamBuilder(
@@ -24,23 +29,35 @@ class ImagePickerPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // TODO: Error handling.
-            return Center(child: CircularProgressIndicator.adaptive());
+            return Center(child: PlatformCircularProgressIndicator());
           }
 
           final data = snapshot.data!;
-          return RefreshIndicator.adaptive(
-            onRefresh: () => _imagesRepository.update(force: true),
-            child: ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (BuildContext context, int index) {
-                var description = '${data[index].family} (${data[index].id})';
-                return PlatformListTile(
-                  onTap: () => _onSelectImage(context, data[index]),
-                  title: Text(description),
-                );
-              },
-            ),
+          var listView = CustomScrollView(
+            slivers: [
+              if (themeType == ThemeType.cupertino)
+                CupertinoSliverRefreshControl(),
+              SliverList.builder(
+                itemCount: data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var description = '${data[index].family} (${data[index].id})';
+                  return PlatformListTile(
+                    onTap: () => _onSelectImage(context, data[index]),
+                    title: Text(description),
+                  );
+                },
+              ),
+            ],
           );
+
+          if (themeType == ThemeType.cupertino) {
+            return listView;
+          } else {
+            return RefreshIndicator(
+              onRefresh: () => _imagesRepository.update(force: true),
+              child: listView,
+            );
+          }
         },
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:openapi/api.dart';
 
 class FilesystemsPickerDialog extends StatelessWidget {
@@ -22,7 +23,7 @@ class FilesystemsPickerDialog extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // TODO: Error handling.
-          return CircularProgressIndicator.adaptive();
+          return PlatformCircularProgressIndicator();
         }
 
         final options = (snapshot.data!)

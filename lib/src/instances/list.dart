@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/icon_button.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
@@ -35,45 +36,52 @@ class InstancesList extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // TODO: Error handling.
-          return Center(child: CircularProgressIndicator.adaptive());
+          return Center(child: PlatformCircularProgressIndicator());
         }
 
         final data = snapshot.data!;
-        return RefreshIndicator.adaptive(
-          onRefresh: () => _repository.update(force: true),
-          child: CustomScrollView(
-            slivers: [
-              // TODO: Make platform icons.
-              PlatformTopBarSliver(
-                title: Text(
-                  'GPU Instances',
-                  style: titleStyle,
-                ),
-                action: PlatformIconButton(
-                  onPressed: () => Navigator.of(context).push(
-                      CupertinoPageRoute(
-                          title: 'Launch',
-                          fullscreenDialog: true,
-                          builder: (context) => LaunchInstancePage())),
-                  icon: Icon(CupertinoIcons.add_circled),
-                ),
+        var scrollView = CustomScrollView(
+          slivers: [
+            // TODO: Make platform icons.
+            PlatformTopBarSliver(
+              title: Text(
+                'GPU Instances',
+                style: titleStyle,
               ),
-              SliverList.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Dismissible(
-                    onDismissed: (direction) =>
-                        _repository.terminate(data[index].id),
-                    key: ValueKey(data[index].id),
-                    child: PlatformListTile(
-                        onTap: () => context.go('/instance/${data[index].id}'),
-                        title: Text(data[index].name ?? data[index].id)),
-                  );
-                },
+              action: PlatformIconButton(
+                onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+                    title: 'Launch',
+                    fullscreenDialog: true,
+                    builder: (context) => LaunchInstancePage())),
+                icon: Icon(CupertinoIcons.add_circled),
               ),
-            ],
-          ),
+            ),
+            if (themeType == ThemeType.cupertino)
+              CupertinoSliverRefreshControl(),
+            SliverList.builder(
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Dismissible(
+                  onDismissed: (direction) =>
+                      _repository.terminate(data[index].id),
+                  key: ValueKey(data[index].id),
+                  child: PlatformListTile(
+                      onTap: () => context.go('/instance/${data[index].id}'),
+                      title: Text(data[index].name ?? data[index].id)),
+                );
+              },
+            ),
+          ],
         );
+
+        if (themeType == ThemeType.cupertino) {
+          return scrollView;
+        } else {
+          return RefreshIndicator(
+            onRefresh: () => _repository.update(force: true),
+            child: scrollView,
+          );
+        }
       },
     );
   }

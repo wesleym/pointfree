@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lambda_gui/src/firewall/create.dart';
 import 'package:lambda_gui/src/firewall/repository.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/colors.dart';
 import 'package:lambda_gui/src/platform/icon_button.dart';
 import 'package:lambda_gui/src/platform/icons.dart';
@@ -30,30 +31,29 @@ class FirewallList extends StatelessWidget {
           backgroundColor: theme.colorScheme.inverseSurface);
     }
 
-    return NestedScrollView(
-      headerSliverBuilder: (context, innerBoxIsScrolled) => [
-        PlatformTopBarSliver(
-          title: Text(
-            'Firewall',
-            style: titleStyle,
-          ),
-          action: PlatformIconButton(
-            onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
-                title: 'Firewall',
-                fullscreenDialog: true,
-                builder: (context) => CreateFirewallRulePage())),
-            icon: Icon(CupertinoIcons.add_circled),
-          ),
+    var scrollView =
+        CustomScrollView(physics: AlwaysScrollableScrollPhysics(), slivers: [
+      PlatformTopBarSliver(
+        title: Text(
+          'Firewall',
+          style: titleStyle,
         ),
-      ],
-      body: StreamBuilder(
+        action: PlatformIconButton(
+          onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+              title: 'Firewall',
+              fullscreenDialog: true,
+              builder: (context) => CreateFirewallRulePage())),
+          icon: Icon(CupertinoIcons.add_circled),
+        ),
+      ),
+      if (themeType == ThemeType.cupertino) CupertinoSliverRefreshControl(),
+      StreamBuilder(
         initialData: _repository.firewallRules,
         stream: _repository.stream,
         builder: (context, snapshot) {
-          final Widget body;
           if (snapshot.hasData) {
             final data = snapshot.data!;
-            body = ListView.builder(
+            return SliverList.builder(
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
                 final String portRangeString;
@@ -99,18 +99,22 @@ class FirewallList extends StatelessWidget {
             );
           } else {
             // TODO: Error handling.
-            body = SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              child: CircularProgressIndicator.adaptive(),
+            return SliverFillViewport(
+              delegate: SliverChildListDelegate.fixed(
+                  [PlatformCircularProgressIndicator()]),
             );
           }
-
-          return RefreshIndicator.adaptive(
-            onRefresh: () => _repository.update(force: true),
-            child: body,
-          );
         },
       ),
-    );
+    ]);
+
+    if (themeType == ThemeType.cupertino) {
+      return scrollView;
+    } else {
+      return RefreshIndicator(
+        onRefresh: () => _repository.update(force: true),
+        child: scrollView,
+      );
+    }
   }
 }

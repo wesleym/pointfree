@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lambda_gui/src/filesystems/create.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/colors.dart';
 import 'package:lambda_gui/src/platform/icon_button.dart';
 import 'package:lambda_gui/src/platform/icons.dart';
@@ -30,66 +31,71 @@ class FilesystemsList extends StatelessWidget {
           backgroundColor: theme.colorScheme.inverseSurface);
     }
 
-    return NestedScrollView(
-      headerSliverBuilder: (context, innerBoxIsScrolled) => [
-        PlatformTopBarSliver(
-          title: Text(
-            'Filesystems',
-            style: titleStyle,
-          ),
-          action: PlatformIconButton(
-            onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
-                title: 'Filesystem',
-                fullscreenDialog: true,
-                builder: (context) => CreateFilesystemPage())),
-            icon: Icon(CupertinoIcons.add_circled),
-          ),
+    final scrollView = CustomScrollView(slivers: [
+      PlatformTopBarSliver(
+        title: Text(
+          'Filesystems',
+          style: titleStyle,
         ),
-      ],
-      body: StreamBuilder(
+        action: PlatformIconButton(
+          onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+              title: 'Filesystem',
+              fullscreenDialog: true,
+              builder: (context) => CreateFilesystemPage())),
+          icon: Icon(CupertinoIcons.add_circled),
+        ),
+      ),
+      if (themeType == ThemeType.cupertino) CupertinoActivityIndicator(),
+      StreamBuilder(
         initialData: _repository.filesystems,
         stream: _repository.stream,
         builder: (context, snapshot) {
-          final Widget body;
-          if (snapshot.hasData) {
-            final data = snapshot.data!;
-            body = ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Dismissible(
-                  key: ValueKey(data[index].id),
-                  onDismissed: (direction) =>
-                      // TODO: Confirmation
-                      _repository.delete(id: data[index].id),
-                  background: Container(
-                    color: PlatformColors.destructive(themeType),
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.symmetric(horizontal: 24),
-                    child: Icon(PlatformIcons.delete(themeType),
-                        color: Colors.white),
-                  ),
-                  secondaryBackground: Container(
-                    color: PlatformColors.destructive(themeType),
-                    alignment: Alignment.centerRight,
-                    padding: EdgeInsets.symmetric(horizontal: 24),
-                    child: Icon(PlatformIcons.delete(themeType),
-                        color: Colors.white),
-                  ),
-                  child: PlatformListTile(title: Text(data[index].name)),
-                );
-              },
-            );
-          } else {
+          if (!snapshot.hasData) {
             // TODO: Error handling.
-            body = SingleChildScrollView(
+            return SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
-                child: CircularProgressIndicator.adaptive());
+                child: PlatformCircularProgressIndicator());
           }
 
-          return RefreshIndicator.adaptive(
-              onRefresh: () => _repository.update(force: true), child: body);
+          final data = snapshot.data!;
+
+          return SliverList.builder(
+            itemCount: data.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Dismissible(
+                key: ValueKey(data[index].id),
+                onDismissed: (direction) =>
+                    // TODO: Confirmation
+                    _repository.delete(id: data[index].id),
+                background: Container(
+                  color: PlatformColors.destructive(themeType),
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Icon(PlatformIcons.delete(themeType),
+                      color: Colors.white),
+                ),
+                secondaryBackground: Container(
+                  color: PlatformColors.destructive(themeType),
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Icon(PlatformIcons.delete(themeType),
+                      color: Colors.white),
+                ),
+                child: PlatformListTile(title: Text(data[index].name)),
+              );
+            },
+          );
         },
       ),
-    );
+    ]);
+
+    if (themeType == ThemeType.material || themeType == ThemeType.lambda) {
+      return RefreshIndicator(
+        onRefresh: () => _repository.update(force: true),
+        child: scrollView,
+      );
+    } else {
+      return scrollView;
+    }
   }
 }

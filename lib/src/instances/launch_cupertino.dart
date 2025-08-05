@@ -10,6 +10,7 @@ import 'package:lambda_gui/src/instance_types/picker_page.dart';
 import 'package:lambda_gui/src/instance_types/regions_picker_page.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/ssh/picker_page.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
@@ -119,7 +120,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       // TODO: Error handling
-                      return CircularProgressIndicator.adaptive();
+                      return PlatformCircularProgressIndicator();
                     }
                     return CupertinoListTile.notched(
                       onTap: () => _onCupertinoInstanceTypeTap(context),
@@ -135,7 +136,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       // TODO: Error handling
-                      return CircularProgressIndicator.adaptive();
+                      return PlatformCircularProgressIndicator();
                     }
                     return CupertinoListTile.notched(
                       onTap: () => _onCupertinoImageTap(context),
@@ -152,7 +153,7 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       // TODO: Error handling
-                      return CircularProgressIndicator.adaptive();
+                      return PlatformCircularProgressIndicator();
                     }
                     return CupertinoListTile.notched(
                       onTap: _cupertinoRegionTapHandler(context),

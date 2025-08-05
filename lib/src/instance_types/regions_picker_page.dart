@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 import 'package:openapi/api.dart';
 
 class RegionsPickerPage extends StatelessWidget {
@@ -16,6 +19,8 @@ class RegionsPickerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     unawaited(_instanceTypesRepository.update());
+
+    final themeType = ThemeTypeProvider.of(context);
 
     return PlatformScaffold(
       topBar: PlatformTopBar(title: Text('Instance Type')),
@@ -33,21 +38,33 @@ class RegionsPickerPage extends StatelessWidget {
 
           if (regions == null) {
             // TODO: Error handling.
-            return Center(child: CircularProgressIndicator.adaptive());
+            return Center(child: PlatformCircularProgressIndicator());
           }
 
-          return RefreshIndicator.adaptive(
-            onRefresh: () => _instanceTypesRepository.update(force: true),
-            child: ListView.builder(
-              itemCount: regions.length,
-              itemBuilder: (BuildContext context, int index) {
-                return PlatformListTile(
-                  onTap: () => _onSelectRegion(context, regions![index].name),
-                  title: Text(regions![index].description),
-                );
-              },
-            ),
+          var scrollView = CustomScrollView(
+            slivers: [
+              if (themeType == ThemeType.cupertino)
+                CupertinoSliverRefreshControl(),
+              SliverList.builder(
+                itemCount: regions.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return PlatformListTile(
+                    onTap: () => _onSelectRegion(context, regions![index].name),
+                    title: Text(regions![index].description),
+                  );
+                },
+              ),
+            ],
           );
+
+          if (themeType == ThemeType.cupertino) {
+            return scrollView;
+          } else {
+            return RefreshIndicator(
+              onRefresh: () => _instanceTypesRepository.update(force: true),
+              child: scrollView,
+            );
+          }
         },
       ),
     );

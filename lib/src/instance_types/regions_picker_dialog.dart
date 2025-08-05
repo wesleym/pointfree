@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:openapi/api.dart';
 
 class RegionsPickerDialog extends StatelessWidget {
@@ -28,7 +29,7 @@ class RegionsPickerDialog extends StatelessWidget {
 
         if (regions == null) {
           // TODO: Error handling.
-          return CircularProgressIndicator.adaptive();
+          return PlatformCircularProgressIndicator();
         }
 
         final options = regions

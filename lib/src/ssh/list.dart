@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
@@ -31,33 +33,41 @@ class SshKeysList extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // TODO: Error handling.
-          return Center(child: CircularProgressIndicator.adaptive());
+          return Center(child: PlatformCircularProgressIndicator());
         }
 
         final data = snapshot.data!;
-        return RefreshIndicator.adaptive(
-          onRefresh: () => _repository.update(force: true),
-          child: CustomScrollView(
-            slivers: [
-              PlatformTopBarSliver(
-                  title: Text(
-                'SSH',
-                style: titleStyle,
-              )),
-              SliverList.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Dismissible(
-                    onDismissed: (direction) =>
-                        _repository.delete(data[index].id),
-                    key: ValueKey(data[index].id),
-                    child: PlatformListTile(title: Text(data[index].name)),
-                  );
-                },
-              ),
-            ],
-          ),
+        final scrollView = CustomScrollView(
+          slivers: [
+            PlatformTopBarSliver(
+                title: Text(
+              'SSH',
+              style: titleStyle,
+            )),
+            if (themeType == ThemeType.cupertino)
+              CupertinoSliverRefreshControl(),
+            SliverList.builder(
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Dismissible(
+                  onDismissed: (direction) =>
+                      _repository.delete(data[index].id),
+                  key: ValueKey(data[index].id),
+                  child: PlatformListTile(title: Text(data[index].name)),
+                );
+              },
+            ),
+          ],
         );
+
+        if (themeType == ThemeType.cupertino) {
+          return scrollView;
+        } else {
+          return RefreshIndicator(
+            onRefresh: () => _repository.update(force: true),
+            child: scrollView,
+          );
+        }
       },
     );
   }
