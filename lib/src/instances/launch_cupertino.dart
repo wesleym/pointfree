@@ -18,9 +18,8 @@ import 'package:openapi/api.dart' as api;
 class CupertinoLaunchInstancePage extends StatelessWidget {
   final String? _instanceTypeName;
   final void Function(String? instanceType) _onInstanceTypeNameChange;
-  final api.InstanceLaunchRequestImage? _image;
-  final void Function(api.InstanceLaunchRequestImage? instanceType)
-      _onImageChange;
+  final api.Image? _image;
+  final void Function(api.Image? instanceType) _onImageChange;
   final api.PublicRegionCode? _regionCode;
   final void Function(api.PublicRegionCode? instanceType) _onRegionCodeChange;
   final String? _filesystemId;
@@ -38,8 +37,8 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
     super.key,
     required String? instanceTypeName,
     required void Function(String?) onInstanceTypeNameChange,
-    required api.InstanceLaunchRequestImage? image,
-    required void Function(api.InstanceLaunchRequestImage?) onImageChange,
+    required api.Image? image,
+    required void Function(api.Image?) onImageChange,
     required api.PublicRegionCode? regionCode,
     required void Function(api.PublicRegionCode?) onRegionCodeChange,
     required String? filesystemId,
@@ -208,9 +207,8 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
   }
 
   void _onCupertinoImageTap(BuildContext context) async {
-    final image = await Navigator.of(context)
-        .push<api.InstanceLaunchRequestImage>(
-            CupertinoPageRoute(builder: (context) => ImagePickerPage()));
+    final image = await Navigator.of(context).push<api.Image?>(
+        CupertinoPageRoute(builder: (context) => ImagePickerPage()));
 
     if (image != null && image != _image) {
       _onImageChange(image);

@@ -13,14 +13,14 @@ part of openapi.api;
 class InstanceLaunchRequestImage {
   /// Returns a new [InstanceLaunchRequestImage] instance.
   InstanceLaunchRequestImage({
-    required this.id,
-    required this.family,
+    this.id,
+    this.family,
   });
 
-  String id;
+  String? id;
 
   /// The family name of the image.
-  String family;
+  String? family;
 
   @override
   bool operator ==(Object other) =>
@@ -39,8 +39,8 @@ class InstanceLaunchRequestImage {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    json[r'id'] = this.id;
-    json[r'family'] = this.family;
+    json[r'id'] = id;
+    json[r'family'] = family;
     return json;
   }
 
@@ -65,8 +65,8 @@ class InstanceLaunchRequestImage {
       }());
 
       return InstanceLaunchRequestImage(
-        id: mapValueOfType<String>(json, r'id')!,
-        family: mapValueOfType<String>(json, r'family')!,
+        id: mapValueOfType<String>(json, r'id'),
+        family: mapValueOfType<String>(json, r'family'),
       );
     }
     return null;
@@ -122,8 +122,5 @@ class InstanceLaunchRequestImage {
   }
 
   /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    'id',
-    'family',
-  };
+  static const requiredKeys = <String>{};
 }

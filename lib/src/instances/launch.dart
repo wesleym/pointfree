@@ -8,6 +8,7 @@ import 'package:lambda_gui/src/instances/launch_cupertino.dart';
 import 'package:lambda_gui/src/instances/launch_material.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 import 'package:openapi/api.dart' as api;
 
 const noneItemId = '__none__';
@@ -25,7 +26,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
   final _filesystemRepository = FilesystemsRepository.instance;
   final _sshKeyRepository = SshKeysRepository.instance;
   String? _instanceTypeName;
-  api.InstanceLaunchRequestImage? _image;
+  api.Image? _image;
   api.PublicRegionCode? _regionCode;
   String? _filesystemId;
   String? _sshKeyId;
@@ -34,10 +35,9 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
   Widget build(BuildContext context) {
     unawaited(_instanceTypesRepository.update());
 
-    final platform = Theme.of(context).platform;
-    switch (platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+    final themeType = ThemeTypeProvider.of(context);
+    switch (themeType) {
+      case ThemeType.cupertino:
         return CupertinoLaunchInstancePage(
           instanceTypeName: _instanceTypeName,
           onInstanceTypeNameChange: (v) =>
@@ -87,12 +87,18 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
     }
 
     return () async {
+      final image = _image;
+      api.InstanceLaunchRequestImage? requestImage;
+      if (image != null) {
+        requestImage = api.InstanceLaunchRequestImage(id: image.id);
+      }
+
       await _instancesRepository.launch(
         instanceTypeName: _instanceTypeName!,
         regionCode: _regionCode!,
         filesystemName: filesystemName,
         sshKeyName: sshKeyName,
-        image: _image,
+        image: requestImage,
       );
 
       if (mounted) {
