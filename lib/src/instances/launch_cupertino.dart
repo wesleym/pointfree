@@ -114,21 +114,11 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
             CupertinoListSection.insetGrouped(
               hasLeading: false,
               children: [
-                StreamBuilder(
-                  initialData: _instanceTypesRepository.instanceTypes,
-                  stream: _instanceTypesRepository.stream,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      // TODO: Error handling
-                      return PlatformCircularProgressIndicator();
-                    }
-                    return CupertinoListTile.notched(
-                      onTap: () => _onCupertinoInstanceTypeTap(context),
-                      title: Text('Instance type'),
-                      additionalInfo: instanceDisplayName,
-                      trailing: CupertinoListTileChevron(),
-                    );
-                  },
+                CupertinoListTile.notched(
+                  onTap: () => _onCupertinoInstanceTypeTap(context),
+                  title: Text('Instance type'),
+                  additionalInfo: instanceDisplayName,
+                  trailing: CupertinoListTileChevron(),
                 ),
                 StreamBuilder(
                   initialData: _imagesRepository.images,

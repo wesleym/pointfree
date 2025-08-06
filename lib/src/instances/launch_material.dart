@@ -8,7 +8,6 @@ import 'package:lambda_gui/src/instance_types/picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/regions_picker_dialog.dart';
 import 'package:lambda_gui/src/instance_types/repository.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
-import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/ssh/picker_dialog.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
@@ -62,7 +61,9 @@ class MaterialLaunchInstancePage extends StatelessWidget {
 
     api.InstanceType? instanceType;
     final instanceTypeName = _instanceTypeName;
-    if (instanceTypeName != null) {
+    if (instanceTypeName == null) {
+      instanceType = null;
+    } else {
       instanceType =
           _instanceTypesRepository.getByName(instanceTypeName)?.instanceType;
     }
@@ -100,20 +101,10 @@ class MaterialLaunchInstancePage extends StatelessWidget {
       topBar: PlatformTopBar(title: Text('Launch')),
       body: Form(
           child: ListView(children: [
-        StreamBuilder(
-          initialData: _instanceTypesRepository.instanceTypes,
-          stream: _instanceTypesRepository.stream,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              // TODO: Error handling
-              return PlatformCircularProgressIndicator();
-            }
-            return ListTile(
-              onTap: () => _onMaterialInstanceTypeTap(context),
-              title: Text('Instance type'),
-              subtitle: instanceDisplayName ?? Text(''),
-            );
-          },
+        ListTile(
+          onTap: () => _onMaterialInstanceTypeTap(context),
+          title: Text('Instance type'),
+          subtitle: instanceDisplayName ?? Text(''),
         ),
         ListTile(
           onTap: () => _onMaterialImageTap(context),
@@ -139,10 +130,8 @@ class MaterialLaunchInstancePage extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(16),
-          child: ElevatedButton(
-            onPressed: _onLaunchPressed,
-            child: Text('Start'),
-          ),
+          child:
+              FilledButton(onPressed: _onLaunchPressed, child: Text('Start')),
         ),
       ])),
     );
