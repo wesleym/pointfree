@@ -31,34 +31,37 @@ class SshKeysList extends StatelessWidget {
       initialData: _repository.sshKeys,
       stream: _repository.stream,
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          // TODO: Error handling.
+        final error = snapshot.error;
+        if (error != null) {
+          // TODO: log to server to determine how best to present common errors.
+          return Center(
+            child: Column(children: [
+              Text('Error: $error'),
+              FilledButton(
+                onPressed: () => _repository.update(force: true),
+                child: Text('Reload'),
+              ),
+            ]),
+          );
+        }
+
+        final data = snapshot.data;
+        if (data == null) {
           return Center(child: PlatformCircularProgressIndicator());
         }
 
-        final data = snapshot.data!;
-        final scrollView = CustomScrollView(
-          slivers: [
-            PlatformTopBarSliver(
-                title: Text(
-              'SSH',
-              style: titleStyle,
-            )),
-            if (themeType == ThemeType.cupertino)
-              CupertinoSliverRefreshControl(),
-            SliverList.builder(
-              itemCount: data.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Dismissible(
-                  onDismissed: (direction) =>
-                      _repository.delete(data[index].id),
-                  key: ValueKey(data[index].id),
-                  child: PlatformListTile(title: Text(data[index].name)),
-                );
-              },
+        final scrollView = CustomScrollView(slivers: [
+          PlatformTopBarSliver(title: Text('SSH', style: titleStyle)),
+          if (themeType == ThemeType.cupertino) CupertinoSliverRefreshControl(),
+          SliverList.builder(
+            itemCount: data.length,
+            itemBuilder: (BuildContext context, int index) => Dismissible(
+              onDismissed: (direction) => _repository.delete(data[index].id),
+              key: ValueKey(data[index].id),
+              child: PlatformListTile(title: Text(data[index].name)),
             ),
-          ],
-        );
+          ),
+        ]);
 
         if (themeType == ThemeType.cupertino) {
           return scrollView;

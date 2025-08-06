@@ -10,49 +10,60 @@ import 'package:lambda_gui/src/ssh/repository.dart';
 import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class SshKeyPickerPage extends StatelessWidget {
-  final _sshKeysRepository = SshKeysRepository();
+  final _repository = SshKeysRepository();
 
   SshKeyPickerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    unawaited(_sshKeysRepository.update());
+    unawaited(_repository.update());
 
     final themeType = ThemeTypeProvider.of(context);
 
     return PlatformScaffold(
       topBar: PlatformTopBar(title: Text('SSH Keys')),
       body: StreamBuilder(
-        initialData: _sshKeysRepository.sshKeys,
-        stream: _sshKeysRepository.stream,
+        initialData: _repository.sshKeys,
+        stream: _repository.stream,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            // TODO: Error handling.
+          final error = snapshot.error;
+          if (error != null) {
+            // TODO: log to server to determine how best to present common errors.
+            return Center(
+              child: Column(children: [
+                Text('Error: $error'),
+                FilledButton(
+                  onPressed: () => _repository.update(force: true),
+                  child: Text('Reload'),
+                ),
+              ]),
+            );
+          }
+
+          final data = snapshot.data;
+          if (data == null) {
             return Center(child: PlatformCircularProgressIndicator());
           }
 
-          final data = snapshot.data!;
-          var scrollView = CustomScrollView(
-            slivers: [
-              if (themeType == ThemeType.cupertino)
-                CupertinoSliverRefreshControl(),
-              SliverList.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return PlatformListTile(
-                    onTap: () => _onSelectSshKey(context, data[index].id),
-                    title: Text(data[index].name),
-                  );
-                },
-              ),
-            ],
-          );
+          var scrollView = CustomScrollView(slivers: [
+            if (themeType == ThemeType.cupertino)
+              CupertinoSliverRefreshControl(),
+            SliverList.builder(
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return PlatformListTile(
+                  onTap: () => _onSelectSshKey(context, data[index].id),
+                  title: Text(data[index].name),
+                );
+              },
+            ),
+          ]);
 
           if (themeType == ThemeType.cupertino) {
             return scrollView;
           } else {
             return RefreshIndicator(
-              onRefresh: () => _sshKeysRepository.update(force: true),
+              onRefresh: () => _repository.update(force: true),
               child: scrollView,
             );
           }

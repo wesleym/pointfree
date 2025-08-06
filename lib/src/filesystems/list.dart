@@ -50,14 +50,27 @@ class FilesystemsList extends StatelessWidget {
         initialData: _repository.filesystems,
         stream: _repository.stream,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            // TODO: Error handling.
-            return SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: PlatformCircularProgressIndicator());
+          final error = snapshot.error;
+          if (error != null) {
+            // TODO: log to server to determine how best to present common errors.
+            return Center(
+              child: Column(children: [
+                Text('Error: $error'),
+                FilledButton(
+                  onPressed: () => _repository.update(force: true),
+                  child: Text('Reload'),
+                ),
+              ]),
+            );
           }
 
-          final data = snapshot.data!;
+          final data = snapshot.data;
+          if (data == null) {
+            return SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: PlatformCircularProgressIndicator(),
+            );
+          }
 
           return SliverList.builder(
             itemCount: data.length,
@@ -71,15 +84,19 @@ class FilesystemsList extends StatelessWidget {
                   color: PlatformColors.destructive(themeType),
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: Icon(PlatformIcons.delete(themeType),
-                      color: Colors.white),
+                  child: Icon(
+                    PlatformIcons.delete(themeType),
+                    color: Colors.white,
+                  ),
                 ),
                 secondaryBackground: Container(
                   color: PlatformColors.destructive(themeType),
                   alignment: Alignment.centerRight,
                   padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: Icon(PlatformIcons.delete(themeType),
-                      color: Colors.white),
+                  child: Icon(
+                    PlatformIcons.delete(themeType),
+                    color: Colors.white,
+                  ),
                 ),
                 child: PlatformListTile(title: Text(data[index].name)),
               );

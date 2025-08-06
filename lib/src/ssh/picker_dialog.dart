@@ -6,32 +6,47 @@ import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
 
 class SshKeyPickerDialog extends StatelessWidget {
-  final _sshKeysRepository = SshKeysRepository();
+  final _repository = SshKeysRepository();
 
   SshKeyPickerDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
-    unawaited(_sshKeysRepository.update());
+    unawaited(_repository.update());
 
     return StreamBuilder(
-        initialData: _sshKeysRepository.sshKeys,
-        stream: _sshKeysRepository.stream,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            // TODO: Error handling.
-            return PlatformCircularProgressIndicator();
-          }
+      initialData: _repository.sshKeys,
+      stream: _repository.stream,
+      builder: (context, snapshot) {
+        final error = snapshot.error;
+        if (error != null) {
+          // TODO: log to server to determine how best to present common errors.
+          return Center(
+            child: Column(children: [
+              Text('Error: $error'),
+              FilledButton(
+                onPressed: () => _repository.update(force: true),
+                child: Text('Reload'),
+              ),
+            ]),
+          );
+        }
 
-          final options = snapshot.data!
-              .map((e) => SimpleDialogOption(
-                    child: Text(e.name),
-                    onPressed: () => _onSshKeyPressed(context, e.id),
-                  ))
-              .toList(growable: false);
+        final data = snapshot.data;
+        if (data == null) {
+          return Center(child: PlatformCircularProgressIndicator());
+        }
 
-          return SimpleDialog(title: Text('SSH Keys'), children: options);
-        });
+        final options = data
+            .map((key) => SimpleDialogOption(
+                  child: Text(key.name),
+                  onPressed: () => _onSshKeyPressed(context, key.id),
+                ))
+            .toList(growable: false);
+
+        return SimpleDialog(title: Text('SSH Keys'), children: options);
+      },
+    );
   }
 
   void _onSshKeyPressed(BuildContext context, String sshKeyId) =>
