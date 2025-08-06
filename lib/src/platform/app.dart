@@ -6,6 +6,37 @@ import 'package:lambda_gui/src/theme_type_provider.dart';
 const lambdaIndigo = Color(0xff4027ff);
 const lambdaIndigoLight = Color(0xffb9b1fd);
 
+ThemeData makeLambdaTheme({required TargetPlatform platform}) {
+  final colors = ColorScheme(
+    brightness: Brightness.light,
+    primary: lambdaIndigo,
+    onPrimary: Colors.white,
+    secondary: lambdaIndigoLight,
+    onSecondary: Colors.black,
+    error: Colors.red,
+    onError: Colors.white,
+    surface: Colors.white,
+    onSurface: Colors.black,
+  );
+
+  var typography =
+      Typography.material2021(platform: platform, colorScheme: colors);
+  final defaultTextTheme = typography.englishLike
+      .merge(switch (colors.brightness) {
+        Brightness.light => typography.black,
+        Brightness.dark => typography.white,
+      })
+      .apply(fontFamily: 'Berkeley Mono');
+
+  return ThemeData(
+    brightness: colors.brightness,
+    colorScheme: colors,
+    platform: platform,
+    textTheme: defaultTextTheme,
+    buttonTheme: ButtonThemeData(shape: BeveledRectangleBorder()),
+  );
+}
+
 ThemeData makeTheme(
     {required TargetPlatform platform, required ColorScheme colorScheme}) {
   var typography =
@@ -60,18 +91,7 @@ class PlatformApp extends StatelessWidget {
       ThemeType.lambda => MaterialApp.router(
           title: title,
           routerConfig: _routerConfig,
-          theme: makeTheme(
-              platform: platform,
-              colorScheme: ColorScheme(
-                  brightness: Brightness.light,
-                  primary: lambdaIndigo,
-                  onPrimary: Colors.white,
-                  secondary: lambdaIndigoLight,
-                  onSecondary: Colors.black,
-                  error: Colors.red,
-                  onError: Colors.white,
-                  surface: Colors.white,
-                  onSurface: Colors.black)),
+          theme: makeLambdaTheme(platform: platform),
         ),
     };
   }
