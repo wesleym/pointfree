@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/filesystems/create_cupertino.dart';
 import 'package:lambda_gui/src/filesystems/create_material.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 import 'package:openapi/api.dart';
 
 const noneItemId = '__none__';
@@ -21,10 +22,9 @@ class _CreateFilesystemPageState extends State<CreateFilesystemPage> {
 
   @override
   Widget build(BuildContext context) {
-    final platform = Theme.of(context).platform;
-    switch (platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+    final themeType = ThemeTypeProvider.of(context);
+    switch (themeType) {
+      case ThemeType.cupertino:
         return CupertinoCreateFilesystemPage(
           name: _name,
           onNameChange: (v) => setState(() => _name = v),

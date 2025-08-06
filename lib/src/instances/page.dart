@@ -6,6 +6,7 @@ import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/text_button.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class InstancesPage extends StatelessWidget {
   final String instanceId;
@@ -24,20 +25,19 @@ class InstancesPage extends StatelessWidget {
       return PlatformCircularProgressIndicator();
     }
 
-    final platform = Theme.of(context).platform;
+    final themeType = ThemeTypeProvider.of(context);
+
     final Color color;
-    switch (platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+    switch (themeType) {
+      case ThemeType.cupertino:
         color = CupertinoColors.destructiveRed;
       default:
         color = Theme.of(context).colorScheme.error;
     }
 
     final List<Widget> body;
-    switch (Theme.of(context).platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+    switch (themeType) {
+      case ThemeType.cupertino:
         body = [
           Icon(CupertinoIcons.desktopcomputer, size: 96),
           SizedBox(height: 32),

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/firewall/repository.dart';
 import 'package:lambda_gui/src/firewall/create_cupertino.dart';
 import 'package:lambda_gui/src/firewall/create_material.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
 import 'package:openapi/api.dart';
 
 const noneItemId = '__none__';
@@ -56,10 +57,9 @@ class _CreateFirewallRulePageState extends State<CreateFirewallRulePage> {
 
   @override
   Widget build(BuildContext context) {
-    final platform = Theme.of(context).platform;
-    switch (platform) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+    final themeType = ThemeTypeProvider.of(context);
+    switch (themeType) {
+      case ThemeType.cupertino:
         return CupertinoCreateFirewallRulePage(
           protocol: _protocol,
           onProtocolChange: (v) => setState(() => _protocol = v),
