@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/filesystems/create.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
@@ -75,8 +76,47 @@ class FilesystemsList extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return Dismissible(
                 key: ValueKey(data[index].id),
+                confirmDismiss: (direction) {
+                  if (themeType == ThemeType.cupertino) {
+                    return showCupertinoModalPopup(
+                      context: context,
+                      builder: (context) => CupertinoActionSheet(
+                        title: Text(data[index].name),
+                        actions: [
+                          CupertinoActionSheetAction(
+                            onPressed: () => context.pop(true),
+                            isDestructiveAction: true,
+                            child: Text('Delete'),
+                          ),
+                        ],
+                        cancelButton: CupertinoActionSheetAction(
+                          onPressed: () => context.pop(false),
+                          child: Text('Cancel'),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SimpleDialog(
+                          title: Text(data[index].name),
+                          children: [
+                            SimpleDialogOption(
+                              onPressed: () => context.pop(true),
+                              child: Text('Delete'),
+                            ),
+                            SimpleDialogOption(
+                              onPressed: () => context.pop(false),
+                              child: Text('Cancel'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
                 onDismissed: (direction) =>
-                    // TODO: Confirmation
                     _repository.delete(id: data[index].id),
                 background: Container(
                   color: PlatformColors.destructive(themeType),

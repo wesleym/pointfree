@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/firewall/create.dart';
 import 'package:lambda_gui/src/firewall/repository.dart';
 import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
@@ -84,6 +85,46 @@ class FirewallList extends StatelessWidget {
                   ),
                   key: ValueKey(
                       '${data[index].protocol} ${data[index].sourceNetwork} $portRangeString'),
+                  confirmDismiss: (direction) {
+                    if (themeType == ThemeType.cupertino) {
+                      return showCupertinoModalPopup(
+                        context: context,
+                        builder: (context) => CupertinoActionSheet(
+                          title: Text('Delete firewall rule'),
+                          actions: [
+                            CupertinoActionSheetAction(
+                              onPressed: () => context.pop(true),
+                              isDestructiveAction: true,
+                              child: Text('Delete'),
+                            ),
+                          ],
+                          cancelButton: CupertinoActionSheetAction(
+                            onPressed: () => context.pop(false),
+                            child: Text('Cancel'),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SimpleDialog(
+                            title: Text('Delete firewall rule'),
+                            children: [
+                              SimpleDialogOption(
+                                onPressed: () => context.pop(true),
+                                child: Text('Delete'),
+                              ),
+                              SimpleDialogOption(
+                                onPressed: () => context.pop(false),
+                                child: Text('Cancel'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  },
                   onDismissed: (direction) {
                     final firewallRules = snapshot.data!;
                     firewallRules.removeAt(index);

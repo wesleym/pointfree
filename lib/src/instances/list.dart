@@ -65,6 +65,46 @@ class InstancesList extends StatelessWidget {
                   onDismissed: (direction) =>
                       _repository.terminate(data[index].id),
                   key: ValueKey(data[index].id),
+                  confirmDismiss: (direction) {
+                    if (themeType == ThemeType.cupertino) {
+                      return showCupertinoModalPopup(
+                        context: context,
+                        builder: (context) => CupertinoActionSheet(
+                          title: Text('Terminate instance'),
+                          actions: [
+                            CupertinoActionSheetAction(
+                              onPressed: () => context.pop(true),
+                              isDestructiveAction: true,
+                              child: Text('Terminate'),
+                            ),
+                          ],
+                          cancelButton: CupertinoActionSheetAction(
+                            onPressed: () => context.pop(false),
+                            child: Text('Cancel'),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SimpleDialog(
+                            title: Text('Terminate instance'),
+                            children: [
+                              SimpleDialogOption(
+                                onPressed: () => context.pop(true),
+                                child: Text('Terminate'),
+                              ),
+                              SimpleDialogOption(
+                                onPressed: () => context.pop(false),
+                                child: Text('Cancel'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  },
                   child: PlatformListTile(
                       onTap: () => context.go('/instance/${data[index].id}'),
                       title: Text(data[index].name ?? data[index].id)),

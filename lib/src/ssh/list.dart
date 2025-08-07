@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
@@ -59,7 +60,46 @@ class SshKeysList extends StatelessWidget {
             return SliverList.builder(
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) => Dismissible(
-                // TODO: add confirmation
+                confirmDismiss: (direction) {
+                  if (themeType == ThemeType.cupertino) {
+                    return showCupertinoModalPopup(
+                      context: context,
+                      builder: (context) => CupertinoActionSheet(
+                        title: Text(data[index].name),
+                        actions: [
+                          CupertinoActionSheetAction(
+                            onPressed: () => context.pop(true),
+                            isDestructiveAction: true,
+                            child: Text('Delete'),
+                          ),
+                        ],
+                        cancelButton: CupertinoActionSheetAction(
+                          onPressed: () => context.pop(false),
+                          child: Text('Cancel'),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SimpleDialog(
+                          title: Text(data[index].name),
+                          children: [
+                            SimpleDialogOption(
+                              onPressed: () => context.pop(true),
+                              child: Text('Delete'),
+                            ),
+                            SimpleDialogOption(
+                              onPressed: () => context.pop(false),
+                              child: Text('Cancel'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
                 onDismissed: (direction) => _repository.delete(data[index].id),
                 key: ValueKey(data[index].id),
                 child: PlatformListTile(title: Text(data[index].name)),
