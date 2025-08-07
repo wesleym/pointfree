@@ -53,22 +53,20 @@ class FilesystemsList extends StatelessWidget {
           final error = snapshot.error;
           if (error != null) {
             // TODO: log to server to determine how best to present common errors.
-            return Center(
+            return SliverFillRemaining(
               child: Column(children: [
                 Text('Error: $error'),
-                FilledButton(
-                  onPressed: () => _repository.update(force: true),
-                  child: Text('Reload'),
-                ),
+                Text('Pull to refresh'),
               ]),
             );
           }
 
           final data = snapshot.data;
           if (data == null) {
-            return SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              child: PlatformCircularProgressIndicator(),
+            return SliverFillRemaining(
+              child: Center(
+                child: PlatformCircularProgressIndicator(),
+              ),
             );
           }
 

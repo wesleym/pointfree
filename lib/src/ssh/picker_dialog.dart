@@ -3,7 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
+import 'package:lambda_gui/src/platform/icon_button.dart';
+import 'package:lambda_gui/src/platform/icons.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
+
+Widget createSshKeysDialog(List<Widget> children) {
+  return SimpleDialog(title: Text('SSH Keys'), children: children);
+}
 
 class SshKeyPickerDialog extends StatelessWidget {
   final _repository = SshKeysRepository();
@@ -13,6 +20,8 @@ class SshKeyPickerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     unawaited(_repository.update());
+
+    final themeType = ThemeTypeProvider.of(context);
 
     return StreamBuilder(
       initialData: _repository.sshKeys,
@@ -24,9 +33,9 @@ class SshKeyPickerDialog extends StatelessWidget {
           return Center(
             child: Column(children: [
               Text('Error: $error'),
-              FilledButton(
+              IconButton(
                 onPressed: () => _repository.update(force: true),
-                child: Text('Reload'),
+                icon: Icon(PlatformIcons.refresh(themeType)),
               ),
             ]),
           );
@@ -34,7 +43,13 @@ class SshKeyPickerDialog extends StatelessWidget {
 
         final data = snapshot.data;
         if (data == null) {
-          return Center(child: PlatformCircularProgressIndicator());
+          return createSshKeysDialog([
+            PlatformCircularProgressIndicator(),
+            PlatformIconButton(
+              onPressed: () => _repository.update(force: true),
+              icon: Icon(PlatformIcons.refresh(themeType)),
+            ),
+          ]);
         }
 
         final options = data
@@ -44,7 +59,7 @@ class SshKeyPickerDialog extends StatelessWidget {
                 ))
             .toList(growable: false);
 
-        return SimpleDialog(title: Text('SSH Keys'), children: options);
+        return createSshKeysDialog(options);
       },
     );
   }

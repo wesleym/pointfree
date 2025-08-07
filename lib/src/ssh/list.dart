@@ -27,51 +27,56 @@ class SshKeysList extends StatelessWidget {
           backgroundColor: theme.colorScheme.inverseSurface);
     }
 
-    return StreamBuilder(
-      initialData: _repository.sshKeys,
-      stream: _repository.stream,
-      builder: (context, snapshot) {
-        final error = snapshot.error;
-        if (error != null) {
-          // TODO: log to server to determine how best to present common errors.
-          return Center(
-            child: Column(children: [
-              Text('Error: $error'),
-              FilledButton(
-                onPressed: () => _repository.update(force: true),
-                child: Text('Reload'),
+    final scrollView = CustomScrollView(
+      physics: AlwaysScrollableScrollPhysics(),
+      slivers: [
+        PlatformTopBarSliver(title: Text('SSH', style: titleStyle)),
+        if (themeType == ThemeType.cupertino) CupertinoSliverRefreshControl(),
+        StreamBuilder(
+          initialData: _repository.sshKeys,
+          stream: _repository.stream,
+          builder: (context, snapshot) {
+            final error = snapshot.error;
+            if (error != null) {
+              // TODO: log to server to determine how best to present common errors.
+              return SliverFillRemaining(
+                child: Column(children: [
+                  Text('Error: $error'),
+                  Text('Pull to refresh'),
+                ]),
+              );
+            }
+
+            final data = snapshot.data;
+            if (data == null) {
+              return SliverFillRemaining(
+                child: Center(
+                  child: PlatformCircularProgressIndicator(),
+                ),
+              );
+            }
+
+            return SliverList.builder(
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int index) => Dismissible(
+                // TODO: add confirmation
+                onDismissed: (direction) => _repository.delete(data[index].id),
+                key: ValueKey(data[index].id),
+                child: PlatformListTile(title: Text(data[index].name)),
               ),
-            ]),
-          );
-        }
-
-        final data = snapshot.data;
-        if (data == null) {
-          return Center(child: PlatformCircularProgressIndicator());
-        }
-
-        final scrollView = CustomScrollView(slivers: [
-          PlatformTopBarSliver(title: Text('SSH', style: titleStyle)),
-          if (themeType == ThemeType.cupertino) CupertinoSliverRefreshControl(),
-          SliverList.builder(
-            itemCount: data.length,
-            itemBuilder: (BuildContext context, int index) => Dismissible(
-              onDismissed: (direction) => _repository.delete(data[index].id),
-              key: ValueKey(data[index].id),
-              child: PlatformListTile(title: Text(data[index].name)),
-            ),
-          ),
-        ]);
-
-        if (themeType == ThemeType.cupertino) {
-          return scrollView;
-        } else {
-          return RefreshIndicator(
-            onRefresh: () => _repository.update(force: true),
-            child: scrollView,
-          );
-        }
-      },
+            );
+          },
+        ),
+      ],
     );
+
+    if (themeType == ThemeType.cupertino) {
+      return scrollView;
+    } else {
+      return RefreshIndicator(
+        onRefresh: () => _repository.update(force: true),
+        child: scrollView,
+      );
+    }
   }
 }

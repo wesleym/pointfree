@@ -8,4 +8,10 @@ class PlatformIcons {
         ThemeType.material => Icons.delete,
         ThemeType.lambda => Icons.delete,
       };
+
+  static IconData refresh(ThemeType themeType) => switch (themeType) {
+        ThemeType.cupertino => CupertinoIcons.refresh,
+        ThemeType.material => Icons.refresh,
+        ThemeType.lambda => Icons.refresh,
+      };
 }
