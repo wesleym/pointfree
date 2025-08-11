@@ -30,13 +30,16 @@ class _ChatPageState extends State<ChatPage> {
   final _store = Store.instance;
   var _inProgress = false;
   var _activeConversationId = 0;
-  Conversation get _conversation => _store.conversations[_activeConversationId];
+  Conversation? get _conversation =>
+      _store.getConversation(_activeConversationId);
 
   void _sendMessage(String value) async {
+    final conversation = _conversation;
+    if (conversation == null) return;
     if (value.trim().isEmpty) return;
     _chatController.clear();
 
-    _conversation.addMessage(Message(MessageType.user, value));
+    conversation.addMessage(Message(MessageType.user, value));
 
     setState(() {
       _inProgress = true;
@@ -48,12 +51,12 @@ class _ChatPageState extends State<ChatPage> {
         'Authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json; charset=utf-8',
       },
-      body: _conversation.toJson(),
+      body: conversation.toJson(),
     );
     var role = MessageType.assistant;
     final chunkController = StreamController<String>.broadcast();
     final message = AppendableMessage(role, chunkController.stream);
-    _conversation.addMessage(message);
+    conversation.addMessage(message);
 
     var first = true;
     await for (final event in sseStream) {
@@ -111,6 +114,10 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     final themeType = ThemeTypeProvider.of(context);
+
+    assert(_conversation != null);
+    final conversation = _conversation!;
+
     return PlatformScaffold(
       topBar: PlatformTopBar(
         title: const Text('Lambda Chat'),
@@ -124,9 +131,9 @@ class _ChatPageState extends State<ChatPage> {
         child: Column(children: [
           Expanded(
             child: StreamBuilder(
-                key: ValueKey(_conversation.id),
-                initialData: _conversation.displayMessages,
-                stream: _conversation.displayMessageStream,
+                key: ValueKey(conversation.id),
+                initialData: conversation.displayMessages,
+                stream: conversation.displayMessageStream,
                 builder: (context, snapshot) {
                   final messages = snapshot.data!;
                   if (messages.isEmpty) {
@@ -145,8 +152,8 @@ class _ChatPageState extends State<ChatPage> {
                   return Align(
                     alignment: Alignment.topCenter,
                     child: StreamBuilder(
-                        initialData: _conversation.displayMessages,
-                        stream: _conversation.displayMessageStream,
+                        initialData: conversation.displayMessages,
+                        stream: conversation.displayMessageStream,
                         builder: (context, snapshot) {
                           final messages = snapshot.data!;
                           return ListView.builder(

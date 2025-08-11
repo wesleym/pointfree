@@ -9,22 +9,39 @@ class ConversationPickerDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      title: Text('Conversation'),
-      children: [
-        SimpleDialogOption(
-            onPressed: () {
-              final conversation = _store.createConversation();
-              context.pop(conversation.id);
-            },
-            child: Text('New conversation')),
-        for (final c in _store.conversations.asMap().entries)
-          SimpleDialogOption(
-            onPressed: () => context.pop(c.key),
-            // TODO: get conversation titles
-            child: Text('Conversation ${c.value.id}'),
-          ),
-      ],
-    );
+    return StreamBuilder(
+        initialData: _store.conversations,
+        stream: _store.conversationStream,
+        builder: (context, snapshot) {
+          final error = snapshot.error;
+          assert(error == null);
+
+          final data = snapshot.data;
+          if (data == null) {
+            return _createDialog(context: context, children: [
+              CircularProgressIndicator(),
+            ]);
+          }
+
+          return _createDialog(context: context, children: [
+            SimpleDialogOption(
+              onPressed: () {
+                final conversation = _store.createConversation();
+                context.pop(conversation.id);
+              },
+              child: Text('New conversation'),
+            ),
+            for (final c in _store.conversations.asMap().entries)
+              SimpleDialogOption(
+                onPressed: () => context.pop(c.key),
+                // TODO: get conversation titles
+                child: Text('Conversation ${c.value.id}'),
+              ),
+          ]);
+        });
   }
+
+  SimpleDialog _createDialog(
+          {required BuildContext context, required List<Widget> children}) =>
+      SimpleDialog(title: Text('Conversation'), children: children);
 }

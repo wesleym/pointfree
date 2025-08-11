@@ -135,10 +135,16 @@ class Conversation {
 
 class Store {
   static final instance = Store();
-  final conversations = <Conversation>[];
+  final _conversations = <Conversation>[];
+  List<Conversation> get conversations => UnmodifiableListView(_conversations);
+  final _conversationController =
+      StreamController<List<Conversation>>.broadcast();
+  Stream<List<Conversation>> get conversationStream =>
+      _conversationController.stream;
 
   Store() {
-    conversations.add(createConversation());
+    _conversations.add(createConversation());
+    _conversationController.add(_conversations);
   }
 
   Conversation createConversation() {
@@ -147,11 +153,13 @@ class Store {
       MessageType.system,
       systemPrompt,
     ));
+    _conversations.add(conversation);
+    _conversationController.add(conversations);
     return conversation;
   }
 
   Conversation? getConversation(int id) {
-    for (final c in conversations) {
+    for (final c in _conversations) {
       if (c.id == id) {
         return c;
       }
