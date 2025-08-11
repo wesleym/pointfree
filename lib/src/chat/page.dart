@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_client_sse/constants/sse_request_type_enum.dart';
 import 'package:flutter_client_sse/flutter_client_sse.dart';
 import 'package:lambda_gui/src/chat/messages.dart';
+import 'package:lambda_gui/src/chat/picker_dialog.dart';
+import 'package:lambda_gui/src/chat/picker_page.dart';
 import 'package:lambda_gui/src/chat/store.dart';
 import 'package:lambda_gui/src/platform/icon_button.dart';
+import 'package:lambda_gui/src/platform/icons.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/text_button.dart';
 import 'package:lambda_gui/src/platform/text_field.dart';
@@ -24,8 +27,10 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final _chatController = TextEditingController();
   final _conversationController = ScrollController();
-  var _conversation = store.conversations[0];
+  final _store = Store.instance;
   var _inProgress = false;
+  var _activeConversationId = 0;
+  Conversation get _conversation => _store.conversations[_activeConversationId];
 
   void _sendMessage(String value) async {
     if (value.trim().isEmpty) return;
@@ -81,35 +86,36 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  void _newConversation() {
-    final conversation = store.createConversation();
-    store.conversations.add(conversation);
-    _chatController.clear();
-    setState(() {
-      _conversation = conversation;
-      _inProgress = false;
-    });
+  Future<void> _handleChooseConversation(ThemeType themeType) async {
+    if (!mounted) return;
+    final int? conversationId = switch (themeType) {
+      ThemeType.cupertino => await showCupertinoDialog<int>(
+          context: context,
+          builder: (context) => ConversationPickerPage(),
+        ),
+      ThemeType.material || ThemeType.lambda => await showDialog(
+          context: context,
+          builder: (context) => ConversationPickerDialog(),
+        )
+    };
+    if (conversationId != null) {
+      _chatController.clear();
+      setState(() {
+        _activeConversationId = conversationId;
+        _inProgress = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final themeType = ThemeTypeProvider.of(context);
-    IconData? iconData;
-    switch (themeType) {
-      case ThemeType.cupertino:
-        iconData = CupertinoIcons.trash_circle;
-        break;
-      case ThemeType.material:
-      case ThemeType.lambda:
-        iconData = Icons.delete_sweep;
-        break;
-    }
     return PlatformScaffold(
       topBar: PlatformTopBar(
         title: const Text('Lambda Chat'),
         action: PlatformIconButton(
-          onPressed: _newConversation,
-          icon: Icon(iconData),
+          onPressed: () => _handleChooseConversation(themeType),
+          icon: Icon(PlatformIcons.conversations(themeType)),
         ),
       ),
       body: SafeArea(

@@ -22,4 +22,16 @@ class PlatformIcons {
         ThemeType.material => Icons.add,
         ThemeType.lambda => Icons.add,
       };
+
+  static IconData clear(ThemeType themeType) => switch (themeType) {
+        ThemeType.cupertino => CupertinoIcons.trash_circle,
+        ThemeType.material => Icons.delete_sweep,
+        ThemeType.lambda => Icons.delete_sweep,
+      };
+
+  static IconData conversations(ThemeType themeType) => switch (themeType) {
+        ThemeType.cupertino => CupertinoIcons.conversation_bubble,
+        ThemeType.material => Icons.chat_bubble,
+        ThemeType.lambda => Icons.chat_bubble,
+      };
 }

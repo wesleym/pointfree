@@ -134,6 +134,7 @@ class Conversation {
 }
 
 class Store {
+  static final instance = Store();
   final conversations = <Conversation>[];
 
   Store() {
@@ -148,6 +149,13 @@ class Store {
     ));
     return conversation;
   }
-}
 
-final store = Store();
+  Conversation? getConversation(int id) {
+    for (final c in conversations) {
+      if (c.id == id) {
+        return c;
+      }
+    }
+    return null;
+  }
+}
