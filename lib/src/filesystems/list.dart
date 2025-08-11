@@ -46,7 +46,7 @@ class FilesystemsList extends StatelessWidget {
           icon: Icon(CupertinoIcons.add_circled),
         ),
       ),
-      if (themeType == ThemeType.cupertino) CupertinoActivityIndicator(),
+      if (themeType == ThemeType.cupertino) CupertinoSliverRefreshControl(),
       StreamBuilder(
         initialData: _repository.filesystems,
         stream: _repository.stream,
