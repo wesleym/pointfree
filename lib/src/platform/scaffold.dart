@@ -37,7 +37,7 @@ class PlatformScaffold extends StatelessWidget {
         return CupertinoPageScaffold(
           backgroundColor: _backgroundColor,
           navigationBar: navigationBar,
-          child: _body,
+          child: SafeArea(child: _body),
         );
       case ThemeType.material:
       case ThemeType.lambda:
