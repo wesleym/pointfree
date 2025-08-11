@@ -29,7 +29,8 @@ class _AssistantMessageWidgetState extends State<AssistantMessageWidget> {
           child: Icon(Icons.assistant),
         ),
         Expanded(
-          child: Card(
+          child: Card.filled(
+            color: Theme.of(context).colorScheme.secondary,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: StreamBuilder(
@@ -75,7 +76,8 @@ class UserMessageWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Card(
+          child: Card.filled(
+            color: Theme.of(context).colorScheme.secondary,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: MarkdownBody(

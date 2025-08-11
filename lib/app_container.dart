@@ -4,10 +4,10 @@ import 'package:lambda_gui/src/router.dart';
 import 'package:lambda_gui/src/theme_type_provider.dart';
 
 // ignore: unnecessary_nullable_for_final_variable_declarations
-// const ThemeType? themeOverride = ThemeType.lambda;
+const ThemeType? themeOverride = ThemeType.lambda;
 // ignore: unnecessary_nullable_for_final_variable_declarations
 // const ThemeType? themeOverride = ThemeType.material;
-const ThemeType? themeOverride = null;
+// const ThemeType? themeOverride = null;
 
 class AppContainer extends StatelessWidget {
   const AppContainer({super.key});
