@@ -21,7 +21,7 @@ class SshKeyPickerPage extends StatelessWidget {
     final themeType = ThemeTypeProvider.of(context);
 
     return PlatformScaffold(
-      topBar: PlatformTopBar(title: Text('SSH Keys')),
+      topBar: PlatformTopBar(title: Text('SSH Key')),
       body: StreamBuilder(
         initialData: _repository.sshKeys,
         stream: _repository.stream,

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
-import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:openapi/api.dart';
+
+Widget createFilesystemsDialog(List<Widget> children) =>
+    SimpleDialog(title: Text('Filesystem'), children: children);
 
 class FilesystemsPickerDialog extends StatelessWidget {
   final _filesystemsRepository = FilesystemsRepository();
@@ -21,9 +23,27 @@ class FilesystemsPickerDialog extends StatelessWidget {
       initialData: _filesystemsRepository.filesystems,
       stream: _filesystemsRepository.stream,
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          // TODO: Error handling.
-          return PlatformCircularProgressIndicator();
+        final error = snapshot.error;
+        if (error != null) {
+          // TODO: log to server to determine how best to present common errors.
+          return createFilesystemsDialog([
+            Text('Error: $error'),
+            IconButton(
+              onPressed: () => _filesystemsRepository.update(force: true),
+              icon: Icon(Icons.refresh),
+            ),
+          ]);
+        }
+
+        final data = snapshot.data;
+        if (data == null) {
+          return createFilesystemsDialog([
+            CircularProgressIndicator(),
+            IconButton(
+              onPressed: () => _filesystemsRepository.update(force: true),
+              icon: Icon(Icons.refresh),
+            ),
+          ]);
         }
 
         final options = (snapshot.data!)
@@ -36,10 +56,7 @@ class FilesystemsPickerDialog extends StatelessWidget {
           onPressed: () => _onFilesystemPressed(context, noneItemId),
           child: Text('Do not attach a filesystem'),
         );
-        return SimpleDialog(
-          title: Text('Filesystem'),
-          children: [noneOption, ...options],
-        );
+        return createFilesystemsDialog([noneOption, ...options]);
       },
     );
   }

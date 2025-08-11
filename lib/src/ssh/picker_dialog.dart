@@ -8,9 +8,8 @@ import 'package:lambda_gui/src/platform/icons.dart';
 import 'package:lambda_gui/src/ssh/repository.dart';
 import 'package:lambda_gui/src/theme_type_provider.dart';
 
-Widget createSshKeysDialog(List<Widget> children) {
-  return SimpleDialog(title: Text('SSH Keys'), children: children);
-}
+Widget createSshKeysDialog(List<Widget> children) =>
+    SimpleDialog(title: Text('SSH Key'), children: children);
 
 class SshKeyPickerDialog extends StatelessWidget {
   final _repository = SshKeysRepository();

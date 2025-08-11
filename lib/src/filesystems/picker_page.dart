@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/filesystems/repository.dart';
 import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
+import 'package:lambda_gui/src/platform/icon_button.dart';
+import 'package:lambda_gui/src/platform/icons.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/theme_type_provider.dart';
@@ -29,15 +31,45 @@ class FilesystemsPickerPage extends StatelessWidget {
         initialData: _filesystemsRepository.filesystems,
         stream: _filesystemsRepository.stream,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            // TODO: Error handling.
-            return Center(child: PlatformCircularProgressIndicator());
+          final error = snapshot.error;
+          if (error != null) {
+            // TODO: log to server to determine how best to present common errors.
+            return CustomScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              slivers: [
+                CupertinoSliverRefreshControl(
+                  onRefresh: () => _filesystemsRepository.update(force: true),
+                ),
+                SliverFillRemaining(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Error: $error'),
+                      PlatformIconButton(
+                        onPressed: () =>
+                            _filesystemsRepository.update(force: true),
+                        icon: Icon(PlatformIcons.refresh(themeType)),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          }
+
+          final data = snapshot.data;
+          if (data == null) {
+            return CustomScrollView(slivers: [
+              CupertinoSliverRefreshControl(
+                  onRefresh: () => _filesystemsRepository.update(force: true)),
+              PlatformCircularProgressIndicator(),
+            ]);
           }
 
           final filesystemsInRegion = snapshot.data!
               .where((element) => element.region.name == regionCode)
               .toList(growable: false);
-          var scrollView = CustomScrollView(
+          return CustomScrollView(
             slivers: [
               if (themeType == ThemeType.cupertino)
                 CupertinoSliverRefreshControl(),
@@ -58,10 +90,6 @@ class FilesystemsPickerPage extends StatelessWidget {
                 },
               ),
             ],
-          );
-          return RefreshIndicator(
-            onRefresh: () => _filesystemsRepository.update(force: true),
-            child: scrollView,
           );
         },
       ),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lambda_gui/src/theme_type_provider.dart';
 
 class PlatformIcons {
+  PlatformIcons._();
+
   static IconData delete(ThemeType themeType) => switch (themeType) {
         ThemeType.cupertino => CupertinoIcons.delete,
         ThemeType.material => Icons.delete,
