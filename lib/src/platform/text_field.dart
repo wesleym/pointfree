@@ -25,6 +25,7 @@ class PlatformTextField extends StatelessWidget {
           controller: _controller,
           onSubmitted: _onSubmitted,
           enabled: _enabled,
+          suffix: const Icon(CupertinoIcons.person),
         );
       case ThemeType.material:
       case ThemeType.lambda:
@@ -32,21 +33,10 @@ class PlatformTextField extends StatelessWidget {
           controller: _controller,
           onSubmitted: _onSubmitted,
           enabled: _enabled,
-          // decoration: InputDecoration(
-          //   border: const OutlineInputBorder(),
-          //   suffixIcon: _inProgress
-          //       ? Padding(
-          //           padding: const EdgeInsets.all(8.0),
-          //           child: SizedBox.square(
-          //               // dimension: (theme.iconTheme.size ?? 48) - 16,
-          //               dimension: 32,
-          //               child: const CircularProgressIndicator()),
-          //         )
-          //       : IconButton(
-          //           onPressed: () => _sendMessage(_chatController.text),
-          //           icon: const Icon(Icons.send),
-          //         ),
-          // ),
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            suffixIcon: const Icon(Icons.person),
+          ),
         );
     }
   }
