@@ -7,6 +7,7 @@ import 'package:lambda_gui/src/instances/launch.dart';
 import 'package:lambda_gui/src/instances/repository.dart';
 import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/icon_button.dart';
+import 'package:lambda_gui/src/platform/icons.dart';
 import 'package:lambda_gui/src/platform/list_tile.dart';
 import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
 import 'package:lambda_gui/src/theme_type_provider.dart';
@@ -42,7 +43,6 @@ class InstancesList extends StatelessWidget {
         final data = snapshot.data!;
         var scrollView = CustomScrollView(
           slivers: [
-            // TODO: Make platform icons.
             PlatformTopBarSliver(
               title: Text(
                 'GPU Instances',
@@ -53,7 +53,7 @@ class InstancesList extends StatelessWidget {
                     title: 'Launch',
                     fullscreenDialog: true,
                     builder: (context) => LaunchInstancePage())),
-                icon: Icon(CupertinoIcons.add_circled),
+                icon: Icon(PlatformIcons.add(themeType)),
               ),
             ),
             if (themeType == ThemeType.cupertino)

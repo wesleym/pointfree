@@ -16,4 +16,10 @@ class PlatformIcons {
         ThemeType.material => Icons.refresh,
         ThemeType.lambda => Icons.refresh,
       };
+
+  static IconData add(ThemeType themeType) => switch (themeType) {
+        ThemeType.cupertino => CupertinoIcons.add,
+        ThemeType.material => Icons.add,
+        ThemeType.lambda => Icons.add,
+      };
 }
