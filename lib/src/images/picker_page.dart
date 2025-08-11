@@ -22,7 +22,7 @@ class ImagePickerPage extends StatelessWidget {
     final themeType = ThemeTypeProvider.of(context);
 
     return PlatformScaffold(
-      topBar: PlatformTopBar(title: Text('Instance Type')),
+      topBar: PlatformTopBar(title: Text('Base Image')),
       body: StreamBuilder(
         initialData: _imagesRepository.images,
         stream: _imagesRepository.stream,

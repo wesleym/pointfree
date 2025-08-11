@@ -23,7 +23,7 @@ class RegionsPickerPage extends StatelessWidget {
     final themeType = ThemeTypeProvider.of(context);
 
     return PlatformScaffold(
-      topBar: PlatformTopBar(title: Text('Instance Type')),
+      topBar: PlatformTopBar(title: Text('Region')),
       body: StreamBuilder(
         initialData: _instanceTypesRepository.instanceTypes,
         stream: _instanceTypesRepository.stream,
