@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lambda_gui/src/firewall/create.dart';
-import 'package:lambda_gui/src/firewall/description_dialog.dart';
-import 'package:lambda_gui/src/firewall/port_range_dialog.dart';
-import 'package:lambda_gui/src/firewall/protocol_picker_dialog.dart';
-import 'package:lambda_gui/src/firewall/source_dialog.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:pointfree/src/firewall/create.dart';
+import 'package:pointfree/src/firewall/description_dialog.dart';
+import 'package:pointfree/src/firewall/port_range_dialog.dart';
+import 'package:pointfree/src/firewall/protocol_picker_dialog.dart';
+import 'package:pointfree/src/firewall/source_dialog.dart';
+import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:openapi/api.dart';
 
 class MaterialCreateFirewallRulePage extends StatelessWidget {

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/filesystems/repository.dart';
-import 'package:lambda_gui/src/instances/launch.dart';
+import 'package:pointfree/src/filesystems/repository.dart';
+import 'package:pointfree/src/instances/launch.dart';
 import 'package:openapi/api.dart';
 
 Widget createFilesystemsDialog(List<Widget> children) =>

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lambda_gui/src/chat/page.dart';
-import 'package:lambda_gui/src/instances/launch.dart';
-import 'package:lambda_gui/src/instances/list.dart';
-import 'package:lambda_gui/src/more/page.dart';
-import 'package:lambda_gui/src/platform/tab_scaffold.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/chat/page.dart';
+import 'package:pointfree/src/instances/launch.dart';
+import 'package:pointfree/src/instances/list.dart';
+import 'package:pointfree/src/more/page.dart';
+import 'package:pointfree/src/platform/tab_scaffold.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

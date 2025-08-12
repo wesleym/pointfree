@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:lambda_gui/src/chat/store.dart';
+import 'package:pointfree/src/chat/store.dart';
 
 class AssistantMessageWidget extends StatefulWidget {
   const AssistantMessageWidget({

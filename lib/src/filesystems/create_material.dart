@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lambda_gui/src/filesystems/all_regions_picker_dialog.dart';
-import 'package:lambda_gui/src/filesystems/name_dialog.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:pointfree/src/filesystems/all_regions_picker_dialog.dart';
+import 'package:pointfree/src/filesystems/name_dialog.dart';
+import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:openapi/api.dart';
 
 class MaterialCreateFilesystemPage extends StatelessWidget {

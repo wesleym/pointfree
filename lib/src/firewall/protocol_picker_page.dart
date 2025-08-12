@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/platform/list_tile.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:pointfree/src/platform/list_tile.dart';
+import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:openapi/api.dart';
 
 class ProtocolPickerPage extends StatelessWidget {

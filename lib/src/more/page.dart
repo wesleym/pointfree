@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/login/store.dart';
-import 'package:lambda_gui/src/platform/list_tile.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/login/store.dart';
+import 'package:pointfree/src/platform/list_tile.dart';
+import 'package:pointfree/src/platform/scaffold.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 
 class MorePage extends StatelessWidget {
   const MorePage({super.key});

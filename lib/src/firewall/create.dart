@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/firewall/repository.dart';
-import 'package:lambda_gui/src/firewall/create_cupertino.dart';
-import 'package:lambda_gui/src/firewall/create_material.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/firewall/repository.dart';
+import 'package:pointfree/src/firewall/create_cupertino.dart';
+import 'package:pointfree/src/firewall/create_material.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 import 'package:openapi/api.dart';
 
 const noneItemId = '__none__';

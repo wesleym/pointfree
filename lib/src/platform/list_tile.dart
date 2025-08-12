@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 
 class PlatformListTile extends StatelessWidget {
   final FutureOr<void> Function()? _onTap;

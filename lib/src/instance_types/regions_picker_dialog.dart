@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/instance_types/repository.dart';
-import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
+import 'package:pointfree/src/instance_types/repository.dart';
+import 'package:pointfree/src/platform/circular_progress_indicator.dart';
 import 'package:openapi/api.dart';
 
 class RegionsPickerDialog extends StatelessWidget {

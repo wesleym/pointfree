@@ -1,18 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:lambda_gui/src/filesystems/picker_page.dart';
-import 'package:lambda_gui/src/filesystems/repository.dart';
-import 'package:lambda_gui/src/images/picker_page.dart';
-import 'package:lambda_gui/src/images/repository.dart';
-import 'package:lambda_gui/src/instance_types/picker_page.dart';
-import 'package:lambda_gui/src/instance_types/regions_picker_page.dart';
-import 'package:lambda_gui/src/instance_types/repository.dart';
-import 'package:lambda_gui/src/instances/launch.dart';
-import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
-import 'package:lambda_gui/src/ssh/picker_page.dart';
-import 'package:lambda_gui/src/ssh/repository.dart';
+import 'package:pointfree/src/filesystems/picker_page.dart';
+import 'package:pointfree/src/filesystems/repository.dart';
+import 'package:pointfree/src/images/picker_page.dart';
+import 'package:pointfree/src/images/repository.dart';
+import 'package:pointfree/src/instance_types/picker_page.dart';
+import 'package:pointfree/src/instance_types/regions_picker_page.dart';
+import 'package:pointfree/src/instance_types/repository.dart';
+import 'package:pointfree/src/instances/launch.dart';
+import 'package:pointfree/src/platform/circular_progress_indicator.dart';
+import 'package:pointfree/src/platform/scaffold.dart';
+import 'package:pointfree/src/ssh/picker_page.dart';
+import 'package:pointfree/src/ssh/repository.dart';
 import 'package:openapi/api.dart' as api;
 
 class CupertinoLaunchInstancePage extends StatelessWidget {

@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/login/store.dart';
-import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
-import 'package:lambda_gui/src/platform/text_button.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/login/store.dart';
+import 'package:pointfree/src/platform/circular_progress_indicator.dart';
+import 'package:pointfree/src/platform/scaffold.dart';
+import 'package:pointfree/src/platform/text_button.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 import 'package:openapi/api.dart';
 
 class LoginPage extends StatefulWidget {

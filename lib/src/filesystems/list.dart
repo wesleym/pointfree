@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/filesystems/create.dart';
-import 'package:lambda_gui/src/filesystems/repository.dart';
-import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
-import 'package:lambda_gui/src/platform/colors.dart';
-import 'package:lambda_gui/src/platform/icon_button.dart';
-import 'package:lambda_gui/src/platform/icons.dart';
-import 'package:lambda_gui/src/platform/list_tile.dart';
-import 'package:lambda_gui/src/platform/top_bar_sliver.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/filesystems/create.dart';
+import 'package:pointfree/src/filesystems/repository.dart';
+import 'package:pointfree/src/platform/circular_progress_indicator.dart';
+import 'package:pointfree/src/platform/colors.dart';
+import 'package:pointfree/src/platform/icon_button.dart';
+import 'package:pointfree/src/platform/icons.dart';
+import 'package:pointfree/src/platform/list_tile.dart';
+import 'package:pointfree/src/platform/top_bar_sliver.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 
 class FilesystemsList extends StatelessWidget {
   final _repository = FilesystemsRepository.instance;

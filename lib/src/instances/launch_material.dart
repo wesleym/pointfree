@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:lambda_gui/src/filesystems/picker_dialog.dart';
-import 'package:lambda_gui/src/filesystems/repository.dart';
-import 'package:lambda_gui/src/images/picker_dialog.dart';
-import 'package:lambda_gui/src/instance_types/picker_dialog.dart';
-import 'package:lambda_gui/src/instance_types/regions_picker_dialog.dart';
-import 'package:lambda_gui/src/instance_types/repository.dart';
-import 'package:lambda_gui/src/instances/launch.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
-import 'package:lambda_gui/src/ssh/picker_dialog.dart';
-import 'package:lambda_gui/src/ssh/repository.dart';
+import 'package:pointfree/src/filesystems/picker_dialog.dart';
+import 'package:pointfree/src/filesystems/repository.dart';
+import 'package:pointfree/src/images/picker_dialog.dart';
+import 'package:pointfree/src/instance_types/picker_dialog.dart';
+import 'package:pointfree/src/instance_types/regions_picker_dialog.dart';
+import 'package:pointfree/src/instance_types/repository.dart';
+import 'package:pointfree/src/instances/launch.dart';
+import 'package:pointfree/src/platform/scaffold.dart';
+import 'package:pointfree/src/ssh/picker_dialog.dart';
+import 'package:pointfree/src/ssh/repository.dart';
 import 'package:openapi/api.dart' as api;
 
 class MaterialLaunchInstancePage extends StatelessWidget {

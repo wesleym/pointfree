@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/filesystems/repository.dart';
-import 'package:lambda_gui/src/instance_types/repository.dart';
-import 'package:lambda_gui/src/instances/launch_cupertino.dart';
-import 'package:lambda_gui/src/instances/launch_material.dart';
-import 'package:lambda_gui/src/instances/repository.dart';
-import 'package:lambda_gui/src/ssh/repository.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/filesystems/repository.dart';
+import 'package:pointfree/src/instance_types/repository.dart';
+import 'package:pointfree/src/instances/launch_cupertino.dart';
+import 'package:pointfree/src/instances/launch_material.dart';
+import 'package:pointfree/src/instances/repository.dart';
+import 'package:pointfree/src/ssh/repository.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 import 'package:openapi/api.dart' as api;
 
 const noneItemId = '__none__';

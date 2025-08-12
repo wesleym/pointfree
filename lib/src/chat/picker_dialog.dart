@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/chat/store.dart';
+import 'package:pointfree/src/chat/store.dart';
 
 class ConversationPickerDialog extends StatelessWidget {
   final _store = Store.instance;

@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/filesystems/page.dart';
-import 'package:lambda_gui/src/firewall/page.dart';
-import 'package:lambda_gui/src/home.dart';
-import 'package:lambda_gui/src/instances/page.dart';
-import 'package:lambda_gui/src/login/page.dart';
-import 'package:lambda_gui/src/login/store.dart';
-import 'package:lambda_gui/src/ssh/page.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/filesystems/page.dart';
+import 'package:pointfree/src/firewall/page.dart';
+import 'package:pointfree/src/home.dart';
+import 'package:pointfree/src/instances/page.dart';
+import 'package:pointfree/src/login/page.dart';
+import 'package:pointfree/src/login/store.dart';
+import 'package:pointfree/src/ssh/page.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 
 // GoRouter configuration
 final router = GoRouter(

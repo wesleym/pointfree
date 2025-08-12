@@ -1,7 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 
 const lambdaIndigo = Color(0xff4027ff);
 const lambdaIndigoLight = Color(0xffb9b1fd);

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/chat/store.dart';
-import 'package:lambda_gui/src/platform/list_tile.dart';
+import 'package:pointfree/src/chat/store.dart';
+import 'package:pointfree/src/platform/list_tile.dart';
 
 class ConversationPickerPage extends StatelessWidget {
   final _store = Store.instance;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lambda_gui/src/platform/app.dart';
-import 'package:lambda_gui/src/router.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/platform/app.dart';
+import 'package:pointfree/src/router.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 
 // ignore: unnecessary_nullable_for_final_variable_declarations
 // const ThemeType? themeOverride = ThemeType.lambda;

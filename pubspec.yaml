@@ -1,5 +1,5 @@
-name: lambda_gui
-description: A GUI interface to Lambda Cloud.
+name: pointfree
+description: A GUI interface to the Lambda Cloud API and the Lambda Inference API.
 repository: https://github.com/lambdal/lambda-cloud-dart-gui
 publish_to: none
 

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lambda_gui/src/firewall/create.dart';
-import 'package:lambda_gui/src/firewall/protocol_picker_page.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:pointfree/src/firewall/create.dart';
+import 'package:pointfree/src/firewall/protocol_picker_page.dart';
+import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:openapi/api.dart';
 
 class CupertinoCreateFirewallRulePage extends StatelessWidget {

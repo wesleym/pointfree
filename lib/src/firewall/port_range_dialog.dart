@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lambda_gui/src/firewall/create.dart';
+import 'package:pointfree/src/firewall/create.dart';
 
 class PortRangeDialog extends StatefulWidget {
   const PortRangeDialog({super.key, required PortRange initialPortRange})

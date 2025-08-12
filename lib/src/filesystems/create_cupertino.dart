@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lambda_gui/src/filesystems/all_regions_picker_page.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:pointfree/src/filesystems/all_regions_picker_page.dart';
+import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:openapi/api.dart';
 
 class CupertinoCreateFilesystemPage extends StatelessWidget {

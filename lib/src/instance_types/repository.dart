@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:lambda_gui/src/instance_types/store.dart';
+import 'package:pointfree/src/instance_types/store.dart';
 import 'package:openapi/api.dart';
 
 const _ttl = Duration(hours: 1);

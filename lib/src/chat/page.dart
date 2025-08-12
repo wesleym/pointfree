@@ -5,17 +5,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_client_sse/constants/sse_request_type_enum.dart';
 import 'package:flutter_client_sse/flutter_client_sse.dart';
-import 'package:lambda_gui/src/chat/messages.dart';
-import 'package:lambda_gui/src/chat/picker_dialog.dart';
-import 'package:lambda_gui/src/chat/picker_page.dart';
-import 'package:lambda_gui/src/chat/store.dart';
-import 'package:lambda_gui/src/platform/icon_button.dart';
-import 'package:lambda_gui/src/platform/icons.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
-import 'package:lambda_gui/src/platform/text_button.dart';
-import 'package:lambda_gui/src/platform/text_field.dart';
-import 'package:lambda_gui/src/secrets.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/chat/messages.dart';
+import 'package:pointfree/src/chat/picker_dialog.dart';
+import 'package:pointfree/src/chat/picker_page.dart';
+import 'package:pointfree/src/chat/store.dart';
+import 'package:pointfree/src/platform/icon_button.dart';
+import 'package:pointfree/src/platform/icons.dart';
+import 'package:pointfree/src/platform/scaffold.dart';
+import 'package:pointfree/src/platform/text_button.dart';
+import 'package:pointfree/src/platform/text_field.dart';
+import 'package:pointfree/src/secrets.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});

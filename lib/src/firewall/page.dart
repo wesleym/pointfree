@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lambda_gui/src/firewall/create.dart';
-import 'package:lambda_gui/src/firewall/list.dart';
-import 'package:lambda_gui/src/platform/icons.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
-import 'package:lambda_gui/src/theme_type_provider.dart';
+import 'package:pointfree/src/firewall/create.dart';
+import 'package:pointfree/src/firewall/list.dart';
+import 'package:pointfree/src/platform/icons.dart';
+import 'package:pointfree/src/platform/scaffold.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 
 class FirewallPage extends StatelessWidget {
   const FirewallPage({super.key});
