@@ -31,11 +31,11 @@ class ConversationPickerDialog extends StatelessWidget {
               },
               child: Text('New conversation'),
             ),
-            for (final c in _store.conversations.asMap().entries)
+            for (final c in _store.conversations)
               SimpleDialogOption(
-                onPressed: () => context.pop(c.key),
+                onPressed: () => context.pop(c.id),
                 // TODO: get conversation titles
-                child: Text('Conversation ${c.value.id}'),
+                child: Text('Conversation ${c.id}'),
               ),
           ]);
         });

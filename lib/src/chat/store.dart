@@ -143,8 +143,7 @@ class Store {
       _conversationController.stream;
 
   Store() {
-    _conversations.add(createConversation());
-    _conversationController.add(_conversations);
+    createConversation();
   }
 
   Conversation createConversation() {
