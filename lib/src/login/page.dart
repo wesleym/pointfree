@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/login/store.dart';
+import 'package:lambda_gui/src/platform/circular_progress_indicator.dart';
 import 'package:lambda_gui/src/platform/scaffold.dart';
 import 'package:lambda_gui/src/platform/text_button.dart';
 import 'package:lambda_gui/src/theme_type_provider.dart';
@@ -20,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   final _store = LoginStore.instance;
   final _apiKeyController = TextEditingController();
   String? _error;
+  bool _inProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () => _setApiKey(context),
               child: Text('Set'),
             ),
+            if (_inProgress) PlatformCircularProgressIndicator(),
           ],
         ),
       ),
@@ -73,7 +76,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _setApiKey(BuildContext context) async {
-    setState(() => _error = null);
+    setState(() {
+      _error = null;
+      _inProgress = true;
+    });
     final apiKey = _apiKeyController.text;
     try {
       await InstancesApi(ApiClient(
@@ -83,10 +89,17 @@ class _LoginPageState extends State<LoginPage> {
           .listInstanceTypes();
     } on ApiException catch (e) {
       log('Failed to list instance types: ${e.message}', error: e);
-      setState(() => _error = 'Could not log in: ${e.message}');
+      setState(() {
+        _error = 'Could not log in: ${e.message}';
+        _inProgress = false;
+      });
       return;
     }
     await _store.setApiKey(apiKey);
+    setState(() {
+      _error = null;
+      _inProgress = false;
+    });
     if (context.mounted) context.go('/');
   }
 }
