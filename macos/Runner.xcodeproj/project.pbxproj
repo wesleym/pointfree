@@ -481,7 +481,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lambdalabs.cloud.gui.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lambda_cloud.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/lambda_gui";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lambda_cloud.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/pointfree";
 			};
 			name = Debug;
 		};
@@ -496,7 +496,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lambdalabs.cloud.gui.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lambda_cloud.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/lambda_gui";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lambda_cloud.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/pointfree";
 			};
 			name = Release;
 		};
@@ -511,7 +511,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lambdalabs.cloud.gui.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lambda_cloud.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/lambda_gui";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lambda_cloud.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/pointfree";
 			};
 			name = Profile;
 		};
