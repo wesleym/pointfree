@@ -1,4 +1,4 @@
-package com.lambdalabs.cloud.gui
+package com.wesleymoy.pointfree
 
 import io.flutter.embedding.android.FlutterActivity
 
