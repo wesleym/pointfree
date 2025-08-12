@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lambda_gui/src/filesystems/list.dart';
+import 'package:lambda_gui/src/firewall/list.dart';
 import 'package:lambda_gui/src/home.dart';
 import 'package:lambda_gui/src/instances/page.dart';
 import 'package:lambda_gui/src/login/page.dart';
 import 'package:lambda_gui/src/login/store.dart';
+import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:lambda_gui/src/ssh/list.dart';
 import 'package:lambda_gui/src/theme_type_provider.dart';
 
 // GoRouter configuration
@@ -20,7 +24,7 @@ final router = GoRouter(
         final themeType = ThemeTypeProvider.of(context);
         switch (themeType) {
           case ThemeType.cupertino:
-            return CupertinoPage(title: 'Instances', child: HomePage());
+            return CupertinoPage(title: 'Resources', child: HomePage());
           case ThemeType.material:
           case ThemeType.lambda:
             return MaterialPage(child: HomePage());
@@ -31,6 +35,19 @@ final router = GoRouter(
           path: 'instance/:id',
           builder: (context, state) =>
               InstancesPage(instanceId: state.pathParameters['id']!),
+        ),
+        GoRoute(
+          path: 'filesystems',
+          builder: (context, state) =>
+              PlatformScaffold(body: FilesystemsList()),
+        ),
+        GoRoute(
+          path: 'ssh',
+          builder: (context, state) => PlatformScaffold(body: SshKeysList()),
+        ),
+        GoRoute(
+          path: 'firewall',
+          builder: (context, state) => PlatformScaffold(body: FirewallList()),
         ),
       ],
     ),
