@@ -52,6 +52,10 @@ class _LoginPageState extends State<LoginPage> {
       ThemeType.lambda =>
         Theme.of(context).colorScheme.error,
     };
+    var progressIndicator = _inProgress
+        ? AspectRatio(
+            aspectRatio: 1, child: PlatformCircularProgressIndicator())
+        : null;
     return PlatformScaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,10 +72,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () => _setApiKey(context),
               child: Text('Set'),
             ),
-            SizedBox(
-              height: 48,
-              child: _inProgress ? PlatformCircularProgressIndicator() : null,
-            ),
+            SizedBox(height: 48, child: progressIndicator),
           ],
         ),
       ),

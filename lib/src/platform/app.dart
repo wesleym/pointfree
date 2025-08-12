@@ -33,7 +33,12 @@ ThemeData makeLambdaTheme({required TargetPlatform platform}) {
     colorScheme: colors,
     platform: platform,
     textTheme: defaultTextTheme,
-    buttonTheme: ButtonThemeData(shape: BeveledRectangleBorder()),
+    floatingActionButtonTheme:
+        FloatingActionButtonThemeData(shape: LinearBorder()),
+    navigationBarTheme: NavigationBarThemeData(indicatorShape: LinearBorder()),
+    filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyle(shape: WidgetStateProperty.all(LinearBorder()))),
+    dialogTheme: DialogThemeData(shape: LinearBorder()),
   );
 }
 
