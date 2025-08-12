@@ -50,9 +50,32 @@ class MorePage extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return CupertinoAlertDialog(
-                            title: Text('Application for Lambda Cloud'),
-                            content: Text(
-                                'Application is a sample client for the Lambda Cloud API and Lambda Inference API.'),
+                            title: Text('Pointfree'),
+                            content: RawGestureDetector(
+                              gestures: {
+                                DelayedMultiDragGestureRecognizer:
+                                    GestureRecognizerFactoryWithHandlers<
+                                        DelayedMultiDragGestureRecognizer>(
+                                  () => DelayedMultiDragGestureRecognizer(
+                                      delay: Duration(seconds: 4)),
+                                  (instance) {
+                                    instance.onStart = (details) {
+                                      final themeTypeProvider =
+                                          ThemeTypeProvider.of(context);
+                                      final nextThemeType = ThemeType.values[
+                                          (themeTypeProvider.themeType.index +
+                                                  1) %
+                                              ThemeType.values.length];
+                                      themeTypeProvider
+                                          .overrideTheme(nextThemeType);
+                                      return null;
+                                    };
+                                  },
+                                ),
+                              },
+                              child: Text(
+                                  'Pointfree is a sample client for the Lambda Cloud API and Lambda Inference API.'),
+                            ),
                             actions: [
                               CupertinoDialogAction(
                                 onPressed: () => context.pop(),
@@ -95,7 +118,7 @@ class MorePage extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Pointfree for Lambda Cloud'),
+                      title: Text('Pointfree'),
                       content: RawGestureDetector(
                         gestures: {
                           DelayedMultiDragGestureRecognizer:
@@ -107,8 +130,10 @@ class MorePage extends StatelessWidget {
                               instance.onStart = (details) {
                                 final themeTypeProvider =
                                     ThemeTypeProvider.of(context);
-                                themeTypeProvider
-                                    .overrideTheme(ThemeType.lambda);
+                                final nextThemeType = ThemeType.values[
+                                    (themeTypeProvider.themeType.index + 1) %
+                                        ThemeType.values.length];
+                                themeTypeProvider.overrideTheme(nextThemeType);
                                 return null;
                               };
                             },

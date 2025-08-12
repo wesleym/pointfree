@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,6 +44,7 @@ class ThemeTypeHolderState extends State<ThemeTypeHolder> {
             return;
           }
         }
+        log('Failed to get theme type $value');
       }
     });
   }
@@ -92,6 +95,6 @@ class ThemeTypeProvider extends InheritedWidget {
 
   void overrideTheme(ThemeType themeType) async {
     onOverride(themeType);
-    await SharedPreferencesAsync().setString('themeType', themeType.toString());
+    await SharedPreferencesAsync().setString('themeType', themeType.name);
   }
 }
