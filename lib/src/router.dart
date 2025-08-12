@@ -12,7 +12,8 @@ import 'package:lambda_gui/src/theme_type_provider.dart';
 
 // GoRouter configuration
 final router = GoRouter(
-  redirect: (context, state) {
+  redirect: (context, state) async {
+    await LoginStore.instance.waitForReady();
     if (LoginStore.instance.apiKey == null) return '/login';
     return null;
   },
@@ -21,13 +22,13 @@ final router = GoRouter(
       path: '/',
       pageBuilder: (context, state) {
         final themeType = ThemeTypeProvider.of(context);
-        switch (themeType) {
-          case ThemeType.cupertino:
-            return CupertinoPage(title: 'Resources', child: HomePage());
-          case ThemeType.material:
-          case ThemeType.lambda:
-            return MaterialPage(child: HomePage());
-        }
+        return switch (themeType) {
+          ThemeType.cupertino =>
+            CupertinoPage(title: 'Resources', child: HomePage()),
+          ThemeType.material ||
+          ThemeType.lambda =>
+            MaterialPage(child: HomePage())
+        };
       },
       routes: [
         GoRoute(

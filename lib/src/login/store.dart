@@ -8,22 +8,24 @@ const _apiKeyKey = 'apiKey';
 class LoginStore {
   static final instance = LoginStore._();
 
-  LoginStore._() {
+  LoginStore._()
+      : _prefs = SharedPreferencesWithCache.create(
+          cacheOptions: SharedPreferencesWithCacheOptions(),
+        ) {
     _initSharedPrefs();
   }
 
-  void _initSharedPrefs() async {
-    var prefs = await SharedPreferencesWithCache.create(
-      cacheOptions: SharedPreferencesWithCacheOptions(),
-    );
-    _prefs = prefs;
+  Future<void> _initSharedPrefs() async {
+    final prefs = await _prefs;
     if (_apiKey == null) {
       _apiKey = prefs.getString(_apiKeyKey);
       _apiKeyController.add(_apiKey);
     }
   }
 
-  SharedPreferencesWithCache? _prefs;
+  Future<void> waitForReady() => _initSharedPrefs();
+
+  final Future<SharedPreferencesWithCache> _prefs;
 
   String? _apiKey;
   String? get apiKey => _apiKey;
@@ -41,10 +43,12 @@ class LoginStore {
     _apiKey = apiKey;
     _apiKeyController.add(apiKey);
 
+    final prefs = await _prefs;
+
     if (apiKey == null) {
-      await _prefs?.remove(_apiKeyKey);
+      await prefs.remove(_apiKeyKey);
     } else {
-      await _prefs?.setString(_apiKeyKey, apiKey);
+      await prefs.setString(_apiKeyKey, apiKey);
     }
   }
 
