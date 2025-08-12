@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lambda_gui/src/home.dart';
 import 'package:lambda_gui/src/instances/page.dart';
+import 'package:lambda_gui/src/login/page.dart';
+import 'package:lambda_gui/src/login/store.dart';
 import 'package:lambda_gui/src/theme_type_provider.dart';
 
 // GoRouter configuration
 final router = GoRouter(
+  redirect: (context, state) {
+    if (LoginStore.instance.apiKey == null) return '/login';
+    return null;
+  },
   routes: [
     GoRoute(
       path: '/',
@@ -27,6 +33,10 @@ final router = GoRouter(
               InstancesPage(instanceId: state.pathParameters['id']!),
         ),
       ],
+    ),
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => LoginPage(),
     ),
   ],
 );
