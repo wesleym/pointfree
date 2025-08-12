@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "Lambda" "\0"
-            VALUE "FileDescription", "Lambda Cloud" "\0"
+            VALUE "CompanyName", "Wesley Moy" "\0"
+            VALUE "FileDescription", "Pointfree" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "lambda_cloud" "\0"
-            VALUE "LegalCopyright", "Copyright © 2025 Lambda. All rights reserved." "\0"
-            VALUE "OriginalFilename", "lambda_cloud.exe" "\0"
-            VALUE "ProductName", "Lambda Cloud" "\0"
+            VALUE "InternalName", "pointfree" "\0"
+            VALUE "LegalCopyright", "Copyright © 2025 Wesley Moy. Licensed under the Apache License, version 2.0." "\0"
+            VALUE "OriginalFilename", "pointfree.exe" "\0"
+            VALUE "ProductName", "Pointfree" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

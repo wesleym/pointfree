@@ -1,6 +1,6 @@
 name: pointfree
-description: A GUI interface to the Lambda Cloud API and the Lambda Inference API.
-repository: https://github.com/lambdal/lambda-cloud-dart-gui
+description: A graphical user interface for the Lambda Cloud API and the Lambda Inference API.
+repository: https://github.com/wesleym/pointfree
 publish_to: none
 
 version: 1.0.0+1

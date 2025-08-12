@@ -5,11 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 enum ThemeType { cupertino, material, lambda }
 
-// ignore: unnecessary_nullable_for_final_variable_declarations
-// const ThemeType? themeOverride = ThemeType.lambda;
-// ignore: unnecessary_nullable_for_final_variable_declarations
-const ThemeType? themeOverride = ThemeType.material;
-// const ThemeType? themeOverride = null;
+const ThemeType? themeOverride = null;
 
 ThemeType resolveThemeType(TargetPlatform targetPlatform) =>
     switch (targetPlatform) {

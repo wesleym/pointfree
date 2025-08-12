@@ -1,11 +1,11 @@
 {
-    "name": "Lambda Cloud",
-    "short_name": "Lambda Cloud",
+    "name": "Pointfree",
+    "short_name": "Pointfree",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#hexcode",
     "theme_color": "#hexcode",
-    "description": "A new Flutter project.",
+    "description": "A graphical user interface for the Lambda Cloud API and the Lambda Inference API.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

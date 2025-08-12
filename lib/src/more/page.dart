@@ -7,6 +7,9 @@ import 'package:pointfree/src/platform/list_tile.dart';
 import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:pointfree/src/theme_type_provider.dart';
 
+const _aboutBody =
+    'Pointfree is a graphical user interface for the Lambda Cloud API and the Lambda Inference API.';
+
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
 
@@ -73,8 +76,7 @@ class MorePage extends StatelessWidget {
                                   },
                                 ),
                               },
-                              child: Text(
-                                  'Pointfree is a sample client for the Lambda Cloud API and Lambda Inference API.'),
+                              child: Text(_aboutBody),
                             ),
                             actions: [
                               CupertinoDialogAction(
@@ -139,8 +141,7 @@ class MorePage extends StatelessWidget {
                             },
                           ),
                         },
-                        child: Text(
-                            'Pointfree is a sample client for the Lambda Cloud API and Lambda Inference API.'),
+                        child: Text(_aboutBody),
                       ),
                       actions: [
                         TextButton(

@@ -9,12 +9,12 @@ import 'package:pointfree/src/chat/messages.dart';
 import 'package:pointfree/src/chat/picker_dialog.dart';
 import 'package:pointfree/src/chat/picker_page.dart';
 import 'package:pointfree/src/chat/store.dart';
+import 'package:pointfree/src/login/store.dart';
 import 'package:pointfree/src/platform/icon_button.dart';
 import 'package:pointfree/src/platform/icons.dart';
 import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:pointfree/src/platform/text_button.dart';
 import 'package:pointfree/src/platform/text_field.dart';
-import 'package:pointfree/src/secrets.dart';
 import 'package:pointfree/src/theme_type_provider.dart';
 
 class ChatPage extends StatefulWidget {
@@ -41,14 +41,15 @@ class _ChatPageState extends State<ChatPage> {
 
     conversation.addMessage(Message(MessageType.user, value));
 
-    setState(() {
-      _inProgress = true;
-    });
+    await LoginStore.instance.waitForReady();
+
+    setState(() => _inProgress = true);
     final sseStream = SSEClient.subscribeToSSE(
       method: SSERequestType.POST,
       url: 'https://api.lambda.ai/v1/chat/completions',
       header: {
-        'Authorization': 'Bearer $apiKey',
+        // TODO: handle null apiKey.
+        'Authorization': 'Bearer ${LoginStore.instance.apiKey}',
         'Content-Type': 'application/json; charset=utf-8',
       },
       body: conversation.toJson(),
