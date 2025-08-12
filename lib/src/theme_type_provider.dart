@@ -34,6 +34,16 @@ class ThemeTypeHolderState extends State<ThemeTypeHolder> {
 
     final targetPlatform = Theme.of(context).platform;
     _themeType = themeOverride ?? resolveThemeType(targetPlatform);
+    SharedPreferencesAsync().getString('themeType').then((value) {
+      if (value != null) {
+        for (final themeType in ThemeType.values) {
+          if (themeType.name == value) {
+            setState(() => _themeType = themeType);
+            return;
+          }
+        }
+      }
+    });
   }
 
   @override

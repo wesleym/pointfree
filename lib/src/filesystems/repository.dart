@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:pointfree/src/filesystems/store.dart';
 import 'package:openapi/api.dart';
+import 'package:pointfree/src/login/store.dart';
 
 const _ttl = Duration(minutes: 5);
 
@@ -18,6 +19,8 @@ class FilesystemsRepository {
   Future<void> update({bool force = false}) async {
     var now = DateTime.now();
     if (!force && _lastFetchTime.add(_ttl).isAfter(now)) return;
+
+    await LoginStore.instance.waitForReady();
 
     final ListFilesystems200Response filesystems;
     try {
@@ -40,6 +43,8 @@ class FilesystemsRepository {
 
   Future<void> create(
       {required String name, required PublicRegionCode region}) async {
+    await LoginStore.instance.waitForReady();
+
     try {
       await FilesystemsApi(defaultApiClient).createFilesystem(
           FilesystemCreateRequest(name: name, region: region));
@@ -54,6 +59,8 @@ class FilesystemsRepository {
   }
 
   Future<void> delete({required String id}) async {
+    await LoginStore.instance.waitForReady();
+
     try {
       await FilesystemsApi(defaultApiClient).filesystemDelete(id);
     } on ApiException catch (e) {

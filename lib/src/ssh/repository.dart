@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:pointfree/src/login/store.dart';
 import 'package:pointfree/src/ssh/store.dart';
 import 'package:openapi/api.dart';
 
@@ -19,6 +20,8 @@ class SshKeysRepository {
     var now = DateTime.now();
     if (!force && _lastFetchTime.add(_ttl).isAfter(now)) return;
 
+    await LoginStore.instance.waitForReady();
+
     final ListSSHKeys200Response sshKeys;
     try {
       final maybeSshKeys = await SSHKeysApi(defaultApiClient).listSSHKeys();
@@ -36,6 +39,8 @@ class SshKeysRepository {
   }
 
   Future<void> delete(String id, {bool force = false}) async {
+    await LoginStore.instance.waitForReady();
+
     try {
       await SSHKeysApi(defaultApiClient).deleteSSHKey(id);
     } on ApiException catch (e) {

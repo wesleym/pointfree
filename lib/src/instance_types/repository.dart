@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:pointfree/src/instance_types/store.dart';
 import 'package:openapi/api.dart';
+import 'package:pointfree/src/login/store.dart';
 
 const _ttl = Duration(hours: 1);
 
@@ -21,6 +22,8 @@ class InstanceTypesRepository {
   Future<void> update({bool force = false}) async {
     var now = DateTime.now();
     if (!force && _lastFetchTime.add(_ttl).isAfter(now)) return;
+
+    await LoginStore.instance.waitForReady();
 
     final ListInstanceTypes200Response instances;
     try {

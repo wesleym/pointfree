@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:pointfree/src/firewall/store.dart';
 import 'package:openapi/api.dart';
+import 'package:pointfree/src/login/store.dart';
 
 const _ttl = Duration(minutes: 5);
 
@@ -18,6 +19,8 @@ class FirewallRepository {
   Future<void> update({bool force = false}) async {
     var now = DateTime.now();
     if (!force && _lastFetchTime.add(_ttl).isAfter(now)) return;
+
+    await LoginStore.instance.waitForReady();
 
     final FirewallRulesList200Response firewallRules;
     try {
@@ -39,6 +42,8 @@ class FirewallRepository {
   }
 
   Future<void> replace(List<FirewallRule> firewallRules) async {
+    await LoginStore.instance.waitForReady();
+
     try {
       await FirewallsApi(defaultApiClient)
           .firewallRulesSet(FirewallRulesPutRequest(data: firewallRules));

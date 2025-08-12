@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:pointfree/src/instances/store.dart';
 import 'package:openapi/api.dart';
+import 'package:pointfree/src/login/store.dart';
 
 const _ttl = Duration(minutes: 5);
 
@@ -18,6 +19,8 @@ class InstancesRepository {
   Future<void> update({bool force = false}) async {
     var now = DateTime.now();
     if (!force && _lastFetchTime.add(_ttl).isAfter(now)) return;
+
+    await LoginStore.instance.waitForReady();
 
     final ListInstances200Response instances;
     try {
@@ -37,6 +40,8 @@ class InstancesRepository {
   }
 
   Future<void> terminate(String id) async {
+    await LoginStore.instance.waitForReady();
+
     try {
       await InstancesApi(defaultApiClient)
           .terminateInstance(InstanceTerminateRequest(instanceIds: [id]));
@@ -50,6 +55,8 @@ class InstancesRepository {
   }
 
   Future<void> restart(String id) async {
+    await LoginStore.instance.waitForReady();
+
     try {
       await InstancesApi(defaultApiClient)
           .restartInstance(InstanceRestartRequest(instanceIds: [id]));
@@ -63,6 +70,8 @@ class InstancesRepository {
   }
 
   Future<void> rename({required String id, required String? name}) async {
+    await LoginStore.instance.waitForReady();
+
     try {
       await InstancesApi(defaultApiClient)
           .postInstance(id, InstanceModificationRequest(name: name));
@@ -83,6 +92,8 @@ class InstancesRepository {
     String? filesystemName,
     InstanceLaunchRequestImage? image,
   }) async {
+    await LoginStore.instance.waitForReady();
+
     final filesystemNames = [if (filesystemName != null) filesystemName];
     try {
       await InstancesApi(defaultApiClient).launchInstance(InstanceLaunchRequest(

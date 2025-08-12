@@ -21,6 +21,16 @@ class LoginStore {
       _apiKey = prefs.getString(_apiKeyKey);
       _apiKeyController.add(_apiKey);
     }
+    final apiKey = _apiKey;
+    if (apiKey == null) {
+      defaultApiClient = ApiClient(basePath: 'https://cloud.lambda.ai');
+    } else {
+      defaultApiClient = ApiClient(
+          basePath: 'https://cloud.lambda.ai',
+          authentication: ApiKeyAuth('header', 'Authorization')
+            ..apiKeyPrefix = 'Bearer'
+            ..apiKey = apiKey);
+    }
   }
 
   Future<void> waitForReady() => _initSharedPrefs();
@@ -30,6 +40,8 @@ class LoginStore {
   String? _apiKey;
   String? get apiKey => _apiKey;
   Future<void> setApiKey(String? apiKey) async {
+    await waitForReady();
+
     if (apiKey == null) {
       defaultApiClient = ApiClient(basePath: 'https://cloud.lambda.ai');
     } else {

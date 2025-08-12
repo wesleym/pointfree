@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
         CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
       ThemeType.material ||
       ThemeType.lambda =>
-        Theme.of(context).textTheme.titleLarge,
+        Theme.of(context).textTheme.displaySmall,
     };
     final errorColor = switch (themeType) {
       ThemeType.cupertino => CupertinoColors.destructiveRed,
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 16,
           children: [
-            Text('Application', style: apiKeyStyle),
+            Text('Pointfree', style: apiKeyStyle),
             Text('for Lambda Cloud'),
             apiKeyField,
             if (_error != null)
@@ -68,7 +68,10 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () => _setApiKey(context),
               child: Text('Set'),
             ),
-            if (_inProgress) PlatformCircularProgressIndicator(),
+            SizedBox(
+              height: 48,
+              child: _inProgress ? PlatformCircularProgressIndicator() : null,
+            ),
           ],
         ),
       ),
