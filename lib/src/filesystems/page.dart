@@ -1,0 +1,43 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:lambda_gui/src/filesystems/create.dart';
+import 'package:lambda_gui/src/filesystems/list.dart';
+import 'package:lambda_gui/src/platform/icons.dart';
+import 'package:lambda_gui/src/platform/scaffold.dart';
+import 'package:lambda_gui/src/theme_type_provider.dart';
+
+class FilesystemsPage extends StatelessWidget {
+  const FilesystemsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final themeType = ThemeTypeProvider.of(context);
+
+    return PlatformScaffold(
+      primaryActionIcon: Icon(PlatformIcons.add(themeType)),
+      onPrimaryActionSelected: () => _onAddFilesystem(context),
+      body: FilesystemsList(),
+    );
+  }
+
+  void _onAddFilesystem(BuildContext context) {
+    final themeType = ThemeTypeProvider.of(context);
+
+    switch (themeType) {
+      case ThemeType.cupertino:
+        Navigator.of(context).push(CupertinoPageRoute(
+          title: 'Filesystem',
+          fullscreenDialog: true,
+          builder: (context) => CreateFilesystemPage(),
+        ));
+      case ThemeType.material:
+      case ThemeType.lambda:
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (context) => CreateFilesystemPage(),
+          ),
+        );
+    }
+  }
+}

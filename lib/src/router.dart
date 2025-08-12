@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lambda_gui/src/filesystems/list.dart';
-import 'package:lambda_gui/src/firewall/list.dart';
+import 'package:lambda_gui/src/filesystems/page.dart';
+import 'package:lambda_gui/src/firewall/page.dart';
 import 'package:lambda_gui/src/home.dart';
 import 'package:lambda_gui/src/instances/page.dart';
 import 'package:lambda_gui/src/login/page.dart';
 import 'package:lambda_gui/src/login/store.dart';
-import 'package:lambda_gui/src/platform/scaffold.dart';
-import 'package:lambda_gui/src/ssh/list.dart';
+import 'package:lambda_gui/src/ssh/page.dart';
 import 'package:lambda_gui/src/theme_type_provider.dart';
 
 // GoRouter configuration
@@ -38,16 +37,15 @@ final router = GoRouter(
         ),
         GoRoute(
           path: 'filesystems',
-          builder: (context, state) =>
-              PlatformScaffold(body: FilesystemsList()),
+          builder: (context, state) => FilesystemsPage(),
         ),
         GoRoute(
           path: 'ssh',
-          builder: (context, state) => PlatformScaffold(body: SshKeysList()),
+          builder: (context, state) => SshKeysPage(),
         ),
         GoRoute(
           path: 'firewall',
-          builder: (context, state) => PlatformScaffold(body: FirewallList()),
+          builder: (context, state) => FirewallPage(),
         ),
       ],
     ),

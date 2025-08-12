@@ -40,10 +40,7 @@ class FirewallList extends StatelessWidget {
           style: titleStyle,
         ),
         action: PlatformIconButton(
-          onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
-              title: 'Firewall',
-              fullscreenDialog: true,
-              builder: (context) => CreateFirewallRulePage())),
+          onPressed: () => _onCreateFirewallRule(context),
           icon: Icon(CupertinoIcons.add_circled),
         ),
       ),
@@ -156,6 +153,27 @@ class FirewallList extends StatelessWidget {
         onRefresh: () => _repository.update(force: true),
         child: scrollView,
       );
+    }
+  }
+
+  void _onCreateFirewallRule(BuildContext context) {
+    final themeType = ThemeTypeProvider.of(context);
+    switch (themeType) {
+      case ThemeType.cupertino:
+        Navigator.of(context).push(CupertinoPageRoute(
+            title: 'Firewall',
+            fullscreenDialog: true,
+            builder: (context) => CreateFirewallRulePage()));
+      case ThemeType.material:
+      case ThemeType.lambda:
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (context) {
+              return CreateFirewallRulePage();
+            },
+          ),
+        );
     }
   }
 }

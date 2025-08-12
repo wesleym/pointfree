@@ -39,10 +39,7 @@ class FilesystemsList extends StatelessWidget {
           style: titleStyle,
         ),
         action: PlatformIconButton(
-          onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
-              title: 'Filesystem',
-              fullscreenDialog: true,
-              builder: (context) => CreateFilesystemPage())),
+          onPressed: () => _onAddFilesystem(context),
           icon: Icon(CupertinoIcons.add_circled),
         ),
       ),
@@ -152,5 +149,15 @@ class FilesystemsList extends StatelessWidget {
     } else {
       return scrollView;
     }
+  }
+
+  void _onAddFilesystem(BuildContext context) {
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        title: 'Filesystem',
+        fullscreenDialog: true,
+        builder: (context) => CreateFilesystemPage(),
+      ),
+    );
   }
 }
