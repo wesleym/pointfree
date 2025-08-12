@@ -20,7 +20,7 @@ class SshKeyPickerDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     unawaited(_repository.update());
 
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
 
     return StreamBuilder(
       initialData: _repository.sshKeys,

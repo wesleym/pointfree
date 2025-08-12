@@ -11,7 +11,7 @@ class FilesystemsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
 
     return PlatformScaffold(
       primaryActionIcon: Icon(PlatformIcons.add(themeType)),
@@ -21,7 +21,7 @@ class FilesystemsPage extends StatelessWidget {
   }
 
   void _onAddFilesystem(BuildContext context) {
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
 
     switch (themeType) {
       case ThemeType.cupertino:

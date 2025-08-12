@@ -57,7 +57,7 @@ class _CreateFirewallRulePageState extends State<CreateFirewallRulePage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
     switch (themeType) {
       case ThemeType.cupertino:
         return CupertinoCreateFirewallRulePage(

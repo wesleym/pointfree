@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
     Widget? primaryActionIcon;
     if (themeType != ThemeType.cupertino) {
       switch (_selectedIndex) {

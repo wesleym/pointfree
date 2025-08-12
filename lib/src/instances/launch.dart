@@ -35,7 +35,7 @@ class _LaunchInstancePageState extends State<LaunchInstancePage> {
   Widget build(BuildContext context) {
     unawaited(_instanceTypesRepository.update());
 
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
     switch (themeType) {
       case ThemeType.cupertino:
         return CupertinoLaunchInstancePage(

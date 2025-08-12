@@ -22,7 +22,7 @@ class _CreateFilesystemPageState extends State<CreateFilesystemPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
     switch (themeType) {
       case ThemeType.cupertino:
         return CupertinoCreateFilesystemPage(

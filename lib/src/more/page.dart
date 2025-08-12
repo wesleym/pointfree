@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pointfree/src/login/store.dart';
@@ -11,7 +12,7 @@ class MorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var themeType = ThemeTypeProvider.of(context);
+    var themeType = ThemeTypeProvider.of(context).themeType;
 
     final list = switch (themeType) {
       ThemeType.cupertino => ColoredBox(
@@ -42,6 +43,27 @@ class MorePage extends StatelessWidget {
                     title: Text('Clear API key'),
                     onTap: () => _clearApiKey(context),
                   ),
+                  PlatformListTile(
+                    title: Text('About'),
+                    onTap: () {
+                      showCupertinoDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CupertinoAlertDialog(
+                            title: Text('Application for Lambda Cloud'),
+                            content: Text(
+                                'Application is a sample client for the Lambda Cloud API and Lambda Inference API.'),
+                            actions: [
+                              CupertinoDialogAction(
+                                onPressed: () => context.pop(),
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ],
               ),
             ],
@@ -65,6 +87,46 @@ class MorePage extends StatelessWidget {
             PlatformListTile(
               title: Text('Clear API key'),
               onTap: () => _clearApiKey(context),
+            ),
+            PlatformListTile(
+              title: Text('About'),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Pointfree for Lambda Cloud'),
+                      content: RawGestureDetector(
+                        gestures: {
+                          DelayedMultiDragGestureRecognizer:
+                              GestureRecognizerFactoryWithHandlers<
+                                  DelayedMultiDragGestureRecognizer>(
+                            () => DelayedMultiDragGestureRecognizer(
+                                delay: Duration(seconds: 4)),
+                            (instance) {
+                              instance.onStart = (details) {
+                                final themeTypeProvider =
+                                    ThemeTypeProvider.of(context);
+                                themeTypeProvider
+                                    .overrideTheme(ThemeType.lambda);
+                                return null;
+                              };
+                            },
+                          ),
+                        },
+                        child: Text(
+                            'Pointfree is a sample client for the Lambda Cloud API and Lambda Inference API.'),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => context.pop(),
+                          child: Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),

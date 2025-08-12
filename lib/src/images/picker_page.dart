@@ -19,7 +19,7 @@ class ImagePickerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     unawaited(_imagesRepository.update());
 
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
 
     return PlatformScaffold(
       topBar: PlatformTopBar(title: Text('Base Image')),

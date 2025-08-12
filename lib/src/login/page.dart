@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
     final apiKeyField = switch (themeType) {
       ThemeType.cupertino => CupertinoTextField(
           placeholder: 'API Key',

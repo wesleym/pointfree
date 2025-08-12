@@ -66,7 +66,7 @@ class PlatformApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final platform = Theme.of(context).platform;
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
 
     return switch (themeType) {
       ThemeType.cupertino => CupertinoApp.router(

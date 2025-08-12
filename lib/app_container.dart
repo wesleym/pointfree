@@ -14,10 +14,7 @@ class AppContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platform = Theme.of(context).platform;
-
-    return ThemeTypeProvider(
-      themeType: themeOverride ?? resolveThemeType(platform),
+    return ThemeTypeHolder(
       child: PlatformApp.router(title: 'Lambda Cloud', routerConfig: router),
     );
   }

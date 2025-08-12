@@ -20,7 +20,7 @@ class RegionsPickerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     unawaited(_instanceTypesRepository.update());
 
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
 
     return PlatformScaffold(
       topBar: PlatformTopBar(title: Text('Region')),

@@ -25,7 +25,7 @@ class InstancesPage extends StatelessWidget {
       return PlatformCircularProgressIndicator();
     }
 
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
 
     final Color color;
     switch (themeType) {

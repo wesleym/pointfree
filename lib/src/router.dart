@@ -21,7 +21,7 @@ final router = GoRouter(
     GoRoute(
       path: '/',
       pageBuilder: (context, state) {
-        final themeType = ThemeTypeProvider.of(context);
+        final themeType = ThemeTypeProvider.of(context).themeType;
         return switch (themeType) {
           ThemeType.cupertino =>
             CupertinoPage(title: 'Resources', child: HomePage()),

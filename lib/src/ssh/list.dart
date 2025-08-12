@@ -19,7 +19,7 @@ class SshKeysList extends StatelessWidget {
     unawaited(_repository.update());
 
     final theme = Theme.of(context);
-    final themeType = ThemeTypeProvider.of(context);
+    final themeType = ThemeTypeProvider.of(context).themeType;
     TextStyle? titleStyle;
     if (themeType == ThemeType.lambda) {
       // It would be nice to do this in the theme. Unfortunately, setting inverted colours in the TextTheme only sets the background colour, and setting a TextTheme in the AppBarTheme results in the wrong text size in one of regular or large app bars. Doing it onesey-twosey is easiest. TODO: factor this into a component.
