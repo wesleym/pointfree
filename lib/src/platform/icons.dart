@@ -34,4 +34,16 @@ class PlatformIcons {
         ThemeType.material => Icons.chat_bubble,
         ThemeType.lambda => Icons.chat_bubble,
       };
+
+  static IconData person(ThemeType themeType) => switch (themeType) {
+        ThemeType.cupertino => CupertinoIcons.person,
+        ThemeType.material => Icons.person,
+        ThemeType.lambda => Icons.person,
+      };
+
+  static IconData assistant(ThemeType themeType) => switch (themeType) {
+        ThemeType.cupertino => CupertinoIcons.asterisk_circle,
+        ThemeType.material => Icons.assistant,
+        ThemeType.lambda => Icons.assistant,
+      };
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:pointfree/src/chat/chat_bubble.dart';
 import 'package:pointfree/src/chat/store.dart';
+import 'package:pointfree/src/platform/icons.dart';
+import 'package:pointfree/src/theme_type_provider.dart';
 
 class AssistantMessageWidget extends StatefulWidget {
   const AssistantMessageWidget({
@@ -21,16 +24,17 @@ class _AssistantMessageWidgetState extends State<AssistantMessageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final themeType = ThemeTypeProvider.of(context).themeType;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(8.0),
-          child: Icon(Icons.assistant),
+          child: Icon(PlatformIcons.assistant(themeType)),
         ),
         Expanded(
-          child: Card.filled(
-            color: Theme.of(context).colorScheme.secondary,
+          child: PlatformChatBubble(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: StreamBuilder(
@@ -75,12 +79,13 @@ class UserMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeType = ThemeTypeProvider.of(context).themeType;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Card.filled(
-            color: Theme.of(context).colorScheme.secondary,
+          child: PlatformChatBubble(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: MarkdownBody(
@@ -98,9 +103,9 @@ class UserMessageWidget extends StatelessWidget {
             ),
           ),
         ),
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(8.0),
-          child: Icon(Icons.person),
+          child: Icon(PlatformIcons.person(themeType)),
         ),
       ],
     );

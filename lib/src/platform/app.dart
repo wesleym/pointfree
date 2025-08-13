@@ -84,11 +84,16 @@ class PlatformApp extends StatelessWidget {
             title: title,
             routerConfig: _routerConfig,
             theme: ThemeData(
-              colorScheme: lightDynamic ?? ColorScheme.light(),
+              colorScheme:
+                  lightDynamic ?? ColorScheme.fromSeed(seedColor: Colors.teal),
               platform: platform,
             ),
             darkTheme: ThemeData(
-              colorScheme: darkDynamic ?? ColorScheme.dark(),
+              colorScheme: darkDynamic ??
+                  ColorScheme.fromSeed(
+                    seedColor: Colors.teal,
+                    brightness: Brightness.dark,
+                  ),
               platform: platform,
             ),
           ),
