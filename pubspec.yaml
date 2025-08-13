@@ -3,7 +3,7 @@ description: A graphical user interface for the Lambda Cloud API and the Lambda 
 repository: https://github.com/wesleym/pointfree
 publish_to: none
 
-version: 1.0.0+1
+version: 2.0.0+1
 
 environment:
   sdk: ^3.6.0
