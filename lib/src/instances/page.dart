@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -111,6 +113,7 @@ class InstancesPage extends StatelessWidget {
           PlatformListTile(
             title: Text('Name'),
             subtitle: Text(instance.name ?? ''),
+            onTap: () => _onMaterialRename(context, instance.name),
           ),
           PlatformListTile(
             title: Text('IP address'),
@@ -201,5 +204,34 @@ class InstancesPage extends StatelessWidget {
     if (go != true) return;
 
     _instancesRepository.terminate(instanceId);
+  }
+
+  Future<void> _onMaterialRename(
+    BuildContext context,
+    String? initialName,
+  ) async {
+    final name = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        final controller = TextEditingController(text: initialName);
+        return AlertDialog(
+          title: Text('Rename instance'),
+          content: TextField(autofocus: true, controller: controller),
+          actions: [
+            TextButton(
+              onPressed: () => context.pop(),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => context.pop(controller.text),
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (name == null) return;
+    await _instancesRepository.rename(id: instanceId, name: name);
   }
 }
