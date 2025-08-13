@@ -46,7 +46,10 @@ class _AssistantMessageWidgetState extends State<AssistantMessageWidget> {
                   return MarkdownBody(
                     data: content,
                     styleSheet: MarkdownStyleSheet(
-                      code: const TextStyle(
+                      p: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                      code: TextStyle(
                         fontFamily: 'monospace',
                         fontFamilyFallback: ['Menlo'],
                       ),
@@ -83,7 +86,10 @@ class UserMessageWidget extends StatelessWidget {
               child: MarkdownBody(
                 data: message.content,
                 styleSheet: MarkdownStyleSheet(
-                  code: const TextStyle(
+                  p: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                  code: TextStyle(
                     fontFamily: 'monospace',
                     fontFamilyFallback: ['Menlo'],
                   ),
