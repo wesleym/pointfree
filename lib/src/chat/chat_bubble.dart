@@ -18,7 +18,7 @@ class PlatformChatBubble extends StatelessWidget {
           child: DecoratedBox(
             decoration: ShapeDecoration(
               shape: ContinuousRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(16),
+                borderRadius: BorderRadius.circular(16),
               ),
               color: CupertinoColors.systemBlue,
             ),
