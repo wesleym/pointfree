@@ -1,6 +1,8 @@
 Pointfree
 =========
 
+[![Flutter](https://github.com/wesleym/pointfree/actions/workflows/flutter.yml/badge.svg)](https://github.com/wesleym/pointfree/actions/workflows/flutter.yml)
+
 A graphical user interface for the Lambda Cloud API and the Lambda Inference API. This program provides a way to manage Lambda Cloud resources and chat with Lambda Chat.
 
 iOS | Android
