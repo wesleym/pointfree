@@ -10,7 +10,7 @@ import 'package:pointfree/src/platform/icons.dart';
 import 'package:pointfree/src/platform/list_tile.dart';
 import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:pointfree/src/theme_type_provider.dart';
-import 'package:openapi/api.dart';
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart';
 
 class FilesystemsPickerPage extends StatelessWidget {
   final _filesystemsRepository = FilesystemsRepository();

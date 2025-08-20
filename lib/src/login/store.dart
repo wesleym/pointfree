@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:openapi/api.dart';
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _apiKeyKey = 'apiKey';

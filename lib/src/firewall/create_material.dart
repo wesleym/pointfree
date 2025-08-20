@@ -5,7 +5,7 @@ import 'package:pointfree/src/firewall/port_range_dialog.dart';
 import 'package:pointfree/src/firewall/protocol_picker_dialog.dart';
 import 'package:pointfree/src/firewall/source_dialog.dart';
 import 'package:pointfree/src/platform/scaffold.dart';
-import 'package:openapi/api.dart';
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart';
 
 class MaterialCreateFirewallRulePage extends StatelessWidget {
   final NetworkProtocol _protocol;

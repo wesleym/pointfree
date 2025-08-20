@@ -8,7 +8,7 @@ import 'package:pointfree/src/platform/circular_progress_indicator.dart';
 import 'package:pointfree/src/platform/list_tile.dart';
 import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:pointfree/src/theme_type_provider.dart';
-import 'package:openapi/api.dart';
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart';
 
 class RegionsPickerPage extends StatelessWidget {
   RegionsPickerPage({super.key, required this.instanceType});

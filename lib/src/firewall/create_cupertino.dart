@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:pointfree/src/firewall/create.dart';
 import 'package:pointfree/src/firewall/protocol_picker_page.dart';
 import 'package:pointfree/src/platform/scaffold.dart';
-import 'package:openapi/api.dart';
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart';
 
 class CupertinoCreateFirewallRulePage extends StatelessWidget {
   final NetworkProtocol _protocol;

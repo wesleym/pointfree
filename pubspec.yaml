@@ -12,8 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  openapi:
-    path: api
+  lambda_cloud_dart_sdk:
+    git: https://github.com/wesleym/lambda-cloud-dart-sdk.git
 
   cupertino_icons: ^1.0.8
   dynamic_color: ^1.7.0

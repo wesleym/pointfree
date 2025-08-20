@@ -1,4 +1,4 @@
-import 'package:openapi/api.dart';
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart';
 
 // TODO: Define store-level types rather than reusing the generated API types. This would allow customizing stringers and equality.
 

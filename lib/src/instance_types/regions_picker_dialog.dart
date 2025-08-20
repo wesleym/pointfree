@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pointfree/src/instance_types/repository.dart';
 import 'package:pointfree/src/platform/circular_progress_indicator.dart';
-import 'package:openapi/api.dart';
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart';
 
 class RegionsPickerDialog extends StatelessWidget {
   RegionsPickerDialog({super.key, required this.instanceType});

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:pointfree/src/instance_types/store.dart';
-import 'package:openapi/api.dart';
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart';
 import 'package:pointfree/src/login/store.dart';
 
 const _ttl = Duration(hours: 1);

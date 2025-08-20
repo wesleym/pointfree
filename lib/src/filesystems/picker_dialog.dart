@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pointfree/src/filesystems/repository.dart';
 import 'package:pointfree/src/instances/launch.dart';
-import 'package:openapi/api.dart';
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart';
 
 Widget createFilesystemsDialog(List<Widget> children) =>
     SimpleDialog(title: Text('Filesystem'), children: children);

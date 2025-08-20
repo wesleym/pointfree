@@ -11,7 +11,7 @@ import 'package:pointfree/src/instances/launch.dart';
 import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:pointfree/src/ssh/picker_dialog.dart';
 import 'package:pointfree/src/ssh/repository.dart';
-import 'package:openapi/api.dart' as api;
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart' as api;
 
 class MaterialLaunchInstancePage extends StatelessWidget {
   final String? _instanceTypeName;

@@ -13,7 +13,7 @@ import 'package:pointfree/src/platform/circular_progress_indicator.dart';
 import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:pointfree/src/ssh/picker_page.dart';
 import 'package:pointfree/src/ssh/repository.dart';
-import 'package:openapi/api.dart' as api;
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart' as api;
 
 class CupertinoLaunchInstancePage extends StatelessWidget {
   final String? _instanceTypeName;

@@ -4,7 +4,7 @@ import 'package:pointfree/src/filesystems/create_cupertino.dart';
 import 'package:pointfree/src/filesystems/create_material.dart';
 import 'package:pointfree/src/filesystems/repository.dart';
 import 'package:pointfree/src/theme_type_provider.dart';
-import 'package:openapi/api.dart';
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart';
 
 const noneItemId = '__none__';
 

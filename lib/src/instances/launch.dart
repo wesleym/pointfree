@@ -9,7 +9,7 @@ import 'package:pointfree/src/instances/launch_material.dart';
 import 'package:pointfree/src/instances/repository.dart';
 import 'package:pointfree/src/ssh/repository.dart';
 import 'package:pointfree/src/theme_type_provider.dart';
-import 'package:openapi/api.dart' as api;
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart' as api;
 
 const noneItemId = '__none__';
 

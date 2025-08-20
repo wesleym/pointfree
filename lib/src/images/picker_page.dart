@@ -8,7 +8,7 @@ import 'package:pointfree/src/platform/circular_progress_indicator.dart';
 import 'package:pointfree/src/platform/list_tile.dart';
 import 'package:pointfree/src/platform/scaffold.dart';
 import 'package:pointfree/src/theme_type_provider.dart';
-import 'package:openapi/api.dart' as api;
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart' as api;
 
 class ImagePickerPage extends StatelessWidget {
   final _imagesRepository = ImagesRepository.instance;

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pointfree/src/images/repository.dart';
 import 'package:pointfree/src/platform/circular_progress_indicator.dart';
-import 'package:openapi/api.dart' as api;
+import 'package:lambda_cloud_dart_sdk/lambda_cloud_dart_sdk.dart' as api;
 
 class ImagePickerDialog extends StatelessWidget {
   final _imagesRepository = ImagesRepository.instance;
