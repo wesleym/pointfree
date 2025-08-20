@@ -94,6 +94,7 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> _handleChooseConversation(ThemeType themeType) async {
     if (!mounted) return;
     final int? conversationId = switch (themeType) {
+      // ignore: use_build_context_synchronously
       ThemeType.cupertino => await Navigator.of(context).push(
         CupertinoPageRoute(
           fullscreenDialog: true,
@@ -101,6 +102,7 @@ class _ChatPageState extends State<ChatPage> {
         ),
       ),
       ThemeType.material || ThemeType.lambda => await showDialog(
+        // ignore: use_build_context_synchronously
         context: context,
         builder: (context) => ConversationPickerDialog(),
       ),
