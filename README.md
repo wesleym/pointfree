@@ -3,16 +3,9 @@ Pointfree
 
 A graphical user interface for the Lambda Cloud API and the Lambda Inference API. This program provides a way to manage Lambda Cloud resources and chat with Lambda Chat.
 
-Videos
-------
-
-iOS
-
-https://github.com/user-attachments/assets/e9628f99-a615-47bd-a327-f8e68b3d22d2
-
-Android
-
-https://github.com/user-attachments/assets/f5d6d829-9054-4f60-995e-c8c0fa98d1e1
+iOS | Android
+-- | --
+<video src="https://github.com/user-attachments/assets/c86c1f22-6944-4dfb-b057-d60564105f3d" type="video/mp4"></video> | <video src="https://github.com/user-attachments/assets/b6ec6194-15f8-48cd-9e84-45c8485deeaf" type="video/mp4"></video>
 
 Running in development
 ----------------------
