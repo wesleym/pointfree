@@ -9,9 +9,9 @@ class LoginStore {
   static final instance = LoginStore._();
 
   LoginStore._()
-      : _prefs = SharedPreferencesWithCache.create(
-          cacheOptions: SharedPreferencesWithCacheOptions(),
-        ) {
+    : _prefs = SharedPreferencesWithCache.create(
+        cacheOptions: SharedPreferencesWithCacheOptions(),
+      ) {
     _initSharedPrefs();
   }
 
@@ -26,10 +26,11 @@ class LoginStore {
       defaultApiClient = ApiClient(basePath: 'https://cloud.lambda.ai');
     } else {
       defaultApiClient = ApiClient(
-          basePath: 'https://cloud.lambda.ai',
-          authentication: ApiKeyAuth('header', 'Authorization')
-            ..apiKeyPrefix = 'Bearer'
-            ..apiKey = apiKey);
+        basePath: 'https://cloud.lambda.ai',
+        authentication: ApiKeyAuth('header', 'Authorization')
+          ..apiKeyPrefix = 'Bearer'
+          ..apiKey = apiKey,
+      );
     }
   }
 
@@ -46,10 +47,11 @@ class LoginStore {
       defaultApiClient = ApiClient(basePath: 'https://cloud.lambda.ai');
     } else {
       defaultApiClient = ApiClient(
-          basePath: 'https://cloud.lambda.ai',
-          authentication: ApiKeyAuth('header', 'Authorization')
-            ..apiKeyPrefix = 'Bearer'
-            ..apiKey = apiKey);
+        basePath: 'https://cloud.lambda.ai',
+        authentication: ApiKeyAuth('header', 'Authorization')
+          ..apiKeyPrefix = 'Bearer'
+          ..apiKey = apiKey,
+      );
     }
 
     _apiKey = apiKey;

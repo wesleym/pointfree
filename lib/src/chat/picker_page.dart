@@ -33,7 +33,8 @@ class ConversationPickerPage extends StatelessWidget {
                     onTap: () => context.pop(index),
                     // TODO: get conversation titles
                     title: Text(
-                        'Conversation ${_store.conversations[index - 1].id}'),
+                      'Conversation ${_store.conversations[index - 1].id}',
+                    ),
                   );
                 }
               },

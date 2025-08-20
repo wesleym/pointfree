@@ -43,17 +43,17 @@ class MaterialLaunchInstancePage extends StatelessWidget {
     required String? sshKeyId,
     required void Function(String?) onSshKeyIdChange,
     void Function()? onLaunchPressed,
-  })  : _onSshKeyIdChange = onSshKeyIdChange,
-        _sshKeyId = sshKeyId,
-        _onFilesystemIdChange = onFilesystemIdChange,
-        _filesystemId = filesystemId,
-        _onRegionCodeChange = onRegionCodeChange,
-        _regionCode = regionCode,
-        _onInstanceTypeNameChange = onInstanceTypeNameChange,
-        _instanceTypeName = instanceTypeName,
-        _image = image,
-        _onImageChange = onImageChange,
-        _onLaunchPressed = onLaunchPressed;
+  }) : _onSshKeyIdChange = onSshKeyIdChange,
+       _sshKeyId = sshKeyId,
+       _onFilesystemIdChange = onFilesystemIdChange,
+       _filesystemId = filesystemId,
+       _onRegionCodeChange = onRegionCodeChange,
+       _regionCode = regionCode,
+       _onInstanceTypeNameChange = onInstanceTypeNameChange,
+       _instanceTypeName = instanceTypeName,
+       _image = image,
+       _onImageChange = onImageChange,
+       _onLaunchPressed = onLaunchPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +64,9 @@ class MaterialLaunchInstancePage extends StatelessWidget {
     if (instanceTypeName == null) {
       instanceType = null;
     } else {
-      instanceType =
-          _instanceTypesRepository.getByName(instanceTypeName)?.instanceType;
+      instanceType = _instanceTypesRepository
+          .getByName(instanceTypeName)
+          ?.instanceType;
     }
 
     Widget? instanceDisplayName;
@@ -87,8 +88,9 @@ class MaterialLaunchInstancePage extends StatelessWidget {
     final thisFilesystemId = _filesystemId;
     String? filesystemDisplayName;
     if (thisFilesystemId != null) {
-      filesystemDisplayName =
-          _filesystemRepository.getById(thisFilesystemId)?.name;
+      filesystemDisplayName = _filesystemRepository
+          .getById(thisFilesystemId)
+          ?.name;
     }
 
     final thisSshKeyIds = _sshKeyId;
@@ -100,46 +102,53 @@ class MaterialLaunchInstancePage extends StatelessWidget {
     return PlatformScaffold(
       topBar: PlatformTopBar(title: Text('Launch')),
       body: Form(
-          child: ListView(children: [
-        ListTile(
-          onTap: () => _onMaterialInstanceTypeTap(context),
-          title: Text('Instance type'),
-          subtitle: instanceDisplayName ?? Text(''),
+        child: ListView(
+          children: [
+            ListTile(
+              onTap: () => _onMaterialInstanceTypeTap(context),
+              title: Text('Instance type'),
+              subtitle: instanceDisplayName ?? Text(''),
+            ),
+            ListTile(
+              onTap: () => _onMaterialImageTap(context),
+              title: Text('Image'),
+              subtitle: Text(_image?.family ?? ''),
+            ),
+            ListTile(
+              enabled: _instanceTypeName != null,
+              onTap: _materialRegionTapHandler(context),
+              title: Text('Region'),
+              subtitle: Text(regionDisplayName ?? ''),
+            ),
+            ListTile(
+              enabled: _regionCode != null,
+              onTap: _handleMaterialFilesystemTap(context),
+              title: Text('Filesystem'),
+              subtitle: Text(filesystemDisplayName ?? ''),
+            ),
+            ListTile(
+              onTap: () => _onMaterialSshKeyTap(context),
+              title: Text('SSH key'),
+              subtitle: Text(sshKeyDisplayName ?? ''),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: FilledButton(
+                onPressed: _onLaunchPressed,
+                child: Text('Start'),
+              ),
+            ),
+          ],
         ),
-        ListTile(
-          onTap: () => _onMaterialImageTap(context),
-          title: Text('Image'),
-          subtitle: Text(_image?.family ?? ''),
-        ),
-        ListTile(
-          enabled: _instanceTypeName != null,
-          onTap: _materialRegionTapHandler(context),
-          title: Text('Region'),
-          subtitle: Text(regionDisplayName ?? ''),
-        ),
-        ListTile(
-          enabled: _regionCode != null,
-          onTap: _handleMaterialFilesystemTap(context),
-          title: Text('Filesystem'),
-          subtitle: Text(filesystemDisplayName ?? ''),
-        ),
-        ListTile(
-          onTap: () => _onMaterialSshKeyTap(context),
-          title: Text('SSH key'),
-          subtitle: Text(sshKeyDisplayName ?? ''),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child:
-              FilledButton(onPressed: _onLaunchPressed, child: Text('Start')),
-        ),
-      ])),
+      ),
     );
   }
 
   void _onMaterialInstanceTypeTap(BuildContext context) async {
     final instanceTypeName = await showDialog(
-        context: context, builder: (context) => InstanceTypesPickerDialog());
+      context: context,
+      builder: (context) => InstanceTypesPickerDialog(),
+    );
 
     if (instanceTypeName != null && instanceTypeName != _instanceTypeName) {
       _onInstanceTypeNameChange(instanceTypeName);
@@ -148,7 +157,9 @@ class MaterialLaunchInstancePage extends StatelessWidget {
 
   void _onMaterialImageTap(BuildContext context) async {
     final image = await showDialog<api.Image?>(
-        context: context, builder: (context) => ImagePickerDialog());
+      context: context,
+      builder: (context) => ImagePickerDialog(),
+    );
 
     if (image != null && image != _image) {
       _onImageChange(image);
@@ -162,9 +173,10 @@ class MaterialLaunchInstancePage extends StatelessWidget {
     }
     return () async {
       final regionCode = await showDialog<api.PublicRegionCode>(
-          context: context,
-          builder: (context) =>
-              RegionsPickerDialog(instanceType: instanceTypeName));
+        context: context,
+        builder: (context) =>
+            RegionsPickerDialog(instanceType: instanceTypeName),
+      );
 
       if (regionCode != null && regionCode != _regionCode) {
         _onRegionCodeChange(regionCode);
@@ -177,9 +189,9 @@ class MaterialLaunchInstancePage extends StatelessWidget {
 
     return () async {
       final filesystemId = await showDialog(
-          context: context,
-          builder: (context) =>
-              FilesystemsPickerDialog(regionCode: _regionCode));
+        context: context,
+        builder: (context) => FilesystemsPickerDialog(regionCode: _regionCode),
+      );
 
       if (filesystemId == null) {
         // Cancelled.
@@ -197,7 +209,9 @@ class MaterialLaunchInstancePage extends StatelessWidget {
 
   void _onMaterialSshKeyTap(BuildContext context) async {
     final sshKeyId = await showDialog<String>(
-        context: context, builder: (context) => SshKeyPickerDialog());
+      context: context,
+      builder: (context) => SshKeyPickerDialog(),
+    );
 
     if (sshKeyId != null && sshKeyId != _sshKeyId) {
       _onSshKeyIdChange(sshKeyId);

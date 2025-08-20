@@ -78,8 +78,8 @@ class ThemeTypeProvider extends InheritedWidget {
 
   /// Get the ThemeType from the nearest ThemeTypeProvider ancestor, or null if not found
   static ThemeTypeProvider? maybeOf(BuildContext context) {
-    final provider =
-        context.dependOnInheritedWidgetOfExactType<ThemeTypeProvider>();
+    final provider = context
+        .dependOnInheritedWidgetOfExactType<ThemeTypeProvider>();
     return provider;
   }
 

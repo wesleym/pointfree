@@ -34,7 +34,7 @@ class AppendableMessage implements DisplayableMessage {
   String get content => _contentController.isClosed ? _content : '$_content█';
 
   AppendableMessage(this.messageType, Stream<String> chunkStream)
-      : _chunkStream = chunkStream {
+    : _chunkStream = chunkStream {
     _startListening();
   }
 
@@ -55,10 +55,7 @@ class AppendableMessage implements DisplayableMessage {
       MessageType.user => 'user',
     };
 
-    return {
-      'role': jsonType,
-      'content': _content,
-    };
+    return {'role': jsonType, 'content': _content};
   }
 }
 
@@ -80,10 +77,7 @@ class Message implements DisplayableMessage {
       MessageType.user => 'user',
     };
 
-    return {
-      'role': jsonType,
-      'content': content,
-    };
+    return {'role': jsonType, 'content': content};
   }
 }
 
@@ -97,8 +91,9 @@ class Conversation {
   List<DisplayableMessage> get displayMessages =>
       _messages.where((m) => m.messageType != MessageType.system).toList();
   Stream<List<DisplayableMessage>> get displayMessageStream =>
-      _messageController.stream.map((ms) =>
-          ms.where((m) => m.messageType != MessageType.system).toList());
+      _messageController.stream.map(
+        (ms) => ms.where((m) => m.messageType != MessageType.system).toList(),
+      );
 
   Conversation(this.model);
 
@@ -131,10 +126,7 @@ class Store {
 
   Conversation createConversation() {
     final conversation = Conversation('hermes3-405b');
-    conversation.addMessage(Message(
-      MessageType.system,
-      systemPrompt,
-    ));
+    conversation.addMessage(Message(MessageType.system, systemPrompt));
     _conversations.add(conversation);
     _conversationController.add(conversations);
     return conversation;

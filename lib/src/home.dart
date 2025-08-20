@@ -32,9 +32,12 @@ class _HomePageState extends State<HomePage> {
       onPrimaryActionSelected: () {
         switch (_selectedIndex) {
           case 0:
-            Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(context).push(
+              MaterialPageRoute(
                 fullscreenDialog: true,
-                builder: (context) => LaunchInstancePage()));
+                builder: (context) => LaunchInstancePage(),
+              ),
+            );
             break;
         }
       },

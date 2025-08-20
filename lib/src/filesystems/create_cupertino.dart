@@ -17,11 +17,11 @@ class CupertinoCreateFilesystemPage extends StatelessWidget {
     required PublicRegionCode? regionCode,
     required void Function(PublicRegionCode?) onRegionCodeChange,
     void Function()? onLaunchPressed,
-  })  : _onRegionCodeChange = onRegionCodeChange,
-        _regionCode = regionCode,
-        _onNameChange = onNameChange,
-        _name = name,
-        _onLaunchPressed = onLaunchPressed;
+  }) : _onRegionCodeChange = onRegionCodeChange,
+       _regionCode = regionCode,
+       _onNameChange = onNameChange,
+       _name = name,
+       _onLaunchPressed = onLaunchPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,8 @@ class CupertinoCreateFilesystemPage extends StatelessWidget {
 
   void _handleRegionTap(BuildContext context) async {
     final regionCode = await Navigator.of(context).push<PublicRegionCode>(
-        CupertinoPageRoute(builder: (context) => AllRegionsPickerPage()));
+      CupertinoPageRoute(builder: (context) => AllRegionsPickerPage()),
+    );
 
     if (regionCode != null && regionCode != _regionCode) {
       _onRegionCodeChange(regionCode);

@@ -9,13 +9,13 @@ class PlatformListTile extends StatelessWidget {
   final Widget title;
   final Widget? _subtitle;
 
-  const PlatformListTile(
-      {super.key,
-      FutureOr<void> Function()? onTap,
-      required this.title,
-      Widget? subtitle})
-      : _onTap = onTap,
-        _subtitle = subtitle;
+  const PlatformListTile({
+    super.key,
+    FutureOr<void> Function()? onTap,
+    required this.title,
+    Widget? subtitle,
+  }) : _onTap = onTap,
+       _subtitle = subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +29,7 @@ class PlatformListTile extends StatelessWidget {
         );
       case ThemeType.material:
       case ThemeType.lambda:
-        return ListTile(
-          onTap: _onTap,
-          title: title,
-          subtitle: _subtitle,
-        );
+        return ListTile(onTap: _onTap, title: title, subtitle: _subtitle);
     }
   }
 }

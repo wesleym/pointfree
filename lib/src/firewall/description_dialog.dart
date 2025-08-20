@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DescriptionDialog extends StatefulWidget {
   const DescriptionDialog({super.key, String? initialDescription})
-      : _initialDescription = initialDescription ?? '';
+    : _initialDescription = initialDescription ?? '';
 
   final String _initialDescription;
 
@@ -30,10 +30,7 @@ class _DescriptionDialogState extends State<DescriptionDialog> {
           onPressed: () => Navigator.of(context).pop(),
           child: Text('Cancel'),
         ),
-        TextButton(
-          onPressed: _handleSet,
-          child: Text('Set'),
-        ),
+        TextButton(onPressed: _handleSet, child: Text('Set')),
       ],
     );
   }

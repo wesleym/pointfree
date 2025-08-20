@@ -25,11 +25,13 @@ class FilesystemsPage extends StatelessWidget {
 
     switch (themeType) {
       case ThemeType.cupertino:
-        Navigator.of(context).push(CupertinoPageRoute(
-          title: 'Filesystem',
-          fullscreenDialog: true,
-          builder: (context) => CreateFilesystemPage(),
-        ));
+        Navigator.of(context).push(
+          CupertinoPageRoute(
+            title: 'Filesystem',
+            fullscreenDialog: true,
+            builder: (context) => CreateFilesystemPage(),
+          ),
+        );
       case ThemeType.material:
       case ThemeType.lambda:
         Navigator.of(context).push(

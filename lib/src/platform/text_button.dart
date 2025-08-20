@@ -8,9 +8,9 @@ class PlatformTextButton extends StatelessWidget {
     EdgeInsetsGeometry? cupertinoPadding,
     required void Function()? onPressed,
     required Widget child,
-  })  : _cupertinoPadding = cupertinoPadding,
-        _onPressed = onPressed,
-        _child = child;
+  }) : _cupertinoPadding = cupertinoPadding,
+       _onPressed = onPressed,
+       _child = child;
 
   final EdgeInsetsGeometry? _cupertinoPadding;
   final void Function()? _onPressed;

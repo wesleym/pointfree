@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SourceDialog extends StatefulWidget {
   const SourceDialog({super.key, String? initialSource})
-      : _initialSource = initialSource ?? '';
+    : _initialSource = initialSource ?? '';
 
   final String _initialSource;
 
@@ -30,10 +30,7 @@ class _SourceDialogState extends State<SourceDialog> {
           onPressed: () => Navigator.of(context).pop(),
           child: Text('Cancel'),
         ),
-        TextButton(
-          onPressed: _handleSet,
-          child: Text('Set'),
-        ),
+        TextButton(onPressed: _handleSet, child: Text('Set')),
       ],
     );
   }

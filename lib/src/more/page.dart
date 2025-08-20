@@ -19,143 +19,155 @@ class MorePage extends StatelessWidget {
 
     final list = switch (themeType) {
       ThemeType.cupertino => ColoredBox(
-          color: CupertinoColors.systemGroupedBackground,
-          child: ListView(
-            children: [
-              CupertinoListSection(
-                hasLeading: false,
-                children: [
-                  PlatformListTile(
-                    title: Text('Storage'),
-                    onTap: () => context.go('/filesystems'),
-                  ),
-                  PlatformListTile(
-                    title: Text('SSH keys'),
-                    onTap: () => context.go('/ssh'),
-                  ),
-                  PlatformListTile(
-                    title: Text('Firewall'),
-                    onTap: () => context.go('/firewall'),
-                  ),
-                ],
-              ),
-              CupertinoListSection(
-                hasLeading: false,
-                children: [
-                  PlatformListTile(
-                    title: Text('Clear API key'),
-                    onTap: () => _clearApiKey(context),
-                  ),
-                  PlatformListTile(
-                    title: Text('About'),
-                    onTap: () {
-                      showCupertinoDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CupertinoAlertDialog(
-                            title: Text('Pointfree'),
-                            content: RawGestureDetector(
-                              gestures: {
-                                DelayedMultiDragGestureRecognizer:
-                                    GestureRecognizerFactoryWithHandlers<
-                                        DelayedMultiDragGestureRecognizer>(
-                                  () => DelayedMultiDragGestureRecognizer(
-                                      delay: Duration(seconds: 4)),
-                                  (instance) {
-                                    instance.onStart = (details) {
-                                      final themeTypeProvider =
-                                          ThemeTypeProvider.of(context);
-                                      final nextThemeType = ThemeType.values[
-                                          (themeTypeProvider.themeType.index +
-                                                  1) %
-                                              ThemeType.values.length];
-                                      themeTypeProvider
-                                          .overrideTheme(nextThemeType);
-                                      return null;
-                                    };
-                                  },
-                                ),
-                              },
-                              child: Text(_aboutBody),
-                            ),
-                            actions: [
-                              CupertinoDialogAction(
-                                onPressed: () => context.pop(),
-                                child: Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ThemeType.material || ThemeType.lambda => ListView(
+        color: CupertinoColors.systemGroupedBackground,
+        child: ListView(
           children: [
-            PlatformListTile(
-              title: Text('Storage'),
-              onTap: () => context.go('/filesystems'),
+            CupertinoListSection(
+              hasLeading: false,
+              children: [
+                PlatformListTile(
+                  title: Text('Storage'),
+                  onTap: () => context.go('/filesystems'),
+                ),
+                PlatformListTile(
+                  title: Text('SSH keys'),
+                  onTap: () => context.go('/ssh'),
+                ),
+                PlatformListTile(
+                  title: Text('Firewall'),
+                  onTap: () => context.go('/firewall'),
+                ),
+              ],
             ),
-            PlatformListTile(
-              title: Text('SSH keys'),
-              onTap: () => context.go('/ssh'),
-            ),
-            PlatformListTile(
-              title: Text('Firewall'),
-              onTap: () => context.go('/firewall'),
-            ),
-            Divider(),
-            PlatformListTile(
-              title: Text('Clear API key'),
-              onTap: () => _clearApiKey(context),
-            ),
-            PlatformListTile(
-              title: Text('About'),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Pointfree'),
-                      content: RawGestureDetector(
-                        gestures: {
-                          DelayedMultiDragGestureRecognizer:
-                              GestureRecognizerFactoryWithHandlers<
-                                  DelayedMultiDragGestureRecognizer>(
-                            () => DelayedMultiDragGestureRecognizer(
-                                delay: Duration(seconds: 4)),
-                            (instance) {
-                              instance.onStart = (details) {
-                                final themeTypeProvider =
-                                    ThemeTypeProvider.of(context);
-                                final nextThemeType = ThemeType.values[
-                                    (themeTypeProvider.themeType.index + 1) %
-                                        ThemeType.values.length];
-                                themeTypeProvider.overrideTheme(nextThemeType);
-                                return null;
-                              };
+            CupertinoListSection(
+              hasLeading: false,
+              children: [
+                PlatformListTile(
+                  title: Text('Clear API key'),
+                  onTap: () => _clearApiKey(context),
+                ),
+                PlatformListTile(
+                  title: Text('About'),
+                  onTap: () {
+                    showCupertinoDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return CupertinoAlertDialog(
+                          title: Text('Pointfree'),
+                          content: RawGestureDetector(
+                            gestures: {
+                              DelayedMultiDragGestureRecognizer:
+                                  GestureRecognizerFactoryWithHandlers<
+                                    DelayedMultiDragGestureRecognizer
+                                  >(
+                                    () => DelayedMultiDragGestureRecognizer(
+                                      delay: Duration(seconds: 4),
+                                    ),
+                                    (instance) {
+                                      instance.onStart = (details) {
+                                        final themeTypeProvider =
+                                            ThemeTypeProvider.of(context);
+                                        final nextThemeType =
+                                            ThemeType.values[(themeTypeProvider
+                                                        .themeType
+                                                        .index +
+                                                    1) %
+                                                ThemeType.values.length];
+                                        themeTypeProvider.overrideTheme(
+                                          nextThemeType,
+                                        );
+                                        return null;
+                                      };
+                                    },
+                                  ),
                             },
+                            child: Text(_aboutBody),
                           ),
-                        },
-                        child: Text(_aboutBody),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => context.pop(),
-                          child: Text('OK'),
-                        ),
-                      ],
+                          actions: [
+                            CupertinoDialogAction(
+                              onPressed: () => context.pop(),
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
                     );
                   },
-                );
-              },
+                ),
+              ],
             ),
           ],
         ),
+      ),
+      ThemeType.material || ThemeType.lambda => ListView(
+        children: [
+          PlatformListTile(
+            title: Text('Storage'),
+            onTap: () => context.go('/filesystems'),
+          ),
+          PlatformListTile(
+            title: Text('SSH keys'),
+            onTap: () => context.go('/ssh'),
+          ),
+          PlatformListTile(
+            title: Text('Firewall'),
+            onTap: () => context.go('/firewall'),
+          ),
+          Divider(),
+          PlatformListTile(
+            title: Text('Clear API key'),
+            onTap: () => _clearApiKey(context),
+          ),
+          PlatformListTile(
+            title: Text('About'),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Pointfree'),
+                    content: RawGestureDetector(
+                      gestures: {
+                        DelayedMultiDragGestureRecognizer:
+                            GestureRecognizerFactoryWithHandlers<
+                              DelayedMultiDragGestureRecognizer
+                            >(
+                              () => DelayedMultiDragGestureRecognizer(
+                                delay: Duration(seconds: 4),
+                              ),
+                              (instance) {
+                                instance.onStart = (details) {
+                                  final themeTypeProvider =
+                                      ThemeTypeProvider.of(context);
+                                  final nextThemeType =
+                                      ThemeType.values[(themeTypeProvider
+                                                  .themeType
+                                                  .index +
+                                              1) %
+                                          ThemeType.values.length];
+                                  themeTypeProvider.overrideTheme(
+                                    nextThemeType,
+                                  );
+                                  return null;
+                                };
+                              },
+                            ),
+                      },
+                      child: Text(_aboutBody),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => context.pop(),
+                        child: Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      ),
     };
 
     return PlatformScaffold(

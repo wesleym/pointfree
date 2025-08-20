@@ -14,9 +14,7 @@ class PortRange {
 
   const PortRange(this.start, this.end);
 
-  const PortRange.single(int port)
-      : start = port,
-        end = port;
+  const PortRange.single(int port) : start = port, end = port;
 
   @override
   String toString() {
@@ -95,7 +93,7 @@ class _CreateFirewallRulePageState extends State<CreateFirewallRulePage> {
         sourceNetwork: _sourceNetwork,
         portRange: [_portRange.start, _portRange.end],
         description: _description ?? '',
-      )
+      ),
     ]);
 
     if (mounted) {

@@ -24,8 +24,9 @@ class SshKeysList extends StatelessWidget {
     if (themeType == ThemeType.lambda) {
       // It would be nice to do this in the theme. Unfortunately, setting inverted colours in the TextTheme only sets the background colour, and setting a TextTheme in the AppBarTheme results in the wrong text size in one of regular or large app bars. Doing it onesey-twosey is easiest. TODO: factor this into a component.
       titleStyle = TextStyle(
-          color: theme.colorScheme.onInverseSurface,
-          backgroundColor: theme.colorScheme.inverseSurface);
+        color: theme.colorScheme.onInverseSurface,
+        backgroundColor: theme.colorScheme.inverseSurface,
+      );
     }
 
     final scrollView = CustomScrollView(
@@ -41,19 +42,16 @@ class SshKeysList extends StatelessWidget {
             if (error != null) {
               // TODO: log to server to determine how best to present common errors.
               return SliverFillRemaining(
-                child: Column(children: [
-                  Text('Error: $error'),
-                  Text('Pull to refresh'),
-                ]),
+                child: Column(
+                  children: [Text('Error: $error'), Text('Pull to refresh')],
+                ),
               );
             }
 
             final data = snapshot.data;
             if (data == null) {
               return SliverFillRemaining(
-                child: Center(
-                  child: PlatformCircularProgressIndicator(),
-                ),
+                child: Center(child: PlatformCircularProgressIndicator()),
               );
             }
 

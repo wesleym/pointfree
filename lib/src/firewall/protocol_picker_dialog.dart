@@ -10,10 +10,12 @@ class ProtocolPickerDialog extends StatelessWidget {
     return SimpleDialog(
       title: Text('Protocol'),
       children: NetworkProtocol.values
-          .map((e) => SimpleDialogOption(
-                onPressed: () => _onSelectProtocol(context, e),
-                child: Text(e.value),
-              ))
+          .map(
+            (e) => SimpleDialogOption(
+              onPressed: () => _onSelectProtocol(context, e),
+              child: Text(e.value),
+            ),
+          )
           .toList(growable: false),
     );
   }

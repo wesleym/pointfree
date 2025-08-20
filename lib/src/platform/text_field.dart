@@ -12,9 +12,9 @@ class PlatformTextField extends StatelessWidget {
     TextEditingController? controller,
     void Function(String)? onSubmitted,
     bool enabled = true,
-  })  : _controller = controller,
-        _onSubmitted = onSubmitted,
-        _enabled = enabled;
+  }) : _controller = controller,
+       _onSubmitted = onSubmitted,
+       _enabled = enabled;
 
   @override
   Widget build(BuildContext context) {

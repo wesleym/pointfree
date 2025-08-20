@@ -16,11 +16,11 @@ class PlatformScaffold extends StatelessWidget {
     Color? backgroundColor,
     PlatformTopBar? topBar,
     required Widget body,
-  })  : _primaryActionIcon = primaryActionIcon,
-        _onPrimaryActionSelected = onPrimaryActionSelected,
-        _backgroundColor = backgroundColor,
-        _topBar = topBar,
-        _body = body;
+  }) : _primaryActionIcon = primaryActionIcon,
+       _onPrimaryActionSelected = onPrimaryActionSelected,
+       _backgroundColor = backgroundColor,
+       _topBar = topBar,
+       _body = body;
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +48,7 @@ class PlatformScaffold extends StatelessWidget {
           if (thisAction != null) {
             actions.add(thisAction);
           }
-          appBar = AppBar(
-            title: _topBar.title,
-            actions: actions,
-          );
+          appBar = AppBar(title: _topBar.title, actions: actions);
         }
         Widget? fab;
         if (_primaryActionIcon != null) {

@@ -14,10 +14,10 @@ class PlatformTabScaffold extends StatelessWidget {
     void Function()? onPrimaryActionSelected,
     void Function(int)? onTabTapped,
     required Widget Function(BuildContext context, int index) builder,
-  })  : _primaryActionIcon = primaryActionIcon,
-        _onPrimaryActionSelected = onPrimaryActionSelected,
-        _onTabTapped = onTabTapped,
-        _builder = builder;
+  }) : _primaryActionIcon = primaryActionIcon,
+       _onPrimaryActionSelected = onPrimaryActionSelected,
+       _onTabTapped = onTabTapped,
+       _builder = builder;
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +25,23 @@ class PlatformTabScaffold extends StatelessWidget {
     switch (themeType) {
       case ThemeType.cupertino:
         return CupertinoTabScaffold(
-          tabBar: CupertinoTabBar(onTap: _onTabTapped, items: [
-            BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.desktopcomputer), label: 'Instances'),
-            BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.chat_bubble), label: 'Chat'),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.rectangle_on_rectangle_angled),
-              label: 'Resources',
-            ),
-          ]),
+          tabBar: CupertinoTabBar(
+            onTap: _onTabTapped,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.desktopcomputer),
+                label: 'Instances',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.chat_bubble),
+                label: 'Chat',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.rectangle_on_rectangle_angled),
+                label: 'Resources',
+              ),
+            ],
+          ),
           tabBuilder: _builder,
         );
       case ThemeType.material:
@@ -60,10 +67,10 @@ class _MaterialTabScaffold extends StatefulWidget {
     void Function()? onPrimaryActionSelected,
     void Function(int index)? onTabTapped,
     required Widget Function(BuildContext context, int index) builder,
-  })  : _primaryActionIcon = primaryActionIcon,
-        _onPrimaryActionSelected = onPrimaryActionSelected,
-        _onTabTapped = onTabTapped,
-        _builder = builder;
+  }) : _primaryActionIcon = primaryActionIcon,
+       _onPrimaryActionSelected = onPrimaryActionSelected,
+       _onTabTapped = onTabTapped,
+       _builder = builder;
 
   @override
   State<StatefulWidget> createState() => _MaterialTabScaffoldState();

@@ -24,8 +24,9 @@ class FirewallRepository {
 
     final FirewallRulesList200Response firewallRules;
     try {
-      final maybeFirewallRules =
-          await FirewallsApi(defaultApiClient).firewallRulesList();
+      final maybeFirewallRules = await FirewallsApi(
+        defaultApiClient,
+      ).firewallRulesList();
       // This should never be null: an ApiException should have been thrown instead.
       firewallRules = maybeFirewallRules!;
     } on ApiException catch (e) {
@@ -45,8 +46,9 @@ class FirewallRepository {
     await LoginStore.instance.waitForReady();
 
     try {
-      await FirewallsApi(defaultApiClient)
-          .firewallRulesSet(FirewallRulesPutRequest(data: firewallRules));
+      await FirewallsApi(
+        defaultApiClient,
+      ).firewallRulesSet(FirewallRulesPutRequest(data: firewallRules));
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to update firewall rules: ${e.message}');

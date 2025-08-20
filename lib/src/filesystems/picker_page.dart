@@ -58,11 +58,14 @@ class FilesystemsPickerPage extends StatelessWidget {
 
           final data = snapshot.data;
           if (data == null) {
-            return CustomScrollView(slivers: [
-              CupertinoSliverRefreshControl(
-                  onRefresh: () => _filesystemsRepository.update(force: true)),
-              PlatformCircularProgressIndicator(),
-            ]);
+            return CustomScrollView(
+              slivers: [
+                CupertinoSliverRefreshControl(
+                  onRefresh: () => _filesystemsRepository.update(force: true),
+                ),
+                PlatformCircularProgressIndicator(),
+              ],
+            );
           }
 
           final filesystemsInRegion = snapshot.data!
@@ -83,7 +86,9 @@ class FilesystemsPickerPage extends StatelessWidget {
                   }
                   return PlatformListTile(
                     onTap: () => _onSelectFilesystem(
-                        context, filesystemsInRegion[index - 1].id),
+                      context,
+                      filesystemsInRegion[index - 1].id,
+                    ),
                     title: Text(filesystemsInRegion[index - 1].name),
                   );
                 },

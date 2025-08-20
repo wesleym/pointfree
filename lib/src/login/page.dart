@@ -28,33 +28,34 @@ class _LoginPageState extends State<LoginPage> {
     final themeType = ThemeTypeProvider.of(context).themeType;
     final apiKeyField = switch (themeType) {
       ThemeType.cupertino => CupertinoTextField(
-          placeholder: 'API Key',
-          controller: _apiKeyController,
-        ),
+        placeholder: 'API Key',
+        controller: _apiKeyController,
+      ),
       ThemeType.material || ThemeType.lambda => TextField(
-          controller: _apiKeyController,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            label: Text('API Key'),
-          ),
+        controller: _apiKeyController,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          label: Text('API Key'),
         ),
+      ),
     };
     final apiKeyStyle = switch (themeType) {
-      ThemeType.cupertino =>
-        CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
+      ThemeType.cupertino => CupertinoTheme.of(
+        context,
+      ).textTheme.navLargeTitleTextStyle,
       ThemeType.material ||
-      ThemeType.lambda =>
-        Theme.of(context).textTheme.displaySmall,
+      ThemeType.lambda => Theme.of(context).textTheme.displaySmall,
     };
     final errorColor = switch (themeType) {
       ThemeType.cupertino => CupertinoColors.destructiveRed,
       ThemeType.material ||
-      ThemeType.lambda =>
-        Theme.of(context).colorScheme.error,
+      ThemeType.lambda => Theme.of(context).colorScheme.error,
     };
     var progressIndicator = _inProgress
         ? AspectRatio(
-            aspectRatio: 1, child: PlatformCircularProgressIndicator())
+            aspectRatio: 1,
+            child: PlatformCircularProgressIndicator(),
+          )
         : null;
     return PlatformScaffold(
       body: Padding(
@@ -86,11 +87,13 @@ class _LoginPageState extends State<LoginPage> {
     });
     final apiKey = _apiKeyController.text;
     try {
-      await InstancesApi(ApiClient(
-              authentication: ApiKeyAuth('header', 'Authorization')
-                ..apiKeyPrefix = 'Bearer'
-                ..apiKey = apiKey))
-          .listInstanceTypes();
+      await InstancesApi(
+        ApiClient(
+          authentication: ApiKeyAuth('header', 'Authorization')
+            ..apiKeyPrefix = 'Bearer'
+            ..apiKey = apiKey,
+        ),
+      ).listInstanceTypes();
     } on ApiException catch (e) {
       log('Failed to list instance types: ${e.message}', error: e);
       setState(() {

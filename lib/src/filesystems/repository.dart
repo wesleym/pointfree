@@ -24,8 +24,9 @@ class FilesystemsRepository {
 
     final ListFilesystems200Response filesystems;
     try {
-      final maybeFilesystems =
-          await FilesystemsApi(defaultApiClient).listFilesystems();
+      final maybeFilesystems = await FilesystemsApi(
+        defaultApiClient,
+      ).listFilesystems();
       // This should never be null: an ApiException should have been thrown instead.
       filesystems = maybeFilesystems!;
     } on ApiException catch (e) {
@@ -41,13 +42,16 @@ class FilesystemsRepository {
     _lastFetchTime = now;
   }
 
-  Future<void> create(
-      {required String name, required PublicRegionCode region}) async {
+  Future<void> create({
+    required String name,
+    required PublicRegionCode region,
+  }) async {
     await LoginStore.instance.waitForReady();
 
     try {
-      await FilesystemsApi(defaultApiClient).createFilesystem(
-          FilesystemCreateRequest(name: name, region: region));
+      await FilesystemsApi(
+        defaultApiClient,
+      ).createFilesystem(FilesystemCreateRequest(name: name, region: region));
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to create filesystem: ${e.message}');

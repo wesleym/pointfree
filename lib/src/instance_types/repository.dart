@@ -27,8 +27,9 @@ class InstanceTypesRepository {
 
     final ListInstanceTypes200Response instances;
     try {
-      final maybeInstances =
-          await InstancesApi(defaultApiClient).listInstanceTypes();
+      final maybeInstances = await InstancesApi(
+        defaultApiClient,
+      ).listInstanceTypes();
       // This should never be null: an ApiException should have been thrown instead.
       instances = maybeInstances!;
     } on ApiException catch (e) {
@@ -37,10 +38,12 @@ class InstanceTypesRepository {
       return;
     }
 
-    final entries = instances.data.values.map((e) => InstanceTypeEntry(
-          instanceType: e.instanceType,
-          regionsWithCapacityAvailable: e.regionsWithCapacityAvailable,
-        ));
+    final entries = instances.data.values.map(
+      (e) => InstanceTypeEntry(
+        instanceType: e.instanceType,
+        regionsWithCapacityAvailable: e.regionsWithCapacityAvailable,
+      ),
+    );
     _store.putAll(entries);
     _controller.add(_store.list().toList());
     _lastFetchTime = now;

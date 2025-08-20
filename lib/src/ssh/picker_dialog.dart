@@ -30,13 +30,15 @@ class SshKeyPickerDialog extends StatelessWidget {
         if (error != null) {
           // TODO: log to server to determine how best to present common errors.
           return Center(
-            child: Column(children: [
-              Text('Error: $error'),
-              IconButton(
-                onPressed: () => _repository.update(force: true),
-                icon: Icon(PlatformIcons.refresh(themeType)),
-              ),
-            ]),
+            child: Column(
+              children: [
+                Text('Error: $error'),
+                IconButton(
+                  onPressed: () => _repository.update(force: true),
+                  icon: Icon(PlatformIcons.refresh(themeType)),
+                ),
+              ],
+            ),
           );
         }
 
@@ -52,10 +54,12 @@ class SshKeyPickerDialog extends StatelessWidget {
         }
 
         final options = data
-            .map((key) => SimpleDialogOption(
-                  child: Text(key.name),
-                  onPressed: () => _onSshKeyPressed(context, key.id),
-                ))
+            .map(
+              (key) => SimpleDialogOption(
+                child: Text(key.name),
+                onPressed: () => _onSshKeyPressed(context, key.id),
+              ),
+            )
             .toList(growable: false);
 
         return createSshKeysDialog(options);

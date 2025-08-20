@@ -23,11 +23,12 @@ final router = GoRouter(
       pageBuilder: (context, state) {
         final themeType = ThemeTypeProvider.of(context).themeType;
         return switch (themeType) {
-          ThemeType.cupertino =>
-            CupertinoPage(title: 'Resources', child: HomePage()),
+          ThemeType.cupertino => CupertinoPage(
+            title: 'Resources',
+            child: HomePage(),
+          ),
           ThemeType.material ||
-          ThemeType.lambda =>
-            MaterialPage(child: HomePage())
+          ThemeType.lambda => MaterialPage(child: HomePage()),
         };
       },
       routes: [
@@ -40,19 +41,10 @@ final router = GoRouter(
           path: 'filesystems',
           builder: (context, state) => FilesystemsPage(),
         ),
-        GoRoute(
-          path: 'ssh',
-          builder: (context, state) => SshKeysPage(),
-        ),
-        GoRoute(
-          path: 'firewall',
-          builder: (context, state) => FirewallPage(),
-        ),
+        GoRoute(path: 'ssh', builder: (context, state) => SshKeysPage()),
+        GoRoute(path: 'firewall', builder: (context, state) => FirewallPage()),
       ],
     ),
-    GoRoute(
-      path: '/login',
-      builder: (context, state) => LoginPage(),
-    ),
+    GoRoute(path: '/login', builder: (context, state) => LoginPage()),
   ],
 );

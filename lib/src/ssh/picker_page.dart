@@ -30,13 +30,15 @@ class SshKeyPickerPage extends StatelessWidget {
           if (error != null) {
             // TODO: log to server to determine how best to present common errors.
             return Center(
-              child: Column(children: [
-                Text('Error: $error'),
-                FilledButton(
-                  onPressed: () => _repository.update(force: true),
-                  child: Text('Reload'),
-                ),
-              ]),
+              child: Column(
+                children: [
+                  Text('Error: $error'),
+                  FilledButton(
+                    onPressed: () => _repository.update(force: true),
+                    child: Text('Reload'),
+                  ),
+                ],
+              ),
             );
           }
 
@@ -45,19 +47,21 @@ class SshKeyPickerPage extends StatelessWidget {
             return Center(child: PlatformCircularProgressIndicator());
           }
 
-          var scrollView = CustomScrollView(slivers: [
-            if (themeType == ThemeType.cupertino)
-              CupertinoSliverRefreshControl(),
-            SliverList.builder(
-              itemCount: data.length,
-              itemBuilder: (BuildContext context, int index) {
-                return PlatformListTile(
-                  onTap: () => _onSelectSshKey(context, data[index].id),
-                  title: Text(data[index].name),
-                );
-              },
-            ),
-          ]);
+          var scrollView = CustomScrollView(
+            slivers: [
+              if (themeType == ThemeType.cupertino)
+                CupertinoSliverRefreshControl(),
+              SliverList.builder(
+                itemCount: data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return PlatformListTile(
+                    onTap: () => _onSelectSshKey(context, data[index].id),
+                    title: Text(data[index].name),
+                  );
+                },
+              ),
+            ],
+          );
 
           if (themeType == ThemeType.cupertino) {
             return scrollView;

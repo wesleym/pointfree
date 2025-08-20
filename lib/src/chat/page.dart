@@ -65,8 +65,9 @@ class _ChatPageState extends State<ChatPage> {
         setState(() {
           _inProgress = false;
         });
-        role =
-            switch (json.decode(event.data!)['choices'][0]['delta']['role']) {
+        role = switch (json.decode(
+          event.data!,
+        )['choices'][0]['delta']['role']) {
           'system' => MessageType.system,
           'assistant' => MessageType.assistant,
           'user' => MessageType.user,
@@ -93,15 +94,16 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> _handleChooseConversation(ThemeType themeType) async {
     if (!mounted) return;
     final int? conversationId = switch (themeType) {
-      ThemeType.cupertino =>
-        await Navigator.of(context).push(CupertinoPageRoute(
+      ThemeType.cupertino => await Navigator.of(context).push(
+        CupertinoPageRoute(
           fullscreenDialog: true,
           builder: (context) => ConversationPickerPage(),
-        )),
+        ),
+      ),
       ThemeType.material || ThemeType.lambda => await showDialog(
-          context: context,
-          builder: (context) => ConversationPickerDialog(),
-        )
+        context: context,
+        builder: (context) => ConversationPickerDialog(),
+      ),
     };
     if (conversationId != null) {
       _chatController.clear();
@@ -129,9 +131,10 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: SafeArea(
         minimum: const EdgeInsets.only(bottom: 16),
-        child: Column(children: [
-          Expanded(
-            child: StreamBuilder(
+        child: Column(
+          children: [
+            Expanded(
+              child: StreamBuilder(
                 key: ValueKey(conversation.id),
                 initialData: conversation.displayMessages,
                 stream: conversation.displayMessageStream,
@@ -144,53 +147,58 @@ class _ChatPageState extends State<ChatPage> {
                         const Text('Examples'),
                         const SizedBox(height: 8),
                         PlatformTextButton(
-                            onPressed: () =>
-                                _sendMessage('What does JSON look like?'),
-                            child: const Text('What does JSON look like?'))
+                          onPressed: () =>
+                              _sendMessage('What does JSON look like?'),
+                          child: const Text('What does JSON look like?'),
+                        ),
                       ],
                     );
                   }
                   return Align(
                     alignment: Alignment.topCenter,
                     child: StreamBuilder(
-                        initialData: conversation.displayMessages,
-                        stream: conversation.displayMessageStream,
-                        builder: (context, snapshot) {
-                          final messages = snapshot.data!;
-                          return ListView.builder(
-                            reverse: true,
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            controller: _conversationController,
-                            itemCount: messages.length,
-                            itemBuilder: (context, index) {
-                              final message =
-                                  messages[messages.length - index - 1];
+                      initialData: conversation.displayMessages,
+                      stream: conversation.displayMessageStream,
+                      builder: (context, snapshot) {
+                        final messages = snapshot.data!;
+                        return ListView.builder(
+                          reverse: true,
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          controller: _conversationController,
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            final message =
+                                messages[messages.length - index - 1];
 
-                              return switch (message.messageType) {
-                                MessageType.user =>
-                                  UserMessageWidget(message: message),
-                                MessageType.assistant => AssistantMessageWidget(
-                                    message: message,
-                                    onContentUpdated: _scrollToBottom,
-                                  ),
-                                _ => throw UnimplementedError(),
-                              };
-                            },
-                          );
-                        }),
+                            return switch (message.messageType) {
+                              MessageType.user => UserMessageWidget(
+                                message: message,
+                              ),
+                              MessageType.assistant => AssistantMessageWidget(
+                                message: message,
+                                onContentUpdated: _scrollToBottom,
+                              ),
+                              _ => throw UnimplementedError(),
+                            };
+                          },
+                        );
+                      },
+                    ),
                   );
-                }),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: PlatformTextField(
-              controller: _chatController,
-              onSubmitted: _sendMessage,
-              enabled: !_inProgress,
+                },
+              ),
             ),
-          ),
-        ]),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: PlatformTextField(
+                controller: _chatController,
+                onSubmitted: _sendMessage,
+                enabled: !_inProgress,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

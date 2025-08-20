@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:pointfree/src/theme_type_provider.dart';
 
 class PlatformIconButton extends StatelessWidget {
-  const PlatformIconButton(
-      {super.key, required void Function()? onPressed, required Widget icon})
-      : _onPressed = onPressed,
-        _icon = icon;
+  const PlatformIconButton({
+    super.key,
+    required void Function()? onPressed,
+    required Widget icon,
+  }) : _onPressed = onPressed,
+       _icon = icon;
 
   final void Function()? _onPressed;
   final Widget _icon;

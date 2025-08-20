@@ -24,8 +24,9 @@ class InstancesRepository {
 
     final ListInstances200Response instances;
     try {
-      final maybeInstances =
-          await InstancesApi(defaultApiClient).listInstances();
+      final maybeInstances = await InstancesApi(
+        defaultApiClient,
+      ).listInstances();
       // This should never be null: an ApiException should have been thrown instead.
       instances = maybeInstances!;
     } on ApiException catch (e) {
@@ -43,8 +44,9 @@ class InstancesRepository {
     await LoginStore.instance.waitForReady();
 
     try {
-      await InstancesApi(defaultApiClient)
-          .terminateInstance(InstanceTerminateRequest(instanceIds: [id]));
+      await InstancesApi(
+        defaultApiClient,
+      ).terminateInstance(InstanceTerminateRequest(instanceIds: [id]));
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to terminate instance with ID $id: ${e.message}');
@@ -58,8 +60,9 @@ class InstancesRepository {
     await LoginStore.instance.waitForReady();
 
     try {
-      await InstancesApi(defaultApiClient)
-          .restartInstance(InstanceRestartRequest(instanceIds: [id]));
+      await InstancesApi(
+        defaultApiClient,
+      ).restartInstance(InstanceRestartRequest(instanceIds: [id]));
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to restart instance with ID $id: ${e.message}');
@@ -73,8 +76,9 @@ class InstancesRepository {
     await LoginStore.instance.waitForReady();
 
     try {
-      await InstancesApi(defaultApiClient)
-          .postInstance(id, InstanceModificationRequest(name: name));
+      await InstancesApi(
+        defaultApiClient,
+      ).postInstance(id, InstanceModificationRequest(name: name));
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to rename instance with ID $id to $name: ${e.message}');
@@ -96,14 +100,16 @@ class InstancesRepository {
 
     final filesystemNames = [if (filesystemName != null) filesystemName];
     try {
-      await InstancesApi(defaultApiClient).launchInstance(InstanceLaunchRequest(
-        name: name,
-        regionName: regionCode,
-        instanceTypeName: instanceTypeName,
-        sshKeyNames: [sshKeyName],
-        fileSystemNames: filesystemNames,
-        image: image,
-      ));
+      await InstancesApi(defaultApiClient).launchInstance(
+        InstanceLaunchRequest(
+          name: name,
+          regionName: regionCode,
+          instanceTypeName: instanceTypeName,
+          sshKeyNames: [sshKeyName],
+          fileSystemNames: filesystemNames,
+          image: image,
+        ),
+      );
     } on ApiException catch (e) {
       // TODO: Error handling.
       log('Failed to launch instance: ${e.message}');

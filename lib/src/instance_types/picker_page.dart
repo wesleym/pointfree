@@ -42,7 +42,9 @@ class InstanceTypesPickerPage extends StatelessWidget {
                   var description = data[index].instanceType.description;
                   return PlatformListTile(
                     onTap: () => _onSelectInstanceType(
-                        context, data[index].instanceType.name),
+                      context,
+                      data[index].instanceType.name,
+                    ),
                     title: Text(description),
                   );
                 },

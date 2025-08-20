@@ -24,11 +24,13 @@ class FirewallPage extends StatelessWidget {
     final themeType = ThemeTypeProvider.of(context).themeType;
     switch (themeType) {
       case ThemeType.cupertino:
-        Navigator.of(context).push(CupertinoPageRoute(
-          title: 'Firewall',
-          fullscreenDialog: true,
-          builder: (context) => CreateFirewallRulePage(),
-        ));
+        Navigator.of(context).push(
+          CupertinoPageRoute(
+            title: 'Firewall',
+            fullscreenDialog: true,
+            builder: (context) => CreateFirewallRulePage(),
+          ),
+        );
       case ThemeType.material:
       case ThemeType.lambda:
         Navigator.of(context).push(

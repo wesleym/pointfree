@@ -48,10 +48,12 @@ class FilesystemsPickerDialog extends StatelessWidget {
 
         final options = (snapshot.data!)
             .where((element) => element.region.name == regionCode)
-            .map((e) => SimpleDialogOption(
-                  onPressed: () => _onFilesystemPressed(context, e.id),
-                  child: Text(e.name),
-                ));
+            .map(
+              (e) => SimpleDialogOption(
+                onPressed: () => _onFilesystemPressed(context, e.id),
+                child: Text(e.name),
+              ),
+            );
         var noneOption = SimpleDialogOption(
           onPressed: () => _onFilesystemPressed(context, noneItemId),
           child: Text('Do not attach a filesystem'),

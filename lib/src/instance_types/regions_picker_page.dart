@@ -32,7 +32,8 @@ class RegionsPickerPage extends StatelessWidget {
           final List<Region>? regions;
           regions = snapshot.data
               ?.where(
-                  (element) => element.instanceType.name == thisInstanceType)
+                (element) => element.instanceType.name == thisInstanceType,
+              )
               .singleOrNull
               ?.regionsWithCapacityAvailable;
 

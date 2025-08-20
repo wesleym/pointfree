@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class NameDialog extends StatefulWidget {
   const NameDialog({super.key, String? initialName})
-      : _initialName = initialName ?? '';
+    : _initialName = initialName ?? '';
 
   final String _initialName;
 
@@ -30,10 +30,7 @@ class _NameDialogState extends State<NameDialog> {
           onPressed: () => Navigator.of(context).pop(),
           child: Text('Cancel'),
         ),
-        TextButton(
-          onPressed: _onSelectInstanceType,
-          child: Text('Set'),
-        ),
+        TextButton(onPressed: _onSelectInstanceType, child: Text('Set')),
       ],
     );
   }

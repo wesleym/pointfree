@@ -33,10 +33,7 @@ class InstanceTypesPickerDialog extends StatelessWidget {
             )
             .toList(growable: false);
 
-        return SimpleDialog(
-          title: Text('Instance Type'),
-          children: options,
-        );
+        return SimpleDialog(title: Text('Instance Type'), children: options);
       },
     );
   }

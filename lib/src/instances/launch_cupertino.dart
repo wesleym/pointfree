@@ -46,17 +46,17 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
     required String? sshKeyId,
     required void Function(String?) onSshKeyIdChange,
     void Function()? onLaunchPressed,
-  })  : _onSshKeyIdChange = onSshKeyIdChange,
-        _sshKeyId = sshKeyId,
-        _onFilesystemIdChange = onFilesystemIdChange,
-        _filesystemId = filesystemId,
-        _onRegionCodeChange = onRegionCodeChange,
-        _regionCode = regionCode,
-        _onInstanceTypeNameChange = onInstanceTypeNameChange,
-        _instanceTypeName = instanceTypeName,
-        _image = image,
-        _onImageChange = onImageChange,
-        _onLaunchPressed = onLaunchPressed;
+  }) : _onSshKeyIdChange = onSshKeyIdChange,
+       _sshKeyId = sshKeyId,
+       _onFilesystemIdChange = onFilesystemIdChange,
+       _filesystemId = filesystemId,
+       _onRegionCodeChange = onRegionCodeChange,
+       _regionCode = regionCode,
+       _onInstanceTypeNameChange = onInstanceTypeNameChange,
+       _instanceTypeName = instanceTypeName,
+       _image = image,
+       _onImageChange = onImageChange,
+       _onLaunchPressed = onLaunchPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +66,9 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
     api.InstanceType? instanceType;
     final instanceTypeName = _instanceTypeName;
     if (instanceTypeName != null) {
-      instanceType =
-          _instanceTypesRepository.getByName(instanceTypeName)?.instanceType;
+      instanceType = _instanceTypesRepository
+          .getByName(instanceTypeName)
+          ?.instanceType;
     }
 
     Widget? instanceDisplayName;
@@ -89,8 +90,9 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
     final thisFilesystemId = _filesystemId;
     String? filesystemDisplayName;
     if (thisFilesystemId != null) {
-      filesystemDisplayName =
-          _filesystemRepository.getById(thisFilesystemId)?.name;
+      filesystemDisplayName = _filesystemRepository
+          .getById(thisFilesystemId)
+          ?.name;
     }
 
     final thisSshKeyIds = _sshKeyId;
@@ -130,8 +132,9 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                     return CupertinoListTile.notched(
                       onTap: () => _onCupertinoImageTap(context),
                       title: Text('Image'),
-                      additionalInfo:
-                          _image == null ? null : Text(_image.family),
+                      additionalInfo: _image == null
+                          ? null
+                          : Text(_image.family),
                       trailing: CupertinoListTileChevron(),
                     );
                   },
@@ -146,11 +149,14 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                     }
                     return CupertinoListTile.notched(
                       onTap: _cupertinoRegionTapHandler(context),
-                      title: Text('Region',
-                          style: TextStyle(
-                              color: _instanceTypeName == null
-                                  ? inactiveColor
-                                  : null)),
+                      title: Text(
+                        'Region',
+                        style: TextStyle(
+                          color: _instanceTypeName == null
+                              ? inactiveColor
+                              : null,
+                        ),
+                      ),
                       additionalInfo: regionDisplayName == null
                           ? null
                           : Text(regionDisplayName),
@@ -165,13 +171,15 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
                   title: Text(
                     'Filesystem',
                     style: TextStyle(
-                        color: _regionCode == null ? inactiveColor : null),
+                      color: _regionCode == null ? inactiveColor : null,
+                    ),
                   ),
                   additionalInfo: filesystemDisplayName == null
                       ? null
                       : Text(filesystemDisplayName),
-                  trailing:
-                      _regionCode == null ? null : CupertinoListTileChevron(),
+                  trailing: _regionCode == null
+                      ? null
+                      : CupertinoListTileChevron(),
                 ),
                 CupertinoListTile.notched(
                   onTap: () => _onCupertinoSshKeyTap(context),
@@ -198,7 +206,8 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
 
   void _onCupertinoImageTap(BuildContext context) async {
     final image = await Navigator.of(context).push<api.Image?>(
-        CupertinoPageRoute(builder: (context) => ImagePickerPage()));
+      CupertinoPageRoute(builder: (context) => ImagePickerPage()),
+    );
 
     if (image != null && image != _image) {
       _onImageChange(image);
@@ -207,7 +216,8 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
 
   void _onCupertinoInstanceTypeTap(BuildContext context) async {
     final instanceTypeName = await Navigator.of(context).push<String>(
-        CupertinoPageRoute(builder: (context) => InstanceTypesPickerPage()));
+      CupertinoPageRoute(builder: (context) => InstanceTypesPickerPage()),
+    );
 
     if (instanceTypeName != null && instanceTypeName != _instanceTypeName) {
       _onInstanceTypeNameChange(instanceTypeName);
@@ -220,9 +230,10 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
 
     return () async {
       final regionCode = await Navigator.of(context).push<api.PublicRegionCode>(
-          CupertinoPageRoute(
-              builder: (context) =>
-                  RegionsPickerPage(instanceType: instanceType)));
+        CupertinoPageRoute(
+          builder: (context) => RegionsPickerPage(instanceType: instanceType),
+        ),
+      );
 
       if (regionCode != null && regionCode != _regionCode) {
         _onRegionCodeChange(regionCode);
@@ -236,9 +247,10 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
 
     return () async {
       final filesystemId = await Navigator.of(context).push<String>(
-          CupertinoPageRoute(
-              builder: (context) =>
-                  FilesystemsPickerPage(regionCode: regionCode)));
+        CupertinoPageRoute(
+          builder: (context) => FilesystemsPickerPage(regionCode: regionCode),
+        ),
+      );
 
       if (filesystemId == null) {
         // Cancelled.
@@ -256,7 +268,8 @@ class CupertinoLaunchInstancePage extends StatelessWidget {
 
   void _onCupertinoSshKeyTap(BuildContext context) async {
     final sshKeyId = await Navigator.of(context).push<String>(
-        CupertinoPageRoute(builder: (context) => SshKeyPickerPage()));
+      CupertinoPageRoute(builder: (context) => SshKeyPickerPage()),
+    );
     if (sshKeyId != null && sshKeyId != _sshKeyId) {
       _onSshKeyIdChange(sshKeyId);
     }

@@ -70,10 +70,7 @@ class _AssistantMessageWidgetState extends State<AssistantMessageWidget> {
 }
 
 class UserMessageWidget extends StatelessWidget {
-  const UserMessageWidget({
-    super.key,
-    required this.message,
-  });
+  const UserMessageWidget({super.key, required this.message});
 
   final DisplayableMessage message;
 

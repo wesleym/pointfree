@@ -27,8 +27,9 @@ class InstancesList extends StatelessWidget {
     if (themeType == ThemeType.lambda) {
       // It would be nice to do this in the theme. Unfortunately, setting inverted colours in the TextTheme only sets the background colour, and setting a TextTheme in the AppBarTheme results in the wrong text size in one of regular or large app bars. Doing it onesey-twosey is easiest. TODO: factor this into a component.
       titleStyle = TextStyle(
-          color: theme.colorScheme.onInverseSurface,
-          backgroundColor: theme.colorScheme.inverseSurface);
+        color: theme.colorScheme.onInverseSurface,
+        backgroundColor: theme.colorScheme.inverseSurface,
+      );
     }
 
     return StreamBuilder(
@@ -44,15 +45,15 @@ class InstancesList extends StatelessWidget {
         var scrollView = CustomScrollView(
           slivers: [
             PlatformTopBarSliver(
-              title: Text(
-                'GPU Instances',
-                style: titleStyle,
-              ),
+              title: Text('GPU Instances', style: titleStyle),
               action: PlatformIconButton(
-                onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+                onPressed: () => Navigator.of(context).push(
+                  CupertinoPageRoute(
                     title: 'Launch',
                     fullscreenDialog: true,
-                    builder: (context) => LaunchInstancePage())),
+                    builder: (context) => LaunchInstancePage(),
+                  ),
+                ),
                 icon: Icon(PlatformIcons.add(themeType)),
               ),
             ),
@@ -106,8 +107,9 @@ class InstancesList extends StatelessWidget {
                     }
                   },
                   child: PlatformListTile(
-                      onTap: () => context.go('/instance/${data[index].id}'),
-                      title: Text(data[index].name ?? data[index].id)),
+                    onTap: () => context.go('/instance/${data[index].id}'),
+                    title: Text(data[index].name ?? data[index].id),
+                  ),
                 );
               },
             ),

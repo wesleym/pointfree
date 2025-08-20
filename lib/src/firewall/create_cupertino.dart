@@ -26,15 +26,15 @@ class CupertinoCreateFirewallRulePage extends StatelessWidget {
     required String? description,
     required void Function(String?) onDescriptionChange,
     void Function()? onCreatePressed,
-  })  : _protocol = protocol,
-        _onProtocolChange = onProtocolChange,
-        _sourceNetwork = sourceNetwork,
-        _onSourceNetworkChange = onSourceNetworkChange,
-        _portRange = portRange,
-        _onPortRangeChange = onPortRangeChange,
-        _description = description,
-        _onDescriptionChange = onDescriptionChange,
-        _onCreatePressed = onCreatePressed;
+  }) : _protocol = protocol,
+       _onProtocolChange = onProtocolChange,
+       _sourceNetwork = sourceNetwork,
+       _onSourceNetworkChange = onSourceNetworkChange,
+       _portRange = portRange,
+       _onPortRangeChange = onPortRangeChange,
+       _description = description,
+       _onDescriptionChange = onDescriptionChange,
+       _onCreatePressed = onCreatePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,8 @@ class CupertinoCreateFirewallRulePage extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   validator: portNumberValidator,
                   onChanged: (value) => _onPortRangeChange(
-                      PortRange(int.parse(value), _portRange.end)),
+                    PortRange(int.parse(value), _portRange.end),
+                  ),
                   initialValue: _portRange.start.toString(),
                 ),
                 CupertinoTextFormFieldRow(
@@ -76,7 +77,8 @@ class CupertinoCreateFirewallRulePage extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   validator: portNumberValidator,
                   onChanged: (value) => _onPortRangeChange(
-                      PortRange(_portRange.start, int.parse(value))),
+                    PortRange(_portRange.start, int.parse(value)),
+                  ),
                   initialValue: _portRange.start.toString(),
                 ),
                 CupertinoTextFormFieldRow(
@@ -108,7 +110,8 @@ class CupertinoCreateFirewallRulePage extends StatelessWidget {
 
   void _handleProtocolTap(BuildContext context) async {
     final protocol = await Navigator.of(context).push<NetworkProtocol>(
-        CupertinoPageRoute(builder: (context) => ProtocolPickerPage()));
+      CupertinoPageRoute(builder: (context) => ProtocolPickerPage()),
+    );
 
     if (protocol != null && protocol != _protocol) {
       _onProtocolChange(protocol);

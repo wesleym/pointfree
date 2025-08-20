@@ -43,73 +43,77 @@ class InstancesPage extends StatelessWidget {
         body = [
           Icon(CupertinoIcons.desktopcomputer, size: 96),
           SizedBox(height: 32),
-          CupertinoFormSection(children: [
-            CupertinoFormRow(
-              prefix: Text('ID'),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(instanceId),
+          CupertinoFormSection(
+            children: [
+              CupertinoFormRow(
+                prefix: Text('ID'),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(instanceId),
+                ),
               ),
-            ),
-            CupertinoTextFormFieldRow(
-              prefix: Text('Name'),
-              initialValue: instance.name,
-              textAlign: TextAlign.end,
-              onChanged: (value) =>
-                  _instancesRepository.rename(id: instanceId, name: value),
-            ),
-            CupertinoFormRow(
-              prefix: Text('IP address'),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(instance.ip ?? ''),
+              CupertinoTextFormFieldRow(
+                prefix: Text('Name'),
+                initialValue: instance.name,
+                textAlign: TextAlign.end,
+                onChanged: (value) =>
+                    _instancesRepository.rename(id: instanceId, name: value),
               ),
-            ),
-            CupertinoFormRow(
-              prefix: Text('Status'),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(instance.status.value),
+              CupertinoFormRow(
+                prefix: Text('IP address'),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(instance.ip ?? ''),
+                ),
               ),
-            ),
-          ]),
-          CupertinoFormSection(children: [
-            CupertinoFormRow(
-              prefix: Text('Instance type'),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(instance.instanceType.description),
+              CupertinoFormRow(
+                prefix: Text('Status'),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(instance.status.value),
+                ),
               ),
-            ),
-            CupertinoFormRow(
-              prefix: Text('Region'),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    '${instance.region.description} (${instance.region.name})'),
+            ],
+          ),
+          CupertinoFormSection(
+            children: [
+              CupertinoFormRow(
+                prefix: Text('Instance type'),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(instance.instanceType.description),
+                ),
               ),
-            ),
-          ]),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            PlatformTextButton(
+              CupertinoFormRow(
+                prefix: Text('Region'),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${instance.region.description} (${instance.region.name})',
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              PlatformTextButton(
                 onPressed: () => _instancesRepository.restart(instanceId),
-                child: Text('Restart')),
-            PlatformTextButton(
+                child: Text('Restart'),
+              ),
+              PlatformTextButton(
                 onPressed: () => _handleCupertinoTerminatePressed(context),
-                child: Text(
-                  'Terminate',
-                  style: TextStyle(color: color),
-                )),
-          ]),
+                child: Text('Terminate', style: TextStyle(color: color)),
+              ),
+            ],
+          ),
         ];
       default:
         body = [
           Icon(Icons.computer, size: 96),
           SizedBox(height: 32),
-          PlatformListTile(
-            title: Text('ID'),
-            subtitle: Text(instanceId),
-          ),
+          PlatformListTile(title: Text('ID'), subtitle: Text(instanceId)),
           PlatformListTile(
             title: Text('Name'),
             subtitle: Text(instance.name ?? ''),
@@ -131,20 +135,23 @@ class InstancesPage extends StatelessWidget {
           PlatformListTile(
             title: Text('Region'),
             subtitle: Text(
-                '${instance.region.description} (${instance.region.name})'),
+              '${instance.region.description} (${instance.region.name})',
+            ),
           ),
           Divider(),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            PlatformTextButton(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              PlatformTextButton(
                 onPressed: () => _instancesRepository.restart(instanceId),
-                child: Text('Restart')),
-            PlatformTextButton(
+                child: Text('Restart'),
+              ),
+              PlatformTextButton(
                 onPressed: () => _handleMaterialTerminatePressed(context),
-                child: Text(
-                  'Terminate',
-                  style: TextStyle(color: color),
-                )),
-          ]),
+                child: Text('Terminate', style: TextStyle(color: color)),
+              ),
+            ],
+          ),
         ];
     }
 
@@ -155,30 +162,32 @@ class InstancesPage extends StatelessWidget {
     }
 
     return PlatformScaffold(
-        topBar: PlatformTopBar(title: title),
-        body: Center(
-          child: ListView(
-            shrinkWrap: true,
-            children: body,
-          ),
-        ));
+      topBar: PlatformTopBar(title: title),
+      body: Center(child: ListView(shrinkWrap: true, children: body)),
+    );
   }
 
   void _handleMaterialTerminatePressed(BuildContext context) async {
     final go = await showDialog<bool>(
-        context: context,
-        builder: (context) =>
-            AlertDialog(title: Text('Terminate instance'), actions: [
-              TextButton(
-                  onPressed: () => context.pop(true),
-                  child: Text('Terminate',
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.error))),
-              TextButton(
-                  onPressed: () => context.pop(false),
-                  child: Text('Cancel', textAlign: TextAlign.end)),
-            ]));
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Terminate instance'),
+        actions: [
+          TextButton(
+            onPressed: () => context.pop(true),
+            child: Text(
+              'Terminate',
+              textAlign: TextAlign.end,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+          TextButton(
+            onPressed: () => context.pop(false),
+            child: Text('Cancel', textAlign: TextAlign.end),
+          ),
+        ],
+      ),
+    );
 
     if (go != true) return;
 
@@ -187,19 +196,22 @@ class InstancesPage extends StatelessWidget {
 
   void _handleCupertinoTerminatePressed(BuildContext context) async {
     final go = await showCupertinoModalPopup<bool>(
-        context: context,
-        builder: (context) => CupertinoActionSheet(
-              actions: [
-                CupertinoActionSheetAction(
-                    onPressed: () => context.pop(true),
-                    isDestructiveAction: true,
-                    child: Text('Terminate')),
-              ],
-              cancelButton: CupertinoActionSheetAction(
-                  onPressed: () => context.pop(false),
-                  isDefaultAction: true,
-                  child: Text('Cancel')),
-            ));
+      context: context,
+      builder: (context) => CupertinoActionSheet(
+        actions: [
+          CupertinoActionSheetAction(
+            onPressed: () => context.pop(true),
+            isDestructiveAction: true,
+            child: Text('Terminate'),
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () => context.pop(false),
+          isDefaultAction: true,
+          child: Text('Cancel'),
+        ),
+      ),
+    );
 
     if (go != true) return;
 
@@ -218,10 +230,7 @@ class InstancesPage extends StatelessWidget {
           title: Text('Rename instance'),
           content: TextField(autofocus: true, controller: controller),
           actions: [
-            TextButton(
-              onPressed: () => context.pop(),
-              child: Text('Cancel'),
-            ),
+            TextButton(onPressed: () => context.pop(), child: Text('Cancel')),
             TextButton(
               onPressed: () => context.pop(controller.text),
               child: Text('OK'),

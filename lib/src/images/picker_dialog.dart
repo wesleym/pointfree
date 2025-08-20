@@ -33,10 +33,7 @@ class ImagePickerDialog extends StatelessWidget {
             )
             .toList(growable: false);
 
-        return SimpleDialog(
-          title: Text('Image'),
-          children: options,
-        );
+        return SimpleDialog(title: Text('Image'), children: options);
       },
     );
   }

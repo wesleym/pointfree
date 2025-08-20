@@ -19,8 +19,10 @@ ThemeData makeLambdaTheme({required TargetPlatform platform}) {
     onSurface: Colors.black,
   );
 
-  var typography =
-      Typography.material2021(platform: platform, colorScheme: colors);
+  var typography = Typography.material2021(
+    platform: platform,
+    colorScheme: colors,
+  );
   final defaultTextTheme = typography.englishLike
       .merge(switch (colors.brightness) {
         Brightness.light => typography.black,
@@ -33,19 +35,25 @@ ThemeData makeLambdaTheme({required TargetPlatform platform}) {
     colorScheme: colors,
     platform: platform,
     textTheme: defaultTextTheme,
-    floatingActionButtonTheme:
-        FloatingActionButtonThemeData(shape: LinearBorder()),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      shape: LinearBorder(),
+    ),
     navigationBarTheme: NavigationBarThemeData(indicatorShape: LinearBorder()),
     filledButtonTheme: FilledButtonThemeData(
-        style: ButtonStyle(shape: WidgetStateProperty.all(LinearBorder()))),
+      style: ButtonStyle(shape: WidgetStateProperty.all(LinearBorder())),
+    ),
     dialogTheme: DialogThemeData(shape: LinearBorder()),
   );
 }
 
-ThemeData makeTheme(
-    {required TargetPlatform platform, required ColorScheme colorScheme}) {
-  var typography =
-      Typography.material2021(platform: platform, colorScheme: colorScheme);
+ThemeData makeTheme({
+  required TargetPlatform platform,
+  required ColorScheme colorScheme,
+}) {
+  var typography = Typography.material2021(
+    platform: platform,
+    colorScheme: colorScheme,
+  );
   final defaultTextTheme = typography.englishLike
       .merge(switch (colorScheme.brightness) {
         Brightness.light => typography.black,
@@ -64,9 +72,11 @@ class PlatformApp extends StatelessWidget {
   final String? title;
   final RouterConfig<Object>? _routerConfig;
 
-  const PlatformApp.router(
-      {super.key, this.title, RouterConfig<Object>? routerConfig})
-      : _routerConfig = routerConfig;
+  const PlatformApp.router({
+    super.key,
+    this.title,
+    RouterConfig<Object>? routerConfig,
+  }) : _routerConfig = routerConfig;
 
   @override
   Widget build(BuildContext context) {
@@ -75,34 +85,35 @@ class PlatformApp extends StatelessWidget {
 
     return switch (themeType) {
       ThemeType.cupertino => CupertinoApp.router(
-          title: title,
-          localizationsDelegates: [DefaultMaterialLocalizations.delegate],
-          routerConfig: _routerConfig,
-        ),
+        title: title,
+        localizationsDelegates: [DefaultMaterialLocalizations.delegate],
+        routerConfig: _routerConfig,
+      ),
       ThemeType.material => DynamicColorBuilder(
-          builder: (lightDynamic, darkDynamic) => MaterialApp.router(
-            title: title,
-            routerConfig: _routerConfig,
-            theme: ThemeData(
-              colorScheme:
-                  lightDynamic ?? ColorScheme.fromSeed(seedColor: Colors.teal),
-              platform: platform,
-            ),
-            darkTheme: ThemeData(
-              colorScheme: darkDynamic ??
-                  ColorScheme.fromSeed(
-                    seedColor: Colors.teal,
-                    brightness: Brightness.dark,
-                  ),
-              platform: platform,
-            ),
+        builder: (lightDynamic, darkDynamic) => MaterialApp.router(
+          title: title,
+          routerConfig: _routerConfig,
+          theme: ThemeData(
+            colorScheme:
+                lightDynamic ?? ColorScheme.fromSeed(seedColor: Colors.teal),
+            platform: platform,
+          ),
+          darkTheme: ThemeData(
+            colorScheme:
+                darkDynamic ??
+                ColorScheme.fromSeed(
+                  seedColor: Colors.teal,
+                  brightness: Brightness.dark,
+                ),
+            platform: platform,
           ),
         ),
+      ),
       ThemeType.lambda => MaterialApp.router(
-          title: title,
-          routerConfig: _routerConfig,
-          theme: makeLambdaTheme(platform: platform),
-        ),
+        title: title,
+        routerConfig: _routerConfig,
+        theme: makeLambdaTheme(platform: platform),
+      ),
     };
   }
 }

@@ -3,7 +3,7 @@ import 'package:pointfree/src/firewall/create.dart';
 
 class PortRangeDialog extends StatefulWidget {
   const PortRangeDialog({super.key, required PortRange initialPortRange})
-      : _initialPortRange = initialPortRange;
+    : _initialPortRange = initialPortRange;
 
   final PortRange _initialPortRange;
 
@@ -49,10 +49,7 @@ class _PortRangeDialogState extends State<PortRangeDialog> {
           onPressed: () => Navigator.of(context).pop(),
           child: Text('Cancel'),
         ),
-        TextButton(
-          onPressed: _onSetPortRange,
-          child: Text('Set'),
-        ),
+        TextButton(onPressed: _onSetPortRange, child: Text('Set')),
       ],
     );
   }

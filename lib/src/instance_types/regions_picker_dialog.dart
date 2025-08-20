@@ -33,16 +33,15 @@ class RegionsPickerDialog extends StatelessWidget {
         }
 
         final options = regions
-            .map((e) => SimpleDialogOption(
-                  onPressed: () => _onSelectRegion(context, e.name),
-                  child: Text(e.description),
-                ))
+            .map(
+              (e) => SimpleDialogOption(
+                onPressed: () => _onSelectRegion(context, e.name),
+                child: Text(e.description),
+              ),
+            )
             .toList(growable: false);
 
-        return SimpleDialog(
-          title: Text('Instance Type'),
-          children: options,
-        );
+        return SimpleDialog(title: Text('Instance Type'), children: options);
       },
     );
   }

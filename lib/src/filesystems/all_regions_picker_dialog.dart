@@ -10,10 +10,12 @@ class AllRegionsPickerDialog extends StatelessWidget {
     return SimpleDialog(
       title: Text('Instance Type'),
       children: PublicRegionCode.values
-          .map((e) => SimpleDialogOption(
-                onPressed: () => _onSelectRegion(context, e),
-                child: Text(e.value),
-              ))
+          .map(
+            (e) => SimpleDialogOption(
+              onPressed: () => _onSelectRegion(context, e),
+              child: Text(e.value),
+            ),
+          )
           .toList(growable: false),
     );
   }

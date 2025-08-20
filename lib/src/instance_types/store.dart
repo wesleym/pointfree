@@ -38,6 +38,8 @@ class InstanceTypeEntry {
   final InstanceType instanceType;
   final List<Region> regionsWithCapacityAvailable;
 
-  InstanceTypeEntry(
-      {required this.instanceType, required this.regionsWithCapacityAvailable});
+  InstanceTypeEntry({
+    required this.instanceType,
+    required this.regionsWithCapacityAvailable,
+  });
 }
