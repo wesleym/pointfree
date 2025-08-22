@@ -15,3 +15,10 @@ Running in development
 ```shell
 flutter run
 ```
+
+Beta builds
+-----------
+
+iOS: https://testflight.apple.com/join/3R8RcfHc
+
+Android: https://play.google.com/apps/testing/com.wesleymoy.pointfree
